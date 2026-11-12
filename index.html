@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.webmanifest">
@@ -12,7 +12,6 @@
 <style>
 :root{
   color-scheme: dark;
-  /* Instagram-like Dark Theme */
   --bg: #000000;
   --bg2: #121212;
   --card: #1a1a1a;
@@ -21,8 +20,7 @@
   --tx: #f5f5f5;
   --mut: #a8a8a8;
   --pap: #e0c892;
-  --pap2: #c4a265;
-  --acc: #0095f6; /* Instagram Blue */
+  --acc: #0095f6;
   --accTx: #ffffff;
   --ok: #0095f6;
   --okTx: #ffffff;
@@ -30,17 +28,17 @@
   --money: #4ade80;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5; overflow-x:hidden;}
 .ic{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
 
-/* Header (Instagram style) */
+/* Header */
 header{position:sticky;top:0;z-index:10;background:var(--bg2);padding:12px 16px 8px;border-bottom:1px solid var(--line);backdrop-filter:blur(10px);}
 .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .hd h1{margin:0;font-size:22px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px;font-family:cursive, sans-serif;}
 .row{display:flex;gap:16px;align-items:center}
 button.ib{background:transparent;color:var(--tx);padding:4px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* Search Bar (Instagram style) */
+/* Search */
 .sbar{display:flex;align-items:center;background:var(--inp);border-radius:10px;padding:8px 12px;gap:10px}
 .sbar>.ic{color:var(--mut);width:18px;height:18px}
 .sbar input{border:0;background:transparent;color:var(--tx);font-size:14px;flex:1;outline:none;padding:0}
@@ -55,27 +53,27 @@ button.ib{background:transparent;color:var(--tx);padding:4px;border-radius:50%;b
 .seg button{background:transparent;color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:6px 16px;font-size:13px;white-space:nowrap;cursor:pointer;transition:all .2s}
 .seg button.on{background:var(--tx);color:var(--bg);border-color:var(--tx);font-weight:bold}
 
-/* Main Content */
+/* Main */
 main{padding:12px 0;padding-bottom:100px}
 
-/* Cards (Post style) */
+/* Cards */
 .card{background:var(--bg2);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:8px;border-radius:0}
 .card-top{display:flex;align-items:center;gap:12px;padding:12px 16px}
-.avatar{width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px}
-.card-info{flex:1}
-.card-title{font-weight:bold;font-size:15px;margin:0;color:var(--tx)}
-.card-sub{color:var(--mut);font-size:12px;margin-top:2px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;flex-shrink:0}
+.card-info{flex:1;min-width:0}
+.card-title{font-weight:bold;font-size:15px;margin:0;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.card-sub{color:var(--mut);font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* Post Body */
 .post-body{padding:0 16px}
 .post-img{background:var(--inp);border-radius:12px;padding:16px;margin:8px 0;display:flex;flex-direction:column;gap:8px}
-.kv{display:flex;justify-content:space-between;font-size:14px;border-bottom:1px dashed var(--line);padding-bottom:4px}
-.kv:last-child{border:none;padding-bottom:0}
+.kv{display:flex;justify-content:space-between;font-size:14px;border-bottom:1px dashed var(--line);padding-bottom:6px;margin-bottom:6px}
+.kv:last-child{border:none;padding-bottom:0;margin-bottom:0}
 .kv b{color:var(--mut);font-weight:normal}
-.kv span{color:var(--tx);font-weight:500}
+.kv span{color:var(--tx);font-weight:500;text-align:left;direction:ltr}
 
 /* Money */
-.money{color:var(--money);font-weight:bold;font-size:16px;margin-top:10px;text-align:center;background:rgba(74,222,128,0.1);padding:8px;border-radius:8px}
+.money{color:var(--money);font-weight:bold;font-size:16px;margin-top:8px;text-align:center;background:rgba(74,222,128,0.1);padding:10px;border-radius:8px}
 
 /* Chips */
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
@@ -85,30 +83,31 @@ main{padding:12px 0;padding-bottom:100px}
 .det{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .card.open .det{display:block}
 
-/* Action Buttons (Like/Comment style) */
-.acts{display:flex;gap:16px;padding:12px 16px 0;border-top:1px solid var(--line);margin-top:12px}
-.acts button{background:transparent;border:none;color:var(--tx);padding:0;display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;font-weight:500}
-.acts button:active{opacity:0.6}
+/* Action Buttons */
+.acts{display:flex;gap:16px;padding:12px 16px 0;border-top:1px solid var(--line);margin-top:12px;align-items:center}
+.acts button{background:transparent;border:none;color:var(--tx);padding:4px;display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;font-weight:500;border-radius:8px}
+.acts button:active{background:var(--inp)}
 .acts button.ok{color:var(--acc)}
-.acts button.r{color:var(--bad)}
+.acts button.r{color:var(--bad);margin-right:auto}
 
-/* FAB (Create) */
+/* FAB */
 #fab{position:fixed;bottom:80px;left:20px;width:56px;height:56px;border-radius:50%;padding:0;background:var(--acc);color:#fff;box-shadow:0 4px 12px rgba(0,149,246,0.4);z-index:9;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
 #fab .ic{width:28px;height:28px;stroke-width:2.5}
 
-/* Bottom Navigation Bar */
+/* Bottom Navigation */
 .bnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--line);padding:8px 0;display:flex;justify-content:space-around;align-items:center;z-index:10}
-.bnav button{background:transparent;border:none;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;width:60px}
+.bnav button{background:transparent;border:none;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;width:70px;padding:4px 0}
 .bnav button .ic{width:24px;height:24px;stroke-width:1.8}
 .bnav button.active{color:var(--tx)}
 
-/* Bottom Sheet Panes (Modals) */
-.pane{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;padding:20px;padding-bottom:100px;visibility:hidden;opacity:0;transform:translateY(100%);transition:all .3s cubic-bezier(0.16,1,0.3,1);border-radius:16px 16px 0 0;margin-top:40px}
+/* Modals (Panes) */
+.pane{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;padding:16px;padding-bottom:80px;visibility:hidden;opacity:0;transform:translateY(100%);transition:all .3s cubic-bezier(0.16,1,0.3,1);border-radius:16px 16px 0 0;margin-top:30px; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);}
 .pane.show{visibility:visible;opacity:1;transform:translateY(0)}
-.pane h2{margin:0 0 20px;font-size:20px;font-weight:600;color:var(--tx);text-align:center;display:flex;justify-content:space-between;align-items:center}
-.pane h2 button{background:transparent;border:none;color:var(--mut);font-size:14px;cursor:pointer}
+.pane h2{margin:0 0 20px;font-size:18px;font-weight:600;color:var(--tx);display:flex;justify-content:space-between;align-items:center; border-bottom:1px solid var(--line); padding-bottom:12px;}
+.pane h2 button{background:transparent;border:none;color:var(--mut);cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px; border-radius:50%;}
+.pane h2 button:active{background:var(--inp)}
 
-/* Form Elements */
+/* Forms */
 .f{margin-bottom:16px}
 .f label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
 input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--inp);color:var(--tx);outline:none;transition:border-color .2s}
@@ -122,16 +121,17 @@ textarea{min-height:80px;resize:vertical}
 .segf button{flex:1;background:transparent;color:var(--mut);padding:8px;border:none;border-radius:8px;cursor:pointer;font-size:13px}
 .segf button.on{background:var(--tx);color:var(--bg);font-weight:bold}
 
-/* Sticky Bar for Modals */
-.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:12px 20px;display:flex;gap:12px;border-top:1px solid var(--line);z-index:51}
+/* Sticky Bar */
+.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:12px 16px;display:flex;gap:12px;border-top:1px solid var(--line);z-index:51}
 .bar button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:15px;cursor:pointer}
 .bar button.ok{background:var(--acc);color:#fff}
 .bar button.g{background:var(--inp);color:var(--tx)}
 
-/* Dialer specific */
-.dsp{text-align:center;padding:20px 0}
-#dname{font-size:24px;color:var(--tx);font-weight:600;min-height:36px;display:inline-flex;align-items:center;gap:8px}
-#dnum{font-size:32px;text-align:center;direction:ltr;letter-spacing:2px;background:transparent;border:none;color:var(--tx);font-weight:300;width:100%}
+/* Dialer */
+.dsp{text-align:center;padding:16px 0}
+#dname{font-size:22px;color:var(--tx);font-weight:600;min-height:32px;display:inline-flex;align-items:center;gap:8px;justify-content:center; flex-wrap:wrap;}
+#dnum{font-size:32px;text-align:center;direction:ltr;letter-spacing:2px;background:transparent;border:none;color:var(--tx);font-weight:300;width:100%; padding:8px 0;}
+#dnum:focus{border:none}
 .pad{display:grid;grid-template-columns:repeat(3,72px);justify-content:center;gap:16px 24px;margin:20px 0;direction:ltr}
 .pad button{width:72px;height:72px;border-radius:50%;font-size:26px;font-weight:400;background:var(--inp);color:var(--tx);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pad button:active{background:var(--line)}
@@ -139,19 +139,20 @@ textarea{min-height:80px;resize:vertical}
 .pad .call .ic{stroke-width:2.5}
 .pad .bks{background:transparent}
 
-/* Lists in Dialer */
+/* Dialer Lists */
 .tabs{display:flex;gap:8px;margin:20px 0 12px}
-.tabs button{flex:1;background:transparent;color:var(--mut);border:none;padding:8px;border-bottom:2px solid transparent;cursor:pointer;font-weight:bold}
+.tabs button{flex:1;background:transparent;color:var(--mut);border:none;padding:10px;border-bottom:2px solid transparent;cursor:pointer;font-weight:bold;font-size:14px}
 .tabs button.on{color:var(--tx);border-bottom-color:var(--tx)}
-.cl{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
-.cl small{color:var(--mut);direction:ltr;font-family:monospace}
+.cl{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.cl small{color:var(--mut);direction:ltr;font-family:monospace;font-size:14px}
+.cl:active{background:var(--inp)}
 
 /* Toast */
 #toast{display:none;position:fixed;top:20px;left:20px;right:20px;z-index:100;background:var(--acc);color:#fff;border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-weight:bold;text-align:center;animation:slideDown .3s ease-out}
 @keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
 
 /* Misc */
-.hint{font-size:12px;color:var(--mut);margin:-4px 0 12px;line-height:1.6}
+.hint{font-size:12px;color:var(--mut);margin:-4px 0 12px;line-height:1.6; text-align:justify;}
 .vl{font-size:13px;color:var(--mut);margin-top:6px}
 .mine{font-size:13px;color:var(--acc);margin-top:6px;font-weight:500}
 .empty{text-align:center;color:var(--mut);margin:60px 20px;font-size:15px}
@@ -235,7 +236,7 @@ textarea{min-height:80px;resize:vertical}
 <div class="pane" id="backupPane">
   <h2>پشتیبان‌گیری <button onclick="closeP('backupPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
   <p style="line-height:1.9;color:var(--mut);text-align:center">اطلاعات (فایل‌ها و مخاطبین) روی همین مرورگر گوشی ذخیره می‌شود. گاهی پشتیبان بگیرید.</p>
-  <div style="display:flex;gap:8px;margin-top:16px"><button class="ok" style="flex:1" onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
+  <div style="display:flex;gap:8px;margin-top:16px"><button class="ok" style="flex:1; border-radius:10px; padding:12px; border:none; font-weight:bold;" onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
   <div class="f" style="margin-top:20px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
   
   <div class="sec">همگام‌سازی با GitHub</div>
@@ -243,12 +244,12 @@ textarea{min-height:80px;resize:vertical}
   <div class="f"><label>نام repository (مثال: user/amlak-data)</label><input id="ghRepo" dir="ltr" autocomplete="off" placeholder="user/repo"></div>
   <div class="f"><label>توکن دسترسی</label><input id="ghTok" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_..."></div>
   <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار</label></div>
-  <div style="display:flex;gap:8px;margin-top:12px"><button class="ok" style="flex:1" onclick="ghSync(false)">همگام‌سازی الان</button></div>
+  <div style="display:flex;gap:8px;margin-top:12px"><button class="ok" style="flex:1; border-radius:10px; padding:12px; border:none; font-weight:bold;" onclick="ghSync(false)">همگام‌سازی الان</button></div>
   
-  <details style="margin-top:20px; color:var(--mut); font-size:13px;"><summary style="cursor:pointer;color:var(--tx);">پیشرفته: جایگزینی کامل</summary>
+  <details style="margin-top:20px; color:var(--mut); font-size:13px;"><summary style="cursor:pointer;color:var(--tx); margin-bottom:8px;">پیشرفته: جایگزینی کامل</summary>
     <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="g" style="flex:1" onclick="ghPush()">ارسال به GitHub</button>
-      <button class="g" style="flex:1" onclick="ghPull()">دریافت از GitHub</button>
+      <button class="g" style="flex:1; border-radius:10px; padding:12px; border:none; font-weight:bold; background:var(--inp); color:var(--tx);" onclick="ghPush()">ارسال به GitHub</button>
+      <button class="g" style="flex:1; border-radius:10px; padding:12px; border:none; font-weight:bold; background:var(--inp); color:var(--tx);" onclick="ghPull()">دریافت از GitHub</button>
     </div>
   </details>
   <div class="hint" id="ghStat" style="margin-top:12px;text-align:center"></div>
@@ -262,8 +263,8 @@ textarea{min-height:80px;resize:vertical}
     <div id="dname"></div>
     <input id="dnum" inputmode="none" placeholder="شماره را وارد کنید" oninput="updDial()">
   </div>
-  <div class="row" id="dedit" style="display:none;margin-bottom:12px"><input id="dedit_i" placeholder="نام این شماره"><button class="ok" style="padding:10px 16px" onclick="saveName()">ذخیره</button></div>
-  <div id="sug" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px"></div>
+  <div class="row" id="dedit" style="display:none;margin-bottom:12px"><input id="dedit_i" placeholder="نام این شماره" style="flex:1"><button class="ok" style="padding:10px 16px; border-radius:10px; border:none; font-weight:bold;" onclick="saveName()">ذخیره</button></div>
+  <div id="sug" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px; scrollbar-width:none;"></div>
   <div class="pad" id="pad"></div>
   <div class="tabs"><button id="tR" onclick="setTab('r')">اخیر</button><button id="tN" onclick="setTab('n')">اسامی</button></div>
   <div id="clist"></div>
@@ -353,7 +354,7 @@ function openForm(id){
       if(k==='rentFor'){const cur=r.rentFor||'همه';
         el=`<div class="segf" data-k="rentFor" data-v="${cur}">${o.map(x=>`<button type="button" class="${x===cur?'on':''}" onclick="pickSeg(this,'${x}')">${x}</button>`).join('')}</div>`}
       else if(t==='tm')el=`<input type="time" data-k="${k}" value="${esc(r[k]||'')}">`;
-      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" style="padding:6px 12px;font-size:12px" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" style="padding:6px 12px;font-size:12px" onclick="setJ(1,'${k}')">فردا</button></div>`;
+      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px; gap:8px;"><button type="button" class="g" style="padding:6px 12px;font-size:12px; background:var(--inp); border:none; border-radius:6px; color:var(--tx);" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" style="padding:6px 12px;font-size:12px; background:var(--inp); border:none; border-radius:6px; color:var(--tx);" onclick="setJ(1,'${k}')">فردا</button></div>`;
       else if(t==='s')el=`<select data-k="${k}"><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
       else if(t==='a')el=`<textarea data-k="${k}">${esc(r[k]||'')}</textarea>`;
       else el=`<input data-k="${k}" ${t==='n'?'inputmode="decimal"':''} value="${esc(r[k]??'')}">`;
@@ -465,7 +466,6 @@ function openDial(n,after){
   if(!pad.children.length){
     pad.innerHTML=['1','2','3','4','5','6','7','8','9','*','0','#'].map(d=>`<button onclick="kp('${d}')">${d}</button>`).join('')+
       `<button class="bks" id="bks" aria-label="پاک">${ico('back')}</button><button class="call" onclick="callNow()" aria-label="تماس">${ico('phone')}</button><span></span>`;
-    // reorder: [spacer][call][backspace]
     const [b,c,s]=[pad.children[12],pad.children[13],pad.children[14]];
     pad.append(s,c,b);
     let t;const bk_=$('bks');
@@ -485,7 +485,6 @@ function updDial(){
   else{el.style.color='var(--mut)';el.innerHTML='&nbsp;'}
   $('dedit_i').value=nm;
   if(!k)$('dedit').style.display='none';
-  // suggestions
   const s=k.length>=2?contacts().filter(c=>pkey(c.phone).startsWith(k)&&pkey(c.phone)!==k).slice(0,6):[];
   $('sug').innerHTML=s.map(c=>`<button style="background:var(--inp);color:var(--tx);border:none;border-radius:20px;padding:6px 12px;font-size:13px;white-space:nowrap" onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
 }
@@ -565,8 +564,8 @@ function render(){
         <div style="font-size:14px;margin-bottom:12px">${kv}</div>
         <div class="chips">${ch}</div>
         <div style="display:flex;gap:8px;margin-top:12px;">
-           ${visitAt(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px" onclick="addCal('${r.id}')">${ico('bell')} یادآور بازدید</button>`:''}
-           ${renewOf(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px" onclick="addRenewCal('${r.id}')">${ico('bell')} یادآور تمدید</button>`:''}
+           ${visitAt(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px; border:none; border-radius:8px; background:var(--inp); color:var(--tx);" onclick="addCal('${r.id}')">${ico('bell')} یادآور بازدید</button>`:''}
+           ${renewOf(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px; border:none; border-radius:8px; background:var(--inp); color:var(--tx);" onclick="addRenewCal('${r.id}')">${ico('bell')} یادآور تمدید</button>`:''}
         </div>
       </div>
     </div>`;
