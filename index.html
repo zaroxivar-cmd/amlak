@@ -273,7 +273,7 @@ const num=s=>{const v=parseFloat(nd(s).replace(/[,٬،\s]/g,''));return isNaN(v)
 const fmt=n=>n==null||n===''?'':Number(n).toLocaleString('fa-IR');
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const ico=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
-let GH={},ghT,ghBusy=false,dv=0,DELS={},USERS=[],VIS={},ME=null,VT='mine',DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
+let GH={},ghT,ghBusy=false,dv=0,DELS={},USERS=[],VIS={},ME=null,SYNC_OK=false,VT='mine',DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
 
 function load(){
   try{DB=JSON.parse(localStorage.getItem('amlak_v1')||'[]')}catch(e){DB=[]}
@@ -576,6 +576,7 @@ function normStr(d){
   const k=o=>Object.keys(o||{}).sort().map(x=>[x,o[x]]);
   return JSON.stringify([files,k(d.contacts),k(d.dels),(d.users||[]).slice().sort((a,b)=>a.id<b.id?-1:1),k(d.vis)]);
 }
+function oneAdmin(){const ts=u=>parseInt(String(u.id).slice(1),36)||0,ad=USERS.filter(u=>u.role==='admin').sort((a,b)=>ts(a)-ts(b));if(ad.length>1){USERS=USERS.filter(u=>u.role!=='admin'||u===ad[0]);return true}return false}
 function mergeIn(d,localDirty){
   const rd=d.dels||{},dels=Object.assign({},rd,DELS);
   Object.keys(rd).forEach(k=>{dels[k]=Math.max(rd[k]||0,DELS[k]||0)});
@@ -589,6 +590,7 @@ function mergeIn(d,localDirty){
   DB=out;DELS=dels;
   CT=localDirty?Object.assign({},d.contacts||{},CT):Object.assign({},CT,d.contacts||{});
   const um=new Map(USERS.map(u=>[u.id,u]));(d.users||[]).forEach(u=>{const x=um.get(u.id);if(!x||(u.mod||0)>(x.mod||0))um.set(u.id,u)});USERS=[...um.values()];
+  oneAdmin();
   Object.keys(d.vis||{}).forEach(k=>{const x=VIS[k],y=d.vis[k];if(!x||(y.mod||0)>(x.mod||0))VIS[k]=y});
 }
 async function ghSync(silent){
@@ -600,7 +602,7 @@ async function ghSync(silent){
     if(!silent)ghMsg('در حال همگام‌سازی...');
     const cur=await ghGet();
     const changed=!cur||cur.sha!==GH.sha;
-    if(cur&&!changed&&!GH.dirty){ghBadge('همگام است');if(!silent)ghMsg('همگام است');return}
+    if(cur&&!changed&&!GH.dirty){SYNC_OK=true;if(!ME)render();ghBadge('همگام است');if(!silent)ghMsg('همگام است');return}
     let remoteNorm='';
     if(cur){
       if(!cur.content){ghMsg('فایل داده برای همگام‌سازی خیلی بزرگ است');return}
@@ -608,6 +610,7 @@ async function ghSync(silent){
       if(changed){mergeIn(d,!!GH.dirty);saveLocal();load();render()}
       remoteNorm=normStr(d);
     }
+    if(oneAdmin()){saveLocal();render()}
     if(normStr(payload())!==remoteNorm){
       const body={message:'amlak sync '+new Date().toISOString(),content:b64(JSON.stringify(payload()))};
       if(cur)body.sha=cur.sha;
@@ -616,7 +619,7 @@ async function ghSync(silent){
       GH.sha=(await r.json()).content.sha;
     }else if(cur)GH.sha=cur.sha;
     if(dv===v0)GH.dirty=false;else again=true;
-    GH.last=Date.now();ghSave();
+    GH.last=Date.now();ghSave();SYNC_OK=true;if(!ME)render();
     const t=toFa(new Date().toLocaleTimeString('fa-IR'));
     ghBadge('همگام شد '+t);ghMsg('همگام شد — '+t);
   }catch(e){
@@ -642,14 +645,19 @@ function gate(){
   if(U()){closeP('loginPane');$('bnav').style.display='flex';$('bkBtn').style.display=isAdmin()?'':'none';$('fab').style.display=VT==='mine'?'':'none';
     document.querySelectorAll('#bnav button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===VT));return true}
   ME=null;$('bnav').style.display='none';$('fab').style.display='none';
-  const f=!USERS.length;$('lgNew').style.display=f?'block':'none';$('lgNameBox').style.display=f?'block':'none';
-  $('lgT').textContent=f?'ساخت حساب مدیر':'ورود';$('lgBtn').textContent=f?'ساخت مدیر و ورود':'ورود';
+  const f=!USERS.length,ready=f&&SYNC_OK,wait=f&&!SYNC_OK;
+  $('lgNew').style.display=f?'block':'none';
+  $('lgNew').textContent=wait?'هنوز کاربری روی این دستگاه نیست. اول «اتصال به GitHub» را بزن و نام repository و توکن را وارد کن تا بررسی شود حساب مدیر قبلاً ساخته شده یا نه.':'هنوز هیچ کاربری ساخته نشده. حساب مدیر را همین‌جا بساز.';
+  $('lgNameBox').style.display=ready?'block':'none';
+  ['lgUn','lgPw'].forEach(i=>$(i).parentNode.style.display=wait?'none':'');$('lgBtn').style.display=wait?'none':'';
+  $('lgT').textContent=ready?'ساخت حساب مدیر':wait?'اتصال به GitHub':'ورود';$('lgBtn').textContent=ready?'ساخت مدیر و ورود':'ورود';
   if(!$('loginPane').classList.contains('show'))openP('loginPane');return false;
 }
 async function doLogin(){
   const un=nd($('lgUn').value).trim().toLowerCase(),pw=$('lgPw').value,err=$('lgErr');err.textContent='';
   if(!un||!pw){err.textContent='نام کاربری و رمز را وارد کنید';return}
   if(!USERS.length){
+    if(!SYNC_OK){err.textContent='اول به GitHub وصل شو و همگام‌سازی کن';return}
     const name=$('lgName').value.trim();if(!name){err.textContent='نام و نام خانوادگی را وارد کنید';return}
     const salt=newSalt(),id='u'+Date.now().toString(36),u={id,un,name,salt,hash:await H(pw,salt),role:'admin',mod:Date.now()};
     USERS=[u];DB.forEach(r=>{if(!r.uid){r.uid=id;r.mod=Date.now()}});setSess(u);persist();$('lgPw').value='';render();ghSync(true);return}
