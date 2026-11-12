@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#1c1a16">
 <link rel="manifest" href="manifest.webmanifest">
@@ -12,172 +12,185 @@
 <style>
 :root{
   color-scheme:dark;
-  --bg:#12110f;
-  --bg2:#1c1a17;
-  --card:#24211c;
-  --card-hover:#2c2822;
-  --inp:#2a2721;
-  --line:#3b352d;
-  --tx:#f0ebe1;
-  --mut:#9e9686;
-  --gold:#d4b983;
-  --gold-dark:#b89b62;
-  --acc:#4ade80;
-  --acc-dark:#22c55e;
-  --bad:#f87171;
-  --blue:#60a5fa;
+  --bg:#1c1a16;--bg2:#24211c;--card:#2a2620;--inp:#312c25;--line:#41392f;
+  --tx:#e4dac7;--mut:#a39a87;--pap:#d8c391;--pap2:#b8a272;
+  --acc:#c4a265;--accTx:#231e14;--ok:#7ea58a;--okTx:#14201a;--bad:#b9645a;
+  --money:#a9c79f;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.6;overflow-x:hidden}
-.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
-
-/* Header */
-header{position:sticky;top:0;z-index:10;background:rgba(18,17,15,0.85);backdrop-filter:blur(12px);padding:12px 16px 10px;border-bottom:1px solid var(--line)}
-.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.hd h1{margin:0;font-size:20px;font-weight:700;color:var(--tx);letter-spacing:-0.5px}
-.hd span{display:flex;gap:8px}
-.ib{background:var(--card);color:var(--tx);padding:8px;border-radius:50%;border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.ib:active{background:var(--card-hover);transform:scale(0.95)}
-
-/* Search */
-.sbar{display:flex;align-items:center;background:var(--inp);border-radius:12px;padding:10px 14px;gap:10px;border:1px solid transparent;transition:border-color .2s}
-.sbar:focus-within{border-color:var(--gold)}
-.sbar .ic{color:var(--mut);width:18px;height:18px}
-.sbar input{border:0;background:transparent;color:var(--tx);font-size:14px;flex:1;outline:none;padding:0;font-family:inherit}
-.sbar input::placeholder{color:var(--mut)}
-.sbar button{background:var(--bg2);border:1px solid var(--line);color:var(--tx);padding:6px;border-radius:8px;display:flex;align-items:center;position:relative;cursor:pointer}
-.cntb{background:var(--gold);color:var(--bg);border-radius:10px;font-size:10px;min-width:16px;height:16px;display:none;align-items:center;justify-content:center;padding:0 4px;position:absolute;top:-6px;right:-6px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3)}
-
-/* Status Filter */
-.seg{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
-.seg::-webkit-scrollbar{display:none}
-.seg span{display:none}
-.seg button{background:var(--card);color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:6px 16px;font-size:13px;white-space:nowrap;cursor:pointer;transition:all .2s;font-family:inherit}
-.seg button.on{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700}
-
-/* Notification Cards */
-#nextv, #renewv{margin-top:12px;background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--line);font-size:13px;position:relative;overflow:hidden}
-#nextv::before, #renewv::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--gold)}
-#renewv::before{background:var(--acc)}
-
-/* Main */
-main{padding:16px 16px 100px}
-
-/* Cards */
-.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid var(--line);transition:transform .2s, border-color .2s;position:relative;overflow:hidden}
-.card:active{transform:scale(0.99)}
-.card.open{border-color:var(--gold-dark)}
-.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
-.card-title-area{flex:1;min-width:0}
-.card-title{font-weight:700;font-size:15px;margin:0;color:var(--tx);display:flex;align-items:center;flex-wrap:wrap;gap:6px;line-height:1.3}
-.card-sub{color:var(--mut);font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{display:inline-block;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
-.b1{background:rgba(212,185,131,0.15);color:var(--gold)}
-.b2{background:rgba(248,113,113,0.15);color:var(--bad)}
-
-/* Money Box */
-.money-box{background:var(--bg2);border-radius:12px;padding:12px;margin:12px 0;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line)}
-.money-item{text-align:center;flex:1}
-.money-item span{display:block;font-size:11px;color:var(--mut);margin-bottom:2px}
-.money-item b{font-size:15px;color:var(--gold);font-weight:700}
-.money-divider{width:1px;height:30px;background:var(--line);margin:0 12px}
-
-/* Stats */
-.stats{display:flex;gap:12px;font-size:13px;color:var(--mut);margin-bottom:4px}
-.stats span{display:flex;align-items:center;gap:4px}
-
-/* Details */
-.det{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);animation:fadeIn .3s ease}
+body{margin:0;font-family:Tahoma,Vazirmatn,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5}
+.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
+header{position:sticky;top:0;z-index:5;background:var(--bg2);padding:10px 10px 8px;border-bottom:1px solid var(--line)}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.hd h1{margin:0;font-size:17px;font-weight:600;color:var(--pap);display:flex;align-items:center;gap:8px}
+.row{display:flex;gap:6px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--inp);color:var(--tx);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--pap2)}
+input::placeholder,textarea::placeholder{color:#7d7566}
+textarea{min-height:70px}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;background:var(--acc);color:var(--accTx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button.g{background:#38322a;color:var(--tx)}button.r{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:var(--okTx)}
+button.ib{background:transparent;color:var(--pap);padding:8px;border-radius:50%}
+button.ib:active{background:#38322a}
+.sbar{display:flex;align-items:center;background:var(--inp);border:1px solid var(--line);border-radius:12px;padding:0 4px 0 0}
+.sbar>.ic{margin:0 10px;color:var(--pap2)}
+.sbar input{border:0;background:transparent;padding:11px 0}
+.sbar button{position:relative;border-radius:9px;padding:8px 10px;margin:3px;background:#3a342b;color:var(--pap);font-size:13px;white-space:nowrap}
+.cntb{background:var(--acc);color:var(--accTx);border-radius:10px;font-size:11px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;padding:0 5px}
+#nextv{display:none;margin-top:8px;background:#3b3220;color:#ecd28f;border-radius:10px;padding:7px 10px;font-size:13px}
+#renewv{display:none;margin-top:8px;background:#2f3a2c;color:#c5dcb3;border-radius:10px;padding:8px 10px;font-size:13px}
+.rrow{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:6px}
+.rrow button{padding:5px 10px;font-size:12px}
+.acts{flex-wrap:wrap}.acts>*{min-width:30%}
+details{margin:10px 0;color:var(--mut);font-size:13px;line-height:2}summary{color:var(--pap);cursor:pointer;margin-bottom:4px}
+#toast{display:none;position:fixed;top:8px;left:8px;right:8px;z-index:50;background:var(--acc);color:var(--accTx);border-radius:12px;padding:12px 14px;box-shadow:0 6px 18px #000a;font-weight:bold}
+.hint{font-size:12px;color:var(--mut);margin:-2px 0 8px;line-height:1.7}
+.vl{font-size:13px;color:var(--mut);margin-top:5px}
+.mine{font-size:13px;color:#ecd28f;margin-top:5px}
+#cnt{font-size:12px;color:var(--mut);margin-top:7px}
+.seg{display:flex;gap:4px;margin-top:8px;align-items:center}
+.seg span{font-size:12px;color:var(--mut);white-space:nowrap;min-width:46px}
+.seg button{flex:1;padding:7px 2px;font-size:13px;background:#332e26;color:#cfc5b0}
+.seg button.on{background:var(--acc);color:var(--accTx)}
+main{padding:10px;padding-bottom:90px}
+.card{background:var(--card);border-radius:14px;padding:12px;margin-bottom:10px;border:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;gap:8px;font-weight:bold}
+.sub{color:var(--mut);font-size:13px;margin-top:4px}
+.money{color:var(--money);font-weight:bold;margin-top:6px}
+.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;margin-right:6px;font-weight:normal}
+.b1{background:#5a4a22;color:#ecd28f}.b2{background:#5a3530;color:#eeb0a8}
+.det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
 .card.open .det{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #342f27;font-size:14px}
+.kv b{color:var(--mut);font-weight:normal;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.chip{background:#343a2e;color:#b9d1a5;border-radius:20px;padding:3px 10px;font-size:13px}
+.acts{display:flex;gap:6px;margin-top:10px}.acts>*{flex:1}
+#fab{position:fixed;bottom:16px;left:16px;width:58px;height:58px;border-radius:50%;padding:0;box-shadow:0 4px 12px #0009;z-index:6}
+#fab .ic{width:28px;height:28px;stroke-width:2}
+.pane{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:12px;padding-bottom:90px;visibility:hidden;opacity:0;transform:translateY(22px);transition:opacity .2s,transform .2s,visibility .2s}
+.pane.show{visibility:visible;opacity:1;transform:none}
+.pane h2{margin:4px 0 12px;font-size:17px;color:var(--pap);font-weight:600}
+.f{margin-bottom:10px}.f label{display:block;font-size:13px;color:var(--mut);margin-bottom:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tg label{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px;display:flex;gap:8px;align-items:center;font-size:14px}
+.tg input{width:auto;accent-color:var(--acc)}
+.segf{display:flex;gap:4px;background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:3px}
+.segf button{flex:1;background:transparent;color:var(--mut);padding:8px 2px}
+.segf button.on{background:var(--acc);color:var(--accTx)}
+.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:10px;display:flex;gap:8px;border-top:1px solid var(--line)}
+.bar button{flex:1}
+.sec{font-weight:bold;margin:14px 0 6px;color:var(--pap)}
+.empty{text-align:center;color:#857c6b;margin:30px 0}
+/* dialer */
+.dsp{text-align:center;padding:6px 0 2px}
+#dname{font-size:20px;min-height:30px;color:var(--pap);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+#dname.no{color:var(--mut);font-weight:normal;font-size:14px}
+#dnum{font-size:30px;text-align:center;direction:ltr;letter-spacing:3px;background:transparent;border:0;padding:6px;font-weight:300}
+#dedit{display:none;margin:6px 0}
+#dedit.show{display:flex}
+#dbanner{background:#40361f;color:#ecd28f;padding:9px 12px;border-radius:10px;margin-bottom:8px;display:none;font-size:14px}
+#sug{display:flex;gap:6px;overflow-x:auto;min-height:6px;padding:4px 0}
+#sug button{background:#38322a;color:var(--tx);white-space:nowrap;font-size:13px;flex:none}
+.pad{display:grid;grid-template-columns:repeat(3,74px);justify-content:center;gap:12px 22px;margin:10px 0 14px;direction:ltr}
+.pad button{width:74px;height:74px;border-radius:50%;font-size:27px;font-weight:300;background:#332e26;color:var(--tx);padding:0}
+.pad button:active{background:#45402f}
+.pad .call{background:var(--ok);color:var(--okTx)}
+.pad .call .ic{width:30px;height:30px}
+.pad .bks{background:transparent;color:var(--pap)}
+.tabs{display:flex;gap:4px;background:var(--inp);border-radius:10px;padding:3px;margin:6px 0}
+.tabs button{flex:1;background:transparent;color:var(--mut);padding:8px}
+.tabs button.on{background:#463e30;color:var(--pap)}
+.cl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cl small{color:var(--mut);direction:ltr}
 
-.kv{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
-.kv:last-child{border:none}
-.kv b{color:var(--mut);font-weight:400;white-space:nowrap}
-.kv span{color:var(--tx);font-weight:500;text-align:left}
+/* ===== AMALK UI refresh: calm, readable, mobile-first ===== */
+:root{
+  --bg:#171714;--bg2:#201e19;--card:#24221d;--inp:#1c1b17;--line:#39352d;
+  --tx:#f0eadc;--mut:#aaa18f;--pap:#e2c98f;--pap2:#c9ad72;
+  --acc:#d7bb7e;--accTx:#211b11;--ok:#8eae91;--okTx:#142017;--bad:#b96d62;
+  --money:#c4d5a8;--radius:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:Vazirmatn,Tahoma,sans-serif;font-size:15px;line-height:1.65;letter-spacing:0}
+button,input,select,textarea{font-family:inherit}
+button{min-height:42px;border-radius:12px;padding:9px 14px;font-weight:600;transition:transform .15s ease,filter .15s ease,background .15s ease}
+button:active{transform:scale(.97);filter:brightness(.94)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--pap);outline-offset:2px}
+header{padding:14px 14px 12px;background:rgba(32,30,25,.97);border-bottom:1px solid #403a30;box-shadow:0 8px 24px #0002;backdrop-filter:blur(14px)}
+.hd{margin-bottom:13px;gap:12px}
+.hd h1{font-size:19px;letter-spacing:-.3px;gap:10px}
+.hd h1 .ic{width:25px;height:25px;color:var(--pap)}
+.hd .row{gap:7px}
+button.ib{width:42px;height:42px;padding:9px;background:#302c24;border:1px solid #484133;color:var(--pap)}
+.sbar{min-height:50px;padding:0 5px 0 3px;border-radius:14px;background:#191814;border-color:#494234;gap:5px}
+.sbar>.ic{margin:0 9px;color:var(--pap);width:21px;height:21px}
+.sbar input{font-size:14px;min-width:0;padding:12px 0}
+.sbar button{margin:4px;min-height:38px;padding:7px 11px;background:#3b3428;color:#f0dcae;font-size:13px}
+.seg{gap:6px;margin-top:11px;overflow-x:auto;padding:1px 0 3px;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg span{font-size:12px;min-width:max-content;color:var(--mut)}
+.seg button{flex:0 0 auto;min-height:34px;padding:5px 12px;border:1px solid #484133;border-radius:20px;background:#29261f;color:#c9c0ae;font-size:12px}
+.seg button.on{background:var(--acc);border-color:var(--acc);color:var(--accTx);font-weight:700}
+#nextv,#renewv{border-radius:13px;padding:10px 12px;line-height:1.8}
+#nextv{background:#3b321f;color:#f1d89d;border:1px solid #685532}
+#renewv{background:#263329;color:#cde0c3;border:1px solid #405542}
+#cnt{font-size:12px;color:var(--mut);margin-top:10px}
+#syncs{font-size:11px!important;color:#9fbaa0!important;margin-top:3px!important}
+main{padding:13px 12px 100px;max-width:760px;margin:0 auto}
+.card{background:linear-gradient(145deg,#29261f,#23211c);border:1px solid #403a30;border-radius:17px;padding:14px;margin-bottom:11px;box-shadow:0 5px 16px #0002;transition:border-color .18s,transform .18s}
+.card:active{transform:scale(.995)}
+.card.open{border-color:#8c754c;box-shadow:0 8px 22px #0003}
+.top{align-items:flex-start;gap:10px;font-size:14px;line-height:1.7}
+.top>span:first-child{color:#f0dfb8}
+.top>span:last-child{font-size:12px;color:var(--mut);text-align:left;white-space:nowrap}
+.sub{font-size:12px;color:#b9b09f;margin-top:6px;line-height:1.8}
+.money{font-size:13px;color:var(--money);background:#303629;border:1px solid #424a37;border-radius:10px;padding:7px 10px;margin-top:10px;display:inline-block}
+.badge{border-radius:20px;padding:2px 8px;font-size:10px;vertical-align:middle;margin-right:4px}
+.b1{background:#594a28;color:#f2d89c}.b2{background:#593630;color:#f2b8ad}
+.det{border-top:1px solid #474033;margin-top:12px;padding-top:10px}
+.kv{padding:7px 2px;border-bottom:1px solid #363229;font-size:13px;line-height:1.7}
+.kv b{color:#b7ad9a}
+.chips{gap:6px;margin:10px 0}
+.chip{background:#303b2d;color:#c8ddb6;border:1px solid #45533d;padding:4px 10px;font-size:11px}
+.acts{gap:7px;margin-top:12px;flex-wrap:wrap}
+.acts>*{min-width:calc(50% - 5px);flex:1 1 calc(50% - 5px)}
+.acts button{font-size:12px;padding:9px 8px;min-height:40px}
+#fab{width:60px;height:60px;bottom:20px;left:18px;background:linear-gradient(145deg,#ebd49d,#c7a96d);box-shadow:0 8px 25px #0008,0 0 0 5px #d7bb7e18;z-index:10}
+#fab .ic{width:27px;height:27px}
+.pane{padding:18px 15px 100px;background:#191814;z-index:30;overscroll-behavior:contain}
+.pane h2{font-size:19px;margin:4px 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.f{margin-bottom:13px}
+.f label{font-size:12px;color:#c2b8a5;margin:0 2px 5px}
+.g2{gap:10px}
+input,select,textarea{min-height:45px;border-radius:12px;padding:10px 12px;background:#222019;border-color:#494234;font-size:14px}
+textarea{min-height:88px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#827a6b}
+.tg{gap:8px}
+.tg label{border-radius:12px;background:#26231e;border-color:#454034;padding:10px;font-size:13px;line-height:1.6}
+.tg input{min-height:auto;accent-color:var(--pap)}
+.segf{gap:5px;padding:4px;border-radius:12px}
+.segf button{min-height:40px;border-radius:9px;font-size:12px}
+.bar{padding:11px 13px calc(11px + env(safe-area-inset-bottom));background:rgba(32,30,25,.98);border-top:1px solid #494234;backdrop-filter:blur(12px)}
+.bar button{min-height:46px}
+.sec{font-size:14px;margin:18px 0 9px;color:var(--pap)}
+.hint,.vl{font-size:12px;line-height:1.8}
+.empty{background:#24221d;border:1px dashed #514838;border-radius:16px;padding:28px 16px;margin:18px 0;color:#b7ad9b;font-size:13px}
+#toast{border:1px solid #e2c98f;border-radius:14px;line-height:1.8}
+.dsp{padding:12px 0 8px}
+#dname{font-size:18px}
+#dnum{font-size:28px;border-bottom:1px solid var(--line);border-radius:0;max-width:340px;margin:8px auto}
+.pad{gap:10px 18px;margin:14px 0 18px}
+.pad button{width:68px;height:68px;border:1px solid #484133;background:#2b2821;font-size:25px}
+.pad .call{background:#7f9e82;border-color:#7f9e82}
+.tabs{padding:4px;border:1px solid var(--line);border-radius:12px}
+.tabs button{min-height:40px;border-radius:9px}
+.tabs button.on{background:#4a402e;color:#f0dcae}
+.cl{border-radius:12px;border-color:#403a30;background:#25221d;padding:12px;margin-bottom:8px}
+@media(min-width:600px){header{padding-inline:22px}main{padding-inline:18px}.pane{padding-inline:max(22px,calc((100vw - 700px)/2))}.card{padding:16px}.acts>*{min-width:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 
-/* Chips */
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-.chip{background:var(--bg2);color:var(--gold);border-radius:8px;padding:4px 10px;font-size:12px;border:1px solid var(--line)}
-
-/* Action Buttons */
-.acts{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.acts button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity .2s;font-family:inherit}
-.acts button:active{opacity:0.7}
-.acts button.ok{background:var(--acc);color:#0a1f12}
-.acts button.edit{background:var(--inp);color:var(--tx);border:1px solid var(--line)}
-.acts button.more{background:transparent;color:var(--mut);flex:0 0 40px;border:1px solid var(--line)}
-.acts .ic{width:18px;height:18px}
-
-/* FAB */
-#fab{position:fixed;bottom:80px;left:20px;width:56px;height:56px;border-radius:50%;padding:0;background:var(--gold);color:var(--bg);box-shadow:0 8px 24px rgba(212,185,131,0.4);z-index:9;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:transform .2s}
-#fab:active{transform:scale(0.9)}
-#fab .ic{width:28px;height:28px;stroke-width:2.5}
-
-/* Bottom Nav */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(28,26,23,0.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 0 12px;display:flex;justify-content:space-around;align-items:center;z-index:10}
-.bnav button{background:transparent;border:none;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;width:64px;padding:4px 0;transition:color .2s;font-family:inherit}
-.bnav button .ic{width:22px;height:22px;stroke-width:1.8}
-.bnav button.active{color:var(--gold)}
-
-/* Panes (Modals) */
-.pane{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;padding:16px;padding-bottom:80px;visibility:hidden;opacity:0;transform:translateY(100%);transition:all .35s cubic-bezier(0.16,1,0.3,1);border-radius:20px 20px 0 0;margin-top:40px;box-shadow:0 -10px 40px rgba(0,0,0,0.6)}
-.pane.show{visibility:visible;opacity:1;transform:translateY(0)}
-.pane h2{margin:0 0 20px;font-size:18px;font-weight:700;color:var(--tx);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:16px}
-.pane h2 button{background:var(--card);border:1px solid var(--line);color:var(--mut);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:6px;border-radius:8px}
-.pane h2 button:active{background:var(--card-hover)}
-
-/* Forms */
-.f{margin-bottom:16px}
-.f label{display:block;font-size:12px;color:var(--mut);margin-bottom:6px;font-weight:500}
-input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;background:var(--inp);color:var(--tx);outline:none;transition:border-color .2s;font-family:inherit}
-input:focus,select:focus,textarea:focus{border-color:var(--gold)}
-textarea{min-height:80px;resize:vertical}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tg label{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer;margin-bottom:0}
-.tg input{width:auto;accent-color:var(--gold);margin:0}
-.segf{display:flex;gap:4px;background:var(--inp);border-radius:10px;padding:4px;border:1px solid var(--line)}
-.segf button{flex:1;background:transparent;color:var(--mut);padding:8px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit}
-.segf button.on{background:var(--gold);color:var(--bg);font-weight:700}
-
-/* Sticky Bar */
-.bar{position:fixed;bottom:0;left:0;right:0;background:rgba(28,26,23,0.95);backdrop-filter:blur(12px);padding:12px 16px;display:flex;gap:12px;border-top:1px solid var(--line);z-index:51}
-.bar button{flex:1;padding:14px;border-radius:12px;border:none;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;transition:opacity .2s}
-.bar button:active{opacity:0.8}
-.bar button.ok{background:var(--gold);color:var(--bg)}
-.bar button.g{background:var(--inp);color:var(--tx);border:1px solid var(--line)}
-
-/* Dialer */
-.dsp{text-align:center;padding:16px 0}
-#dname{font-size:20px;color:var(--tx);font-weight:700;min-height:32px;display:inline-flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}
-#dnum{font-size:32px;text-align:center;direction:ltr;letter-spacing:3px;background:transparent;border:none;color:var(--tx);font-weight:300;width:100%;padding:8px 0;font-family:monospace}
-#dnum:focus{border:none}
-.pad{display:grid;grid-template-columns:repeat(3,72px);justify-content:center;gap:16px 24px;margin:20px 0;direction:ltr}
-.pad button{width:72px;height:72px;border-radius:50%;font-size:26px;font-weight:400;background:var(--card);color:var(--tx);border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.pad button:active{background:var(--card-hover)}
-.pad .call{background:var(--acc);color:#0a1f12;border:none}
-.pad .call .ic{stroke-width:2.5}
-.pad .bks{background:transparent;border:none}
-
-/* Dialer Lists */
-.tabs{display:flex;gap:8px;margin:20px 0 12px}
-.tabs button{flex:1;background:transparent;color:var(--mut);border:none;padding:10px;border-bottom:2px solid transparent;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit}
-.tabs button.on{color:var(--gold);border-bottom-color:var(--gold)}
-.cl{display:flex;justify-content:space-between;align-items:center;padding:14px 12px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:8px}
-.cl:active{background:var(--card)}
-.cl small{color:var(--mut);direction:ltr;font-family:monospace;font-size:14px}
-
-/* Toast */
-#toast{display:none;position:fixed;top:20px;left:20px;right:20px;z-index:100;background:var(--gold);color:var(--bg);border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-weight:700;text-align:center;animation:slideDown .3s ease-out;font-size:14px}
-@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* Misc */
-.hint{font-size:12px;color:var(--mut);margin:-4px 0 12px;line-height:1.6;text-align:justify}
-.vl{font-size:13px;color:var(--mut);margin-top:6px}
-.mine{font-size:13px;color:var(--gold);margin-top:6px;font-weight:500}
-.empty{text-align:center;color:var(--mut);margin:60px 20px;font-size:15px}
-.sec{font-weight:700;margin:24px 0 12px;color:var(--tx);font-size:16px;border-bottom:1px solid var(--line);padding-bottom:8px}
 </style>
 </head>
 <body>
@@ -191,102 +204,66 @@ textarea{min-height:80px;resize:vertical}
 <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L16.5 4.5a2 2 0 0 1 3 3L9 18z"/></symbol>
 <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5M6 10v9h12v-9"/></symbol>
-<symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5h6v2M7 7v12h10V7"/></symbol>
-<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4z"/></symbol>
-<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></symbol>
 </defs></svg>
 
 <header>
   <div class="hd">
-    <h1>فایل‌های املاک</h1>
-    <span>
-      <button class="ib" onclick="openDial()" aria-label="شماره‌گیر"><svg class="ic"><use href="#i-phone"/></svg></button>
-      <button class="ib" onclick="openBackup()" aria-label="پشتیبان"><svg class="ic"><use href="#i-save"/></svg></button>
-    </span>
+    <h1><svg class="ic"><use href="#i-home"/></svg>فایل‌های املاک</h1>
+    <span class="row"><button class="ib" onclick="openDial()" aria-label="شماره‌گیر"><svg class="ic"><use href="#i-phone"/></svg></button><button class="ib" onclick="openBackup()" aria-label="پشتیبان"><svg class="ic"><use href="#i-save"/></svg></button></span>
   </div>
   <div class="sbar">
     <svg class="ic"><use href="#i-search"/></svg>
     <input id="q" placeholder="جستجو در همه‌چیز..." oninput="render()">
-    <button onclick="openFilter()"><svg class="ic" style="width:18px;height:18px"><use href="#i-filter"/></svg><span class="cntb" id="fbadge"></span></button>
+    <button onclick="openFilter()"><svg class="ic" style="width:19px;height:19px"><use href="#i-filter"/></svg>تفکیکی<span class="cntb" id="fbadge"></span></button>
   </div>
   <div class="seg" id="segStat"><span>وضعیت:</span></div>
-  <div id="nextv" style="display:none"></div>
-  <div id="renewv" style="display:none"></div>
-  <div id="cnt" style="font-size:12px;color:var(--mut);margin-top:12px;text-align:center;font-weight:500"></div>
-  <div id="syncs" style="font-size:11px;color:var(--mut);margin-top:4px;text-align:center"></div>
+  <div id="nextv"></div>
+  <div id="renewv"></div>
+  <div id="cnt"></div>
+  <div id="syncs" style="font-size:12px;color:var(--mut);margin-top:2px"></div>
 </header>
 <div id="toast"></div>
-
 <main id="list"></main>
-
 <button id="fab" onclick="openForm()" aria-label="فایل جدید"><svg class="ic"><use href="#i-plus"/></svg></button>
 
-<!-- Bottom Navigation -->
-<div class="bnav">
-  <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg class="ic"><use href="#i-home"/></svg>
-    <span>خانه</span>
-  </button>
-  <button onclick="openDial()">
-    <svg class="ic"><use href="#i-phone"/></svg>
-    <span>تماس</span>
-  </button>
-  <button onclick="openBackup()">
-    <svg class="ic"><use href="#i-save"/></svg>
-    <span>پشتیبان</span>
-  </button>
-  <button onclick="openForm()">
-    <svg class="ic"><use href="#i-plus"/></svg>
-    <span>جدید</span>
-  </button>
-</div>
-
-<!-- Modals -->
 <div class="pane" id="formPane">
-  <h2><span id="formTitle">ثبت فایل جدید</span> <button onclick="closeP('formPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
-  <div id="formBody"></div>
+  <h2 id="formTitle">ثبت فایل جدید</h2><div id="formBody"></div>
   <div class="bar"><button class="ok" onclick="save()">ذخیره</button><button class="g" onclick="closeP('formPane')">انصراف</button></div>
 </div>
-
 <div class="pane" id="filterPane">
-  <h2>جستجوی تفکیکی <button onclick="closeP('filterPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
-  <div id="filterBody"></div>
-  <div class="bar"><button class="ok" onclick="closeP('filterPane');render()">نمایش نتایج (<span id="fc">0</span>)</button><button class="g" onclick="resetFilter()">پاک‌کردن</button></div>
+  <h2>جستجوی تفکیکی</h2><div id="filterBody"></div>
+  <div class="bar"><button onclick="closeP('filterPane');render()">نمایش نتایج (<span id="fc">0</span>)</button><button class="g" onclick="resetFilter()">پاک‌کردن</button></div>
 </div>
-
 <div class="pane" id="backupPane">
-  <h2>پشتیبان‌گیری <button onclick="closeP('backupPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
-  <p style="line-height:1.9;color:var(--mut);text-align:center;font-size:13px">اطلاعات روی همین مرورگر ذخیره می‌شود. گاهی پشتیبان بگیرید.</p>
-  <div style="display:flex;gap:8px;margin-top:16px"><button class="ok" style="flex:1;border-radius:10px;padding:12px;border:none;font-weight:700;background:var(--gold);color:var(--bg);cursor:pointer;font-family:inherit" onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
-  <div class="f" style="margin-top:20px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
-  
+  <h2>پشتیبان‌گیری</h2>
+  <p style="line-height:1.9;color:var(--mut)">اطلاعات (فایل‌ها و مخاطبین) روی همین مرورگر گوشی ذخیره می‌شود. گاهی پشتیبان بگیرید، مخصوصاً قبل از پاک‌کردن اطلاعات مرورگر.</p>
+  <div class="acts"><button onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
+  <div class="f" style="margin-top:14px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
   <div class="sec">همگام‌سازی با GitHub</div>
-  <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند.</div>
+  <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند و در پشتیبان‌گیری معمولی نمی‌آید.</div>
   <div class="f"><label>نام repository (مثال: user/amlak-data)</label><input id="ghRepo" dir="ltr" autocomplete="off" placeholder="user/repo"></div>
   <div class="f"><label>توکن دسترسی</label><input id="ghTok" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_..."></div>
-  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار</label></div>
-  <div style="display:flex;gap:8px;margin-top:12px"><button class="ok" style="flex:1;border-radius:10px;padding:12px;border:none;font-weight:700;background:var(--gold);color:var(--bg);cursor:pointer;font-family:inherit" onclick="ghSync(false)">همگام‌سازی الان</button></div>
-  
-  <details style="margin-top:20px;color:var(--mut);font-size:13px"><summary style="cursor:pointer;color:var(--tx);margin-bottom:8px">پیشرفته: جایگزینی کامل</summary>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="g" style="flex:1;border-radius:10px;padding:12px;border:none;font-weight:700;background:var(--inp);color:var(--tx);cursor:pointer;font-family:inherit" onclick="ghPush()">ارسال به GitHub</button>
-      <button class="g" style="flex:1;border-radius:10px;padding:12px;border:none;font-weight:700;background:var(--inp);color:var(--tx);cursor:pointer;font-family:inherit" onclick="ghPull()">دریافت از GitHub</button>
-    </div>
+  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار (با باز شدن سایت، هر یک دقیقه و بعد از هر تغییر)</label></div>
+  <div class="acts"><button onclick="ghSync(false)">همگام‌سازی الان</button></div>
+  <details><summary>پیشرفته: جایگزینی کامل</summary>اگر مشکلی پیش آمد: «ارسال» نسخه این دستگاه را روی GitHub می‌گذارد و «دریافت» نسخه GitHub را جایگزین این دستگاه می‌کند.<div class="acts" style="margin-top:6px"><button class="g" onclick="ghPush()">ارسال به GitHub</button><button class="g" onclick="ghPull()">دریافت از GitHub</button></div></details>
+  <div class="hint" id="ghStat" style="margin-top:8px"></div>
+  <details><summary>راهنمای ساخت توکن</summary>
+    ۱) در GitHub یک repository <b>خصوصی (Private)</b> بساز، مثلاً amlak-data. این را جدا از repository سایت بساز.<br>
+    ۲) Settings ← Developer settings ← Personal access tokens ← Fine-grained tokens ← Generate new token.<br>
+    ۳) در Repository access گزینه Only select repositories را بزن و فقط همان repository را انتخاب کن.<br>
+    ۴) در Permissions ← Repository permissions، گزینه Contents را روی Read and write بگذار.<br>
+    ۵) توکن را کپی کن و بالا بچسبان. روی گوشی دیگر هم همین کار را بکن و «دریافت از GitHub» را بزن.
   </details>
-  <div class="hint" id="ghStat" style="margin-top:12px;text-align:center"></div>
   <div class="bar"><button class="g" onclick="closeP('backupPane')">بستن</button></div>
 </div>
-
 <div class="pane" id="dialPane">
-  <h2>شماره‌گیر <button onclick="closeP('dialPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
-  <div id="dbanner" style="background:var(--card);color:var(--tx);padding:12px;border-radius:12px;margin-bottom:12px;display:none;font-size:13px;text-align:center;border:1px solid var(--line)">تماس تمام شد. اگر لازم است نام این شماره را ثبت یا ویرایش کنید.</div>
+  <div id="dbanner">تماس تمام شد. اگر لازم است نام این شماره را ثبت یا ویرایش کنید.</div>
   <div class="dsp">
     <div id="dname"></div>
     <input id="dnum" inputmode="none" placeholder="شماره را وارد کنید" oninput="updDial()">
   </div>
-  <div class="row" id="dedit" style="display:none;margin-bottom:12px"><input id="dedit_i" placeholder="نام این شماره" style="flex:1"><button class="ok" style="padding:10px 16px;border-radius:10px;border:none;font-weight:700;background:var(--gold);color:var(--bg);cursor:pointer;font-family:inherit" onclick="saveName()">ذخیره</button></div>
-  <div id="sug" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none"></div>
+  <div class="row" id="dedit"><input id="dedit_i" placeholder="نام این شماره"><button class="ok" onclick="saveName()">ذخیره</button></div>
+  <div id="sug"></div>
   <div class="pad" id="pad"></div>
   <div class="tabs"><button id="tR" onclick="setTab('r')">اخیر</button><button id="tN" onclick="setTab('n')">اسامی</button></div>
   <div id="clist"></div>
@@ -351,8 +328,8 @@ function saveLocal(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));loc
 function persist(){saveLocal();dv++;
   if(GH.token){GH.dirty=true;ghSave();if(GH.auto&&ghOk()){clearTimeout(ghT);ghT=setTimeout(()=>ghSync(true),3000)}}}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-function openP(id){$(id).classList.add('show');$(id).scrollTop=0;document.body.style.overflow='hidden'}
-function closeP(id){$(id).classList.remove('show');document.body.style.overflow=''}
+function openP(id){$(id).classList.add('show');$(id).scrollTop=0}
+function closeP(id){$(id).classList.remove('show')}
 
 /* status segment */
 [['','همه'],['آزاد','آزاد'],['در حال معامله','در حال معامله'],['معامله شده','معامله شده']].forEach(([v,l])=>{
@@ -368,7 +345,7 @@ function openForm(id){
   SECS.forEach(([title,fs])=>{
     h+=`<div class="sec">${title}</div>`;
     if(title==='تحویل و تمدید')h+='<div class="hint">۱۱ ماه بعد از این تاریخ، برای تماس و تمدید سال بعد یادآوری می‌شود.</div>';
-    if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی.</div>';
+    if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی؛ یادآور برای همین است.</div>';
     if(fs[0][2]==='b'){h+='<div class="tg">'+fs.map(([k,l])=>`<label><input type="checkbox" data-k="${k}" ${r[k]?'checked':''}>${l}</label>`).join('')+'</div>';return}
     h+='<div class="g2">';
     fs.forEach(([k,l,t,o])=>{
@@ -376,7 +353,7 @@ function openForm(id){
       if(k==='rentFor'){const cur=r.rentFor||'همه';
         el=`<div class="segf" data-k="rentFor" data-v="${cur}">${o.map(x=>`<button type="button" class="${x===cur?'on':''}" onclick="pickSeg(this,'${x}')">${x}</button>`).join('')}</div>`}
       else if(t==='tm')el=`<input type="time" data-k="${k}" value="${esc(r[k]||'')}">`;
-      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px;gap:8px"><button type="button" class="g" style="padding:6px 12px;font-size:12px;background:var(--inp);border:none;border-radius:6px;color:var(--tx);font-family:inherit;cursor:pointer" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" style="padding:6px 12px;font-size:12px;background:var(--inp);border:none;border-radius:6px;color:var(--tx);font-family:inherit;cursor:pointer" onclick="setJ(1,'${k}')">فردا</button></div>`;
+      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" onclick="setJ(1,'${k}')">فردا</button></div>`;
       else if(t==='s')el=`<select data-k="${k}"><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
       else if(t==='a')el=`<textarea data-k="${k}">${esc(r[k]||'')}</textarea>`;
       else el=`<input data-k="${k}" ${t==='n'?'inputmode="decimal"':''} value="${esc(r[k]??'')}">`;
@@ -424,7 +401,7 @@ function openFilter(){
       else h+=`<div class="f"><label>${l}</label><input data-f="${k}" data-m="has" value="${esc(v.has||'')}"></div>`;
     });
     h+='</div>';
-    if(bools.length)h+='<div class="tg">'+bools.map(([k,l])=>{const v=(FLT[k]||{}).b||'';return `<label style="display:block;text-align:center"><div style="margin-bottom:5px;font-weight:700">${l}</div><select data-f="${k}" data-m="b" style="text-align:center"><option value="">فرقی ندارد</option><option value="1" ${v==='1'?'selected':''}>دارد</option><option value="0" ${v==='0'?'selected':''}>ندارد</option></select></label>`}).join('')+'</div>';
+    if(bools.length)h+='<div class="tg">'+bools.map(([k,l])=>{const v=(FLT[k]||{}).b||'';return `<label style="display:block"><div style="margin-bottom:5px">${l}</div><select data-f="${k}" data-m="b"><option value="">فرقی ندارد</option><option value="1" ${v==='1'?'selected':''}>دارد</option><option value="0" ${v==='0'?'selected':''}>ندارد</option></select></label>`}).join('')+'</div>';
   });
   $('filterBody').innerHTML=h;
   $('filterBody').oninput=$('filterBody').onchange=readFilter;
@@ -483,11 +460,12 @@ function contacts(){
 function openDial(n,after){
   $('dnum').value=n?nd(n).replace(/[^\d+*#]/g,''):'';
   $('dbanner').style.display=after?'block':'none';
-  $('dedit').style.display=(!!after&&!nameOf(n))?'flex':'none';
+  $('dedit').classList.toggle('show',!!after&&!nameOf(n));
   const pad=$('pad');
   if(!pad.children.length){
     pad.innerHTML=['1','2','3','4','5','6','7','8','9','*','0','#'].map(d=>`<button onclick="kp('${d}')">${d}</button>`).join('')+
       `<button class="bks" id="bks" aria-label="پاک">${ico('back')}</button><button class="call" onclick="callNow()" aria-label="تماس">${ico('phone')}</button><span></span>`;
+    // reorder: [spacer][call][backspace]
     const [b,c,s]=[pad.children[12],pad.children[13],pad.children[14]];
     pad.append(s,c,b);
     let t;const bk_=$('bks');
@@ -502,24 +480,24 @@ function bk(){const e=$('dnum');e.value=e.value.slice(0,-1);updDial()}
 function updDial(){
   const v=$('dnum').value=nd($('dnum').value).replace(/[^\d+*#]/g,'');
   const nm=nameOf(v),k=pkey(v),el=$('dname');
-  if(nm){el.style.color='var(--tx)';el.innerHTML=esc(nm)+`<button class="ib" style="padding:4px" onclick="toggleEdit()" aria-label="ویرایش نام">${ico('pen')}</button>`}
-  else if(k){el.style.color='var(--mut)';el.innerHTML=`نام ثبت نشده <button class="ib" style="padding:4px" onclick="toggleEdit()" aria-label="افزودن نام">${ico('pen')}</button>`}
-  else{el.style.color='var(--mut)';el.innerHTML='&nbsp;'}
+  if(nm){el.className='';el.innerHTML=esc(nm)+`<button class="ib" onclick="toggleEdit()" aria-label="ویرایش نام">${ico('pen')}</button>`}
+  else if(k){el.className='no';el.innerHTML=`نام ثبت نشده <button class="ib" onclick="toggleEdit()" aria-label="افزودن نام">${ico('pen')}</button>`}
+  else{el.className='no';el.innerHTML='&nbsp;'}
   $('dedit_i').value=nm;
-  if(!k)$('dedit').style.display='none';
+  if(!k)$('dedit').classList.remove('show');
+  // suggestions
   const s=k.length>=2?contacts().filter(c=>pkey(c.phone).startsWith(k)&&pkey(c.phone)!==k).slice(0,6):[];
-  $('sug').innerHTML=s.map(c=>`<button style="background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:13px;white-space:nowrap;font-family:inherit;cursor:pointer" onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
+  $('sug').innerHTML=s.map(c=>`<button onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
 }
-function toggleEdit(){const e=$('dedit');e.style.display=e.style.display==='none'?'flex':'none';if(e.style.display==='flex')$('dedit_i').focus()}
+function toggleEdit(){const e=$('dedit');e.classList.toggle('show');if(e.classList.contains('show'))$('dedit_i').focus()}
 function saveName(){
   const k=pkey($('dnum').value);if(!k)return alert('اول شماره را وارد کنید');
   const n=$('dedit_i').value.trim();
   if(n)CT[k]=n;else delete CT[k];
-  persist();$('dedit').style.display='none';updDial();setTab(TAB);
+  persist();$('dedit').classList.remove('show');updDial();setTab(TAB);
 }
 function setTab(t){
-  TAB=t;$('tR').style.color=t==='r'?'var(--gold)':'var(--mut)';$('tR').style.borderBottomColor=t==='r'?'var(--gold)':'transparent';
-  $('tN').style.color=t==='n'?'var(--gold)':'var(--mut)';$('tN').style.borderBottomColor=t==='n'?'var(--gold)':'transparent';
+  TAB=t;$('tR').classList.toggle('on',t==='r');$('tN').classList.toggle('on',t==='n');
   let items;
   if(t==='r')items=RC.map(p=>({name:nameOf(p),phone:p}));
   else items=contacts();
@@ -537,10 +515,10 @@ document.addEventListener('visibilitychange',()=>{
   const p=localStorage.getItem('amlak_pend');if(!p)return;
   localStorage.removeItem('amlak_pend');
   const i=p.indexOf('|');
-  if(Date.now()-p.slice(0,i)<6*3600e3){openDial(p.slice(i+1),true);$('dedit').style.display='flex'}
+  if(Date.now()-p.slice(0,i)<6*3600e3){openDial(p.slice(i+1),true);$('dedit').classList.add('show')}
 });
 
-/* list - MODERN DESIGN */
+/* list */
 function render(){
   updNext();
   document.querySelectorAll('#segStat button').forEach(b=>b.classList.toggle('on',b.dataset.v===STAT));
@@ -548,50 +526,21 @@ function render(){
   fb.style.display=nf?'inline-flex':'none';fb.textContent=nf.toLocaleString('fa-IR');
   $('cnt').textContent=`${res.length.toLocaleString('fa-IR')} فایل از ${DB.length.toLocaleString('fa-IR')}`;
   if(!res.length){$('list').innerHTML='<div class="empty">'+(DB.length?'موردی پیدا نشد':'هنوز فایلی ثبت نشده. با دکمه + شروع کنید.')+'</div>';return}
-  
   $('list').innerHTML=res.map(r=>{
     const kv=ALL.filter(f=>f[2]!=='b'&&!VIS.includes(f[0])&&r[f[0]]!=null&&r[f[0]]!=='').map(([k,l,t])=>`<div class="kv"><b>${l}</b><span>${t==='n'?(k==='year'?Number(r[k]).toLocaleString('fa-IR',{useGrouping:false}):fmt(r[k])):esc(r[k])}</span></div>`).join('');
     const ch=ALL.filter(f=>f[2]==='b'&&r[f[0]]).map(f=>`<span class="chip">${f[1]}</span>`).join('');
     const title=[r.plak&&'پلاک '+esc(r.plak),r.code&&'واحد '+r.code,r.fileCode&&'فایل '+r.fileCode].filter(Boolean).join(' · ')||'بدون کد';
     const st=r.status&&r.status!=='آزاد'?`<span class="badge ${r.status==='معامله شده'?'b2':'b1'}">${r.status}</span>`:'';
-    
-    return `<div class="card" onclick="this.classList.toggle('open')">
-      <div class="card-head">
-        <div class="card-title-area">
-          <h3 class="card-title">${title} ${st}</h3>
-          <div class="card-sub">${r.owner ? 'مالک: '+esc(r.owner) : 'مالک ثبت نشده'} • ${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</div>
-        </div>
+    return `<div class="card">
+      <div onclick="this.parentNode.classList.toggle('open')">
+        <div class="top"><span>${esc(title)}${st}</span><span>${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</span></div>
+        <div class="sub">${[r.area&&fmt(r.area)+' متر',r.beds!=null&&fmt(r.beds)+' خواب',r.unitFloor&&'طبقه '+esc(r.unitFloor),r.owner&&esc(r.owner)].filter(Boolean).join(' • ')}</div>
+        ${visLine(r)}
+        <div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>
       </div>
-      
-      <div class="stats">
-        ${r.area?`<span>${fmt(r.area)} متر</span>`:''}
-        ${r.beds!=null?`<span>${fmt(r.beds)} خواب</span>`:''}
-        ${r.unitFloor?`<span>طبقه ${esc(r.unitFloor)}</span>`:''}
-      </div>
-
-      <div class="money-box">
-        <div class="money-item"><span>رهن</span><b>${fmt(r.deposit)||'—'}</b></div>
-        <div class="money-divider"></div>
-        <div class="money-item"><span>اجاره</span><b>${fmt(r.rent)||'—'}</b></div>
-      </div>
-      
-      ${visLine(r)}
-      
-      <div class="acts" onclick="event.stopPropagation()">
-        ${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')} تماس</button>`:''}
-        <button class="edit" onclick="openForm('${r.id}')">${ico('edit')} ویرایش</button>
-        <button class="more" onclick="del('${r.id}')" style="color:var(--bad)">${ico('trash')}</button>
-      </div>
-
-      <div class="det">
-        <div style="font-size:13px">${kv}</div>
-        <div class="chips">${ch}</div>
-        <div style="display:flex;gap:8px;margin-top:12px">
-           ${visitAt(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px;border:none;border-radius:8px;background:var(--inp);color:var(--tx);font-family:inherit;cursor:pointer" onclick="addCal('${r.id}')">${ico('bell')} یادآور بازدید</button>`:''}
-           ${renewOf(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px;border:none;border-radius:8px;background:var(--inp);color:var(--tx);font-family:inherit;cursor:pointer" onclick="addRenewCal('${r.id}')">${ico('bell')} یادآور تمدید</button>`:''}
-        </div>
-      </div>
-    </div>`;
+      <div class="det">${kv}<div class="chips">${ch}</div>
+        <div class="acts">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')}تماس</button>`:''}${visitAt(r)?`<button class="g" onclick="addCal('${r.id}')">${ico('bell')}یادآور بازدید</button>`:''}${renewOf(r)?`<button class="g" onclick="addRenewCal('${r.id}')">${ico('bell')}یادآور تمدید</button>`:''}<button onclick="openForm('${r.id}')">ویرایش</button><button class="r" onclick="del('${r.id}')">حذف</button></div>
+      </div></div>`;
   }).join('');
 }
 
@@ -706,6 +655,7 @@ async function ghSync(silent){
   }finally{ghBusy=false;if(again)setTimeout(()=>ghSync(true),800)}
 }
 /*SYNC-END*/
+
 
 /* backup */
 function openBackup(){ghForm();openP('backupPane')}
