@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1c1a16">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>فایل‌های املاک</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#1c1a16;--bg2:#24211c;--card:#2a2620;--inp:#312c25;--line:#41392f;
+  --tx:#e4dac7;--mut:#a39a87;--pap:#d8c391;--pap2:#b8a272;
+  --acc:#c4a265;--accTx:#231e14;--ok:#7ea58a;--okTx:#14201a;--bad:#b9645a;
+  --money:#a9c79f;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Tahoma,Vazirmatn,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5}
+.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
+header{position:sticky;top:0;z-index:5;background:var(--bg2);padding:10px 10px 8px;border-bottom:1px solid var(--line)}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.hd h1{margin:0;font-size:17px;font-weight:600;color:var(--pap);display:flex;align-items:center;gap:8px}
+.row{display:flex;gap:6px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--inp);color:var(--tx);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--pap2)}
+input::placeholder,textarea::placeholder{color:#7d7566}
+textarea{min-height:70px}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;background:var(--acc);color:var(--accTx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button.g{background:#38322a;color:var(--tx)}button.r{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:var(--okTx)}
+button.ib{background:transparent;color:var(--pap);padding:8px;border-radius:50%}
+button.ib:active{background:#38322a}
+.sbar{display:flex;align-items:center;background:var(--inp);border:1px solid var(--line);border-radius:12px;padding:0 4px 0 0}
+.sbar>.ic{margin:0 10px;color:var(--pap2)}
+.sbar input{border:0;background:transparent;padding:11px 0}
+.sbar button{position:relative;border-radius:9px;padding:8px 10px;margin:3px;background:#3a342b;color:var(--pap);font-size:13px;white-space:nowrap}
+.cntb{background:var(--acc);color:var(--accTx);border-radius:10px;font-size:11px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;padding:0 5px}
+#nextv{display:none;margin-top:8px;background:#3b3220;color:#ecd28f;border-radius:10px;padding:7px 10px;font-size:13px}
+#renewv{display:none;margin-top:8px;background:#2f3a2c;color:#c5dcb3;border-radius:10px;padding:8px 10px;font-size:13px}
+.rrow{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:6px}
+.rrow button{padding:5px 10px;font-size:12px}
+.acts{flex-wrap:wrap}.acts>*{min-width:30%}
+details{margin:10px 0;color:var(--mut);font-size:13px;line-height:2}summary{color:var(--pap);cursor:pointer;margin-bottom:4px}
+#toast{display:none;position:fixed;top:8px;left:8px;right:8px;z-index:50;background:var(--acc);color:var(--accTx);border-radius:12px;padding:12px 14px;box-shadow:0 6px 18px #000a;font-weight:bold}
+.hint{font-size:12px;color:var(--mut);margin:-2px 0 8px;line-height:1.7}
+.vl{font-size:13px;color:var(--mut);margin-top:5px}
+.mine{font-size:13px;color:#ecd28f;margin-top:5px}
+#cnt{font-size:12px;color:var(--mut);margin-top:7px}
+.seg{display:flex;gap:4px;margin-top:8px;align-items:center}
+.seg span{font-size:12px;color:var(--mut);white-space:nowrap;min-width:46px}
+.seg button{flex:1;padding:7px 2px;font-size:13px;background:#332e26;color:#cfc5b0}
+.seg button.on{background:var(--acc);color:var(--accTx)}
+main{padding:10px;padding-bottom:90px}
+.card{background:var(--card);border-radius:14px;padding:12px;margin-bottom:10px;border:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;gap:8px;font-weight:bold}
+.sub{color:var(--mut);font-size:13px;margin-top:4px}
+.money{color:var(--money);font-weight:bold;margin-top:6px}
+.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;margin-right:6px;font-weight:normal}
+.b1{background:#5a4a22;color:#ecd28f}.b2{background:#5a3530;color:#eeb0a8}
+.det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.card.open .det{display:block}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #342f27;font-size:14px}
+.kv b{color:var(--mut);font-weight:normal;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.chip{background:#343a2e;color:#b9d1a5;border-radius:20px;padding:3px 10px;font-size:13px}
+.acts{display:flex;gap:6px;margin-top:10px}.acts>*{flex:1}
+#fab{position:fixed;bottom:16px;left:16px;width:58px;height:58px;border-radius:50%;padding:0;box-shadow:0 4px 12px #0009;z-index:6}
+#fab .ic{width:28px;height:28px;stroke-width:2}
+.pane{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:12px;padding-bottom:90px;visibility:hidden;opacity:0;transform:translateY(22px);transition:opacity .2s,transform .2s,visibility .2s}
+.pane.show{visibility:visible;opacity:1;transform:none}
+.pane h2{margin:4px 0 12px;font-size:17px;color:var(--pap);font-weight:600}
+.f{margin-bottom:10px}.f label{display:block;font-size:13px;color:var(--mut);margin-bottom:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tg label{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px;display:flex;gap:8px;align-items:center;font-size:14px}
+.tg input{width:auto;accent-color:var(--acc)}
+.segf{display:flex;gap:4px;background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:3px}
+.segf button{flex:1;background:transparent;color:var(--mut);padding:8px 2px}
+.segf button.on{background:var(--acc);color:var(--accTx)}
+.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:10px;display:flex;gap:8px;border-top:1px solid var(--line)}
+.bar button{flex:1}
+.sec{font-weight:bold;margin:14px 0 6px;color:var(--pap)}
+.empty{text-align:center;color:#857c6b;margin:30px 0}
+/* dialer */
+.dsp{text-align:center;padding:6px 0 2px}
+#dname{font-size:20px;min-height:30px;color:var(--pap);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+#dname.no{color:var(--mut);font-weight:normal;font-size:14px}
+#dnum{font-size:30px;text-align:center;direction:ltr;letter-spacing:3px;background:transparent;border:0;padding:6px;font-weight:300}
+#dedit{display:none;margin:6px 0}
+#dedit.show{display:flex}
+#dbanner{background:#40361f;color:#ecd28f;padding:9px 12px;border-radius:10px;margin-bottom:8px;display:none;font-size:14px}
+#sug{display:flex;gap:6px;overflow-x:auto;min-height:6px;padding:4px 0}
+#sug button{background:#38322a;color:var(--tx);white-space:nowrap;font-size:13px;flex:none}
+.pad{display:grid;grid-template-columns:repeat(3,74px);justify-content:center;gap:12px 22px;margin:10px 0 14px;direction:ltr}
+.pad button{width:74px;height:74px;border-radius:50%;font-size:27px;font-weight:300;background:#332e26;color:var(--tx);padding:0}
+.pad button:active{background:#45402f}
+.pad .call{background:var(--ok);color:var(--okTx)}
+.pad .call .ic{width:30px;height:30px}
+.pad .bks{background:transparent;color:var(--pap)}
+.tabs{display:flex;gap:4px;background:var(--inp);border-radius:10px;padding:3px;margin:6px 0}
+.tabs button{flex:1;background:transparent;color:var(--mut);padding:8px}
+.tabs button.on{background:#463e30;color:var(--pap)}
+.cl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cl small{color:var(--mut);direction:ltr}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M9 6h11v12H9l-5-6z"/><path d="M13 10l4 4M17 10l-4 4"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L16.5 4.5a2 2 0 0 1 3 3L9 18z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5M6 10v9h12v-9"/></symbol>
+</defs></svg>
+
+<header>
+  <div class="hd">
+    <h1><svg class="ic"><use href="#i-home"/></svg>فایل‌های املاک</h1>
+    <span class="row"><button class="ib" onclick="openDial()" aria-label="شماره‌گیر"><svg class="ic"><use href="#i-phone"/></svg></button><button class="ib" onclick="openBackup()" aria-label="پشتیبان"><svg class="ic"><use href="#i-save"/></svg></button></span>
+  </div>
+  <div class="sbar">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <input id="q" placeholder="جستجو در همه‌چیز..." oninput="render()">
+    <button onclick="openFilter()"><svg class="ic" style="width:19px;height:19px"><use href="#i-filter"/></svg>تفکیکی<span class="cntb" id="fbadge"></span></button>
+  </div>
+  <div class="seg" id="segStat"><span>وضعیت:</span></div>
+  <div id="nextv"></div>
+  <div id="renewv"></div>
+  <div id="cnt"></div>
+</header>
+<div id="toast"></div>
+<main id="list"></main>
+<button id="fab" onclick="openForm()" aria-label="فایل جدید"><svg class="ic"><use href="#i-plus"/></svg></button>
+
+<div class="pane" id="formPane">
+  <h2 id="formTitle">ثبت فایل جدید</h2><div id="formBody"></div>
+  <div class="bar"><button class="ok" onclick="save()">ذخیره</button><button class="g" onclick="closeP('formPane')">انصراف</button></div>
+</div>
+<div class="pane" id="filterPane">
+  <h2>جستجوی تفکیکی</h2><div id="filterBody"></div>
+  <div class="bar"><button onclick="closeP('filterPane');render()">نمایش نتایج (<span id="fc">0</span>)</button><button class="g" onclick="resetFilter()">پاک‌کردن</button></div>
+</div>
+<div class="pane" id="backupPane">
+  <h2>پشتیبان‌گیری</h2>
+  <p style="line-height:1.9;color:var(--mut)">اطلاعات (فایل‌ها و مخاطبین) روی همین مرورگر گوشی ذخیره می‌شود. گاهی پشتیبان بگیرید، مخصوصاً قبل از پاک‌کردن اطلاعات مرورگر.</p>
+  <div class="acts"><button onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
+  <div class="f" style="margin-top:14px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
+  <div class="sec">همگام‌سازی با GitHub</div>
+  <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند و در پشتیبان‌گیری معمولی نمی‌آید.</div>
+  <div class="f"><label>نام repository (مثال: user/amlak-data)</label><input id="ghRepo" dir="ltr" autocomplete="off" placeholder="user/repo"></div>
+  <div class="f"><label>توکن دسترسی</label><input id="ghTok" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_..."></div>
+  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto">ارسال خودکار چند ثانیه بعد از هر تغییر</label></div>
+  <div class="acts"><button onclick="ghPush()">ارسال به GitHub</button><button class="g" onclick="ghPull()">دریافت از GitHub</button></div>
+  <div class="hint" id="ghStat" style="margin-top:8px"></div>
+  <details><summary>راهنمای ساخت توکن</summary>
+    ۱) در GitHub یک repository <b>خصوصی (Private)</b> بساز، مثلاً amlak-data. این را جدا از repository سایت بساز.<br>
+    ۲) Settings ← Developer settings ← Personal access tokens ← Fine-grained tokens ← Generate new token.<br>
+    ۳) در Repository access گزینه Only select repositories را بزن و فقط همان repository را انتخاب کن.<br>
+    ۴) در Permissions ← Repository permissions، گزینه Contents را روی Read and write بگذار.<br>
+    ۵) توکن را کپی کن و بالا بچسبان. روی گوشی دیگر هم همین کار را بکن و «دریافت از GitHub» را بزن.
+  </details>
+  <div class="bar"><button class="g" onclick="closeP('backupPane')">بستن</button></div>
+</div>
+<div class="pane" id="dialPane">
+  <div id="dbanner">تماس تمام شد. اگر لازم است نام این شماره را ثبت یا ویرایش کنید.</div>
+  <div class="dsp">
+    <div id="dname"></div>
+    <input id="dnum" inputmode="none" placeholder="شماره را وارد کنید" oninput="updDial()">
+  </div>
+  <div class="row" id="dedit"><input id="dedit_i" placeholder="نام این شماره"><button class="ok" onclick="saveName()">ذخیره</button></div>
+  <div id="sug"></div>
+  <div class="pad" id="pad"></div>
+  <div class="tabs"><button id="tR" onclick="setTab('r')">اخیر</button><button id="tN" onclick="setTab('n')">اسامی</button></div>
+  <div id="clist"></div>
+  <div class="bar"><button class="g" onclick="closeP('dialPane')">بستن</button></div>
+</div>
+
+<script>
+const SECS=[
+['مشخصات کلی',[
+ ['status','وضعیت معامله','s',['آزاد','در حال معامله','معامله شده']],
+ ['fileCode','کد فایل','t'],['code','کد ملک (شماره واحد)','t'],['plak','پلاک','t'],
+ ['type','نوع ملک','s',['آپارتمان','ویلایی']],
+ ['rentFor','اجاره به','s',['همه','خانواده','مجرد']],
+ ['people','تعداد نفرات','n'],
+ ['floors','تعداد طبقات','n'],['unitFloor','طبقه واحد','t'],['perFloor','تعداد واحد در طبقه','n'],
+ ['vacate','تاریخ تخلیه ملک','t'],['area','متراژ بنا','n'],['year','سال ساخت','n'],
+ ['beds','تعداد خواب','n'],['masters','تعداد مستر','n'],['parking','تعداد پارکینگ','n'],
+ ['cabinet','جنس کابینت','t'],['facade','نمای ساختمان','t'],
+ ['dir','جهت ساختمان','s',['شمالی','جنوبی']]]],
+['امکانات',[
+ ['laundry','لاندری روم','b'],['kitchenette','مطبخ','b'],['roof','روف گاردن','b'],['lobby','لابی','b'],
+ ['irToilet','سرویس ایرانی','b'],['frToilet','سرویس فرنگی','b'],
+ ['swamp','کولر آبی','b'],['acCooler','کولر گازی','b'],['duct','داکت اسپلیت','b'],
+ ['heater','بخاری','b'],['radiator','شوفاژ','b'],['pkg','پکیج','b'],['waterHeater','آبگرمکن','b'],
+ ['motorParking','پارکینگ موتور','b'],['sharedRoad','راه مشترک','b'],['ownRoad','راه مجزا','b'],['storage','انباری','b'],
+ ['elevator','آسانسور','b'],['freight','آسانسور باربر','b'],['balcony','بالکن','b'],
+ ['yard','حیاط اختصاصی','b'],['ownerLives','سکونت مالک در ساختمان','b'],['wardrobe','کمد دیواری','b']]],
+['بازدید و یادآور',[
+ ['v1a','بازه ۱ — از','tm'],['v1b','بازه ۱ — تا','tm'],
+ ['v2a','بازه ۲ — از','tm'],['v2b','بازه ۲ — تا','tm'],
+ ['v3a','بازه ۳ — از','tm'],['v3b','بازه ۳ — تا','tm'],
+ ['visit','بازدید بدون بازه (ساعت یا توضیح)','t'],
+ ['myDate','تاریخ بازدید من (کارشناسی)','jd'],['myTime','ساعت رفتن من','tm'],
+ ['myRemind','یادآوری','s',['۳۰ دقیقه قبل','۱ ساعت قبل','۲ ساعت قبل']]]],
+['تحویل و تمدید',[
+ ['handover','تاریخ تحویل (بعد از معامله)','jd']]],
+['مالی و تماس',[
+ ['deposit','مبلغ رهن (تومان)','n'],['rent','مبلغ اجاره (تومان)','n'],
+ ['owner','نام مالک','t'],['phone','تلفن تماس','t'],
+ ['address','آدرس ملک','a'],['desc','توضیحات','a']]]
+];
+const ALL=SECS.flatMap(s=>s[1]);
+const VIS=['handover','v1a','v1b','v2a','v2b','v3a','v3b','myDate','myTime','myRemind'];
+const SKIP=['status',...VIS];
+const SINGLE=['floors','perFloor','area','beds','masters','parking','year'];
+const $=id=>document.getElementById(id);
+const nd=s=>String(s==null?'':s).replace(/[۰-۹]/g,d=>d.charCodeAt(0)-1776).replace(/[٠-٩]/g,d=>d.charCodeAt(0)-1632);
+const num=s=>{const v=parseFloat(nd(s).replace(/[,٬،\s]/g,''));return isNaN(v)?null:v};
+const fmt=n=>n==null||n===''?'':Number(n).toLocaleString('fa-IR');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const ico=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
+let GH={},ghT,DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
+
+function load(){
+  try{DB=JSON.parse(localStorage.getItem('amlak_v1')||'[]')}catch(e){DB=[]}
+  try{CT=JSON.parse(localStorage.getItem('amlak_ct')||'{}')}catch(e){CT={}}
+  try{RC=JSON.parse(localStorage.getItem('amlak_rc')||'[]')}catch(e){RC=[]}
+  DB.forEach(r=>{if(r.motorPark){r.motorParking=true}delete r.motorPark;if(r.plaque){if(!r.plak)r.plak=r.plaque;delete r.plaque}});
+}
+function persist(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));localStorage.setItem('amlak_ct',JSON.stringify(CT));localStorage.setItem('amlak_rc',JSON.stringify(RC))}catch(e){alert('خطا در ذخیره‌سازی!')}
+  if(GH.auto&&ghOk()){clearTimeout(ghT);ghT=setTimeout(()=>ghPush(true),5000)}}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+function openP(id){$(id).classList.add('show');$(id).scrollTop=0}
+function closeP(id){$(id).classList.remove('show')}
+
+/* status segment */
+[['','همه'],['آزاد','آزاد'],['در حال معامله','در حال معامله'],['معامله شده','معامله شده']].forEach(([v,l])=>{
+  const b=document.createElement('button');b.textContent=l;b.dataset.v=v;
+  b.onclick=()=>{STAT=v;render()};$('segStat').appendChild(b);
+});
+
+/* form */
+function openForm(id){
+  editId=id||null;const r=id?DB.find(x=>x.id===id):{};
+  $('formTitle').textContent=id?'ویرایش فایل':'ثبت فایل جدید';
+  let h='';
+  SECS.forEach(([title,fs])=>{
+    h+=`<div class="sec">${title}</div>`;
+    if(title==='تحویل و تمدید')h+='<div class="hint">۱۱ ماه بعد از این تاریخ، برای تماس و تمدید سال بعد یادآوری می‌شود.</div>';
+    if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی؛ یادآور برای همین است.</div>';
+    if(fs[0][2]==='b'){h+='<div class="tg">'+fs.map(([k,l])=>`<label><input type="checkbox" data-k="${k}" ${r[k]?'checked':''}>${l}</label>`).join('')+'</div>';return}
+    h+='<div class="g2">';
+    fs.forEach(([k,l,t,o])=>{
+      const full=(t==='a'||k==='rentFor'||k==='visit'||k==='myRemind'||k==='handover')?' style="grid-column:1/3"':'';let el;
+      if(k==='rentFor'){const cur=r.rentFor||'همه';
+        el=`<div class="segf" data-k="rentFor" data-v="${cur}">${o.map(x=>`<button type="button" class="${x===cur?'on':''}" onclick="pickSeg(this,'${x}')">${x}</button>`).join('')}</div>`}
+      else if(t==='tm')el=`<input type="time" data-k="${k}" value="${esc(r[k]||'')}">`;
+      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" onclick="setJ(1,'${k}')">فردا</button></div>`;
+      else if(t==='s')el=`<select data-k="${k}"><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
+      else if(t==='a')el=`<textarea data-k="${k}">${esc(r[k]||'')}</textarea>`;
+      else el=`<input data-k="${k}" ${t==='n'?'inputmode="decimal"':''} value="${esc(r[k]??'')}">`;
+      h+=`<div class="f"${full}><label>${l}</label>${el}</div>`;
+    });
+    h+='</div>';
+  });
+  $('formBody').innerHTML=h;openP('formPane');
+}
+function pickSeg(b,v){const p=b.parentNode;p.dataset.v=v;[...p.children].forEach(x=>x.classList.toggle('on',x===b))}
+function save(){
+  const r=editId?DB.find(x=>x.id===editId):{id:Date.now()+''+Math.random().toString(36).slice(2,6),ts:Date.now()};
+  const oldV=(r.myDate||'')+'|'+(r.myTime||''),oldH=r.handover||'';
+  document.querySelectorAll('#formBody [data-k]').forEach(el=>{
+    const k=el.dataset.k,f=ALL.find(x=>x[0]===k);
+    if(el.classList.contains('segf'))r[k]=el.dataset.v;
+    else if(el.type==='checkbox')r[k]=el.checked;
+    else if(f[2]==='n')r[k]=num(el.value);
+    else r[k]=el.value.trim();
+  });
+  if(r.myDate)r.myDate=nd(r.myDate).trim();
+  if(r.handover)r.handover=nd(r.handover).trim();
+  if(oldH!==(r.handover||'')){delete r.rdone;delete r.rnotified}
+  if(oldV!==(r.myDate||'')+'|'+(r.myTime||''))delete r.notified;
+  if(!editId)DB.push(r);
+  if(r.myDate&&r.myTime){try{window.Notification&&Notification.permission==='default'&&Notification.requestPermission()}catch(e){}}
+  persist();closeP('formPane');render();checkDue();
+}
+function del(id){if(confirm('این فایل حذف شود؟')){DB=DB.filter(x=>x.id!==id);persist();render()}}
+
+/* filter */
+function openFilter(){
+  let h='';
+  SECS.forEach(([title,fs])=>{
+    h+=`<div class="sec">${title}</div>`;
+    const bools=fs.filter(f=>f[2]==='b'),oth=fs.filter(f=>f[2]!=='b'&&!SKIP.includes(f[0]));
+    h+='<div class="g2">';
+    oth.forEach(([k,l,t,o])=>{
+      const v=FLT[k]||{};
+      if(t==='n'&&SINGLE.includes(k))h+=`<div class="f"><label>${l}${k==='area'?' (حداقل)':''}</label><input inputmode="decimal" data-f="${k}" data-m="${k==='area'?'ge':'is'}" value="${v.is??v.ge??''}"></div>`;
+      else if(t==='n')h+=`<div class="f" style="grid-column:1/3"><label>${l}</label><div class="row"><input inputmode="decimal" placeholder="از" data-f="${k}" data-m="min" value="${v.min??''}"><input inputmode="decimal" placeholder="تا" data-f="${k}" data-m="max" value="${v.max??''}"></div></div>`;
+      else if(t==='s'){const oo=o.filter(x=>!(k==='rentFor'&&x==='همه'));
+        h+=`<div class="f"><label>${l}</label><select data-f="${k}" data-m="eq"><option value="">همه</option>${oo.map(x=>`<option ${v.eq===x?'selected':''}>${x}</option>`).join('')}</select></div>`}
+      else h+=`<div class="f"><label>${l}</label><input data-f="${k}" data-m="has" value="${esc(v.has||'')}"></div>`;
+    });
+    h+='</div>';
+    if(bools.length)h+='<div class="tg">'+bools.map(([k,l])=>{const v=(FLT[k]||{}).b||'';return `<label style="display:block"><div style="margin-bottom:5px">${l}</div><select data-f="${k}" data-m="b"><option value="">فرقی ندارد</option><option value="1" ${v==='1'?'selected':''}>دارد</option><option value="0" ${v==='0'?'selected':''}>ندارد</option></select></label>`}).join('')+'</div>';
+  });
+  $('filterBody').innerHTML=h;
+  $('filterBody').oninput=$('filterBody').onchange=readFilter;
+  readFilter();openP('filterPane');
+}
+function readFilter(){
+  FLT={};
+  document.querySelectorAll('#filterBody [data-f]').forEach(el=>{
+    const v=el.value.trim();if(!v)return;
+    const k=el.dataset.f,m=el.dataset.m;
+    (FLT[k]=FLT[k]||{})[m]=(m==='min'||m==='max'||m==='is'||m==='ge')?num(v):(m==='has'?nd(v).toLowerCase():v);
+  });
+  $('fc').textContent=matches().length;
+}
+function resetFilter(){FLT={};STAT='';$('q').value='';openFilter();render()}
+function matches(){
+  const q=nd($('q').value).trim().toLowerCase();
+  return DB.filter(r=>{
+    if(STAT&&(r.status||'آزاد')!==STAT)return false;
+    if(q){const hay=nd(ALL.filter(f=>f[2]!=='b').map(f=>r[f[0]]??'').join(' ')).toLowerCase();
+      if(!q.split(/\s+/).every(w=>hay.includes(w)))return false}
+    for(const k in FLT){
+      const c=FLT[k],v=r[k];
+      if(c.min!=null&&!(v!=null&&v>=c.min))return false;
+      if(c.max!=null&&!(v!=null&&v<=c.max))return false;
+      if(c.is!=null&&v!==c.is)return false;
+      if(c.ge!=null&&!(v!=null&&v>=c.ge))return false;
+      if(c.eq){ if(k==='rentFor'){const rv=v||'همه';if(rv!=='همه'&&rv!==c.eq)return false}
+                else if(v!==c.eq)return false }
+      if(c.has&&!nd(v).toLowerCase().includes(c.has))return false;
+      if(c.b==='1'&&!v)return false;
+      if(c.b==='0'&&v)return false;
+    }
+    return true;
+  }).sort((a,b)=>b.ts-a.ts);
+}
+
+/* contacts / dialer */
+const pkey=n=>{const d=nd(n).replace(/\D/g,'').replace(/^0098|^98/,'').replace(/^0+/,'');return d.length>10?d.slice(-10):d};
+const phones=s=>String(s||'').split(/[,،؛;\/\n]+|\s{2,}/).map(x=>x.trim()).filter(x=>pkey(x).length>=5);
+const parts=t=>String(t||'').split(/[\/,،؛;\n|]|\s{2,}|\s[-–]\s/).map(x=>x.trim()).filter(x=>pkey(x).length>=5);
+const same=(a,b)=>a===b||(a.length>=10&&b.length>=10&&a.slice(-10)===b.slice(-10));
+function nameOf(n){
+  const k=pkey(n);if(!k)return '';
+  for(const c in CT)if(same(c,k))return CT[c];
+  for(const r of DB)for(const p of parts(r.phone))if(same(pkey(p),k))
+    return r.owner||('مالک فایل '+(r.fileCode||r.code||r.plak||''));
+  return '';
+}
+function contacts(){
+  const m={};
+  DB.forEach(r=>parts(r.phone).forEach(p=>{m[pkey(p)]={name:r.owner||('مالک فایل '+(r.fileCode||r.code||r.plak||'')),phone:nd(p).trim()}}));
+  Object.keys(CT).forEach(k=>m[k]={name:CT[k],phone:'0'+k});
+  return Object.values(m);
+}
+function openDial(n,after){
+  $('dnum').value=n?nd(n).replace(/[^\d+*#]/g,''):'';
+  $('dbanner').style.display=after?'block':'none';
+  $('dedit').classList.toggle('show',!!after&&!nameOf(n));
+  const pad=$('pad');
+  if(!pad.children.length){
+    pad.innerHTML=['1','2','3','4','5','6','7','8','9','*','0','#'].map(d=>`<button onclick="kp('${d}')">${d}</button>`).join('')+
+      `<button class="bks" id="bks" aria-label="پاک">${ico('back')}</button><button class="call" onclick="callNow()" aria-label="تماس">${ico('phone')}</button><span></span>`;
+    // reorder: [spacer][call][backspace]
+    const [b,c,s]=[pad.children[12],pad.children[13],pad.children[14]];
+    pad.append(s,c,b);
+    let t;const bk_=$('bks');
+    bk_.addEventListener('pointerdown',()=>{t=setTimeout(()=>{$('dnum').value='';updDial();t=null},600)});
+    ['pointerup','pointerleave','pointercancel'].forEach(e=>bk_.addEventListener(e,()=>{if(t){clearTimeout(t);t=null;if(e==='pointerup')bk()}}));
+  }
+  updDial();setTab(TAB);openP('dialPane');
+}
+function vib(){try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}}
+function kp(d){vib();$('dnum').value+=d;updDial()}
+function bk(){const e=$('dnum');e.value=e.value.slice(0,-1);updDial()}
+function updDial(){
+  const v=$('dnum').value=nd($('dnum').value).replace(/[^\d+*#]/g,'');
+  const nm=nameOf(v),k=pkey(v),el=$('dname');
+  if(nm){el.className='';el.innerHTML=esc(nm)+`<button class="ib" onclick="toggleEdit()" aria-label="ویرایش نام">${ico('pen')}</button>`}
+  else if(k){el.className='no';el.innerHTML=`نام ثبت نشده <button class="ib" onclick="toggleEdit()" aria-label="افزودن نام">${ico('pen')}</button>`}
+  else{el.className='no';el.innerHTML='&nbsp;'}
+  $('dedit_i').value=nm;
+  if(!k)$('dedit').classList.remove('show');
+  // suggestions
+  const s=k.length>=2?contacts().filter(c=>pkey(c.phone).startsWith(k)&&pkey(c.phone)!==k).slice(0,6):[];
+  $('sug').innerHTML=s.map(c=>`<button onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
+}
+function toggleEdit(){const e=$('dedit');e.classList.toggle('show');if(e.classList.contains('show'))$('dedit_i').focus()}
+function saveName(){
+  const k=pkey($('dnum').value);if(!k)return alert('اول شماره را وارد کنید');
+  const n=$('dedit_i').value.trim();
+  if(n)CT[k]=n;else delete CT[k];
+  persist();$('dedit').classList.remove('show');updDial();setTab(TAB);
+}
+function setTab(t){
+  TAB=t;$('tR').classList.toggle('on',t==='r');$('tN').classList.toggle('on',t==='n');
+  let items;
+  if(t==='r')items=RC.map(p=>({name:nameOf(p),phone:p}));
+  else items=contacts();
+  $('clist').innerHTML=items.length?items.map(c=>`<div class="cl" onclick="openDial('${esc(c.phone)}')"><span>${c.name?esc(c.name):'<span style="color:var(--mut)">بدون نام</span>'}</span><small>${esc(c.phone)}</small></div>`).join(''):`<div class="empty">${t==='r'?'هنوز تماسی از اینجا گرفته نشده':'هنوز اسمی ثبت نشده'}</div>`;
+}
+function callNow(){
+  const n=$('dnum').value;if(!n)return;
+  RC=[n,...RC.filter(x=>pkey(x)!==pkey(n))].slice(0,20);persist();
+  localStorage.setItem('amlak_pend',Date.now()+'|'+n);
+  location.href='tel:'+n.replace(/#/g,'%23');
+}
+function callFromCard(p){openDial(p)}
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)return;
+  const p=localStorage.getItem('amlak_pend');if(!p)return;
+  localStorage.removeItem('amlak_pend');
+  const i=p.indexOf('|');
+  if(Date.now()-p.slice(0,i)<6*3600e3){openDial(p.slice(i+1),true);$('dedit').classList.add('show')}
+});
+
+/* list */
+function render(){
+  updNext();
+  document.querySelectorAll('#segStat button').forEach(b=>b.classList.toggle('on',b.dataset.v===STAT));
+  const res=matches(),nf=Object.keys(FLT).length,fb=$('fbadge');
+  fb.style.display=nf?'inline-flex':'none';fb.textContent=nf.toLocaleString('fa-IR');
+  $('cnt').textContent=`${res.length.toLocaleString('fa-IR')} فایل از ${DB.length.toLocaleString('fa-IR')}`;
+  if(!res.length){$('list').innerHTML='<div class="empty">'+(DB.length?'موردی پیدا نشد':'هنوز فایلی ثبت نشده. با دکمه + شروع کنید.')+'</div>';return}
+  $('list').innerHTML=res.map(r=>{
+    const kv=ALL.filter(f=>f[2]!=='b'&&!VIS.includes(f[0])&&r[f[0]]!=null&&r[f[0]]!=='').map(([k,l,t])=>`<div class="kv"><b>${l}</b><span>${t==='n'?(k==='year'?Number(r[k]).toLocaleString('fa-IR',{useGrouping:false}):fmt(r[k])):esc(r[k])}</span></div>`).join('');
+    const ch=ALL.filter(f=>f[2]==='b'&&r[f[0]]).map(f=>`<span class="chip">${f[1]}</span>`).join('');
+    const title=[r.plak&&'پلاک '+esc(r.plak),r.code&&'واحد '+r.code,r.fileCode&&'فایل '+r.fileCode].filter(Boolean).join(' · ')||'بدون کد';
+    const st=r.status&&r.status!=='آزاد'?`<span class="badge ${r.status==='معامله شده'?'b2':'b1'}">${r.status}</span>`:'';
+    return `<div class="card">
+      <div onclick="this.parentNode.classList.toggle('open')">
+        <div class="top"><span>${esc(title)}${st}</span><span>${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</span></div>
+        <div class="sub">${[r.area&&fmt(r.area)+' متر',r.beds!=null&&fmt(r.beds)+' خواب',r.unitFloor&&'طبقه '+esc(r.unitFloor),r.owner&&esc(r.owner)].filter(Boolean).join(' • ')}</div>
+        ${visLine(r)}
+        <div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>
+      </div>
+      <div class="det">${kv}<div class="chips">${ch}</div>
+        <div class="acts">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')}تماس</button>`:''}${visitAt(r)?`<button class="g" onclick="addCal('${r.id}')">${ico('bell')}یادآور بازدید</button>`:''}${renewOf(r)?`<button class="g" onclick="addRenewCal('${r.id}')">${ico('bell')}یادآور تمدید</button>`:''}<button onclick="openForm('${r.id}')">ویرایش</button><button class="r" onclick="del('${r.id}')">حذف</button></div>
+      </div></div>`;
+  }).join('');
+}
+
+/*GH-START*/
+const b64=s=>btoa(unescape(encodeURIComponent(s))),unb64=s=>decodeURIComponent(escape(atob(String(s).replace(/\s/g,''))));
+function ghLoad(){try{GH=JSON.parse(localStorage.getItem('amlak_gh')||'{}')}catch(e){GH={}}}
+function ghSave(){try{localStorage.setItem('amlak_gh',JSON.stringify(GH))}catch(e){}}
+function ghMsg(m){const el=$('ghStat');if(el)el.textContent=m}
+function ghForm(){$('ghRepo').value=GH.repo||'';$('ghTok').value=GH.token||'';$('ghAuto').checked=!!GH.auto;ghMsg(GH.last?'آخرین همگام‌سازی: '+toFa(new Date(GH.last).toLocaleString('fa-IR')):'')}
+function ghRead(){GH.repo=$('ghRepo').value.trim().replace(/^https?:\/\/github\.com\//,'').replace(/\.git$/,'').replace(/\/+$/,'');GH.token=$('ghTok').value.trim();GH.auto=$('ghAuto').checked;ghSave()}
+const ghOk=()=>/^[\w.-]+\/[\w.-]+$/.test(GH.repo||'')&&!!GH.token;
+const ghUrl=()=>'https://api.github.com/repos/'+GH.repo+'/contents/amlak-data.json';
+const ghH=()=>({Authorization:'Bearer '+GH.token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'});
+function ghErr(e){
+  if(e&&typeof e.status==='number'){
+    if(e.status===401)return 'توکن نامعتبر یا منقضی شده است';
+    if(e.status===403)return 'دسترسی ندارد؛ توکن باید روی این repository مجوز Contents: Read and write داشته باشد';
+    if(e.status===404)return 'repository پیدا نشد؛ نام آن یا دسترسی توکن را بررسی کنید';
+    if(e.status===409||e.status===422)return 'تداخل در ذخیره؛ اول «دریافت از GitHub» را بزنید';
+    return 'خطای GitHub ('+e.status+')';
+  }
+  return 'اتصال به GitHub برقرار نشد؛ اینترنت را بررسی کنید';
+}
+async function ghGet(){const r=await fetch(ghUrl()+'?t='+Date.now(),{headers:ghH(),cache:'no-store'});if(r.status===404)return null;if(!r.ok)throw r;return r.json()}
+async function ghPush(auto){
+  if(auto!==true)ghRead();
+  if(!ghOk()){if(auto!==true)ghMsg('نام repository (مثل user/repo) و توکن را کامل وارد کنید');return}
+  try{
+    if(auto!==true)ghMsg('در حال ارسال...');
+    const cur=await ghGet();
+    if(cur&&cur.sha!==GH.sha){
+      if(auto===true){ghMsg('نسخه GitHub با این دستگاه فرق دارد؛ ارسال خودکار انجام نشد. دستی ارسال یا دریافت کنید.');return}
+      if(!confirm('در GitHub نسخه‌ای هست که از همین دستگاه نیست و جایگزین می‌شود. ادامه؟'))return ghMsg('لغو شد');
+    }
+    const body={message:'amlak '+new Date().toISOString(),content:b64(JSON.stringify({v:1,files:DB,contacts:CT}))};
+    if(cur)body.sha=cur.sha;
+    const r=await fetch(ghUrl(),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghH()),body:JSON.stringify(body)});
+    if(!r.ok)throw r;
+    const j=await r.json();GH.sha=j.content.sha;GH.last=Date.now();ghSave();
+    ghMsg('ارسال شد — '+toFa(new Date(GH.last).toLocaleString('fa-IR')));
+  }catch(e){ghMsg(ghErr(e))}
+}
+async function ghPull(){
+  ghRead();
+  if(!ghOk())return ghMsg('نام repository (مثل user/repo) و توکن را کامل وارد کنید');
+  try{
+    ghMsg('در حال دریافت...');
+    const cur=await ghGet();
+    if(!cur)return ghMsg('هنوز فایلی در GitHub نیست. اول «ارسال» را بزنید.');
+    if(!cur.content)return ghMsg('فایل داده برای دریافت از این روش خیلی بزرگ است');
+    if(!confirm('اطلاعات همین دستگاه با نسخه GitHub جایگزین می‌شود. ادامه؟'))return ghMsg('لغو شد');
+    const d=JSON.parse(unb64(cur.content));
+    localStorage.setItem('amlak_v1',JSON.stringify(d.files||[]));localStorage.setItem('amlak_ct',JSON.stringify(d.contacts||{}));
+    GH.sha=cur.sha;GH.last=Date.now();ghSave();load();render();
+    ghMsg('دریافت شد — '+toFa(DB.length)+' فایل');
+  }catch(e){ghMsg(e instanceof SyntaxError?'فایل داده در GitHub معتبر نیست':ghErr(e))}
+}
+/*GH-END*/
+
+/* backup */
+function openBackup(){ghForm();openP('backupPane')}
+function exportData(){
+  const b=new Blob([JSON.stringify({files:DB,contacts:CT})],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='amlak-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importData(inp){
+  const f=inp.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{try{
+    const d=JSON.parse(rd.result);const arr=Array.isArray(d)?d:(d.files||[]);
+    const ids=new Set(DB.map(x=>x.id));arr.forEach(x=>{if(!ids.has(x.id))DB.push(x)});
+    if(d.contacts)CT=Object.assign({},d.contacts,CT);
+    persist();render();closeP('backupPane');alert('بازیابی انجام شد');
+  }catch(e){alert('فایل معتبر نیست')}};
+  rd.readAsText(f);
+}
+/* visits & reminders */
+const toFa=x=>String(x).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+function g2j(gy,gm,gd){const g=[0,31,59,90,120,151,181,212,243,273,304,334];let jy=gy<=1600?0:979;gy-=gy<=1600?621:1600;const gy2=gm>2?gy+1:gy;let days=365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)-80+gd+g[gm-1];jy+=33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365}const jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);const jd=1+(days<186?days%31:(days-186)%30);return[jy,jm,jd]}
+function j2g(jy,jm,jd){let gy=jy<=979?621:1600;jy-=jy<=979?0:979;let days=365*jy+Math.floor(jy/33)*8+Math.floor(((jy%33)+3)/4)+78+jd+(jm<7?(jm-1)*31:((jm-7)*30)+186);gy+=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365}let gd=days+1;const sal=[0,31,((gy%4==0&&gy%100!=0)||gy%400==0)?29:28,31,30,31,30,31,31,30,31,30,31];let gm;for(gm=0;gm<13&&gd>sal[gm];gm++)gd-=sal[gm];return[gy,gm,gd]}
+function setJ(add,k='myDate'){const d=new Date(Date.now()+add*864e5);const j=g2j(d.getFullYear(),d.getMonth()+1,d.getDate());$('f_'+k).value=j[0]+'/'+String(j[1]).padStart(2,'0')+'/'+String(j[2]).padStart(2,'0')}
+function visitAt(r){
+  if(!r.myDate||!r.myTime)return null;
+  const q=nd(r.myDate).split(/[\/\-.]/).map(Number),t=String(r.myTime).split(':').map(Number);
+  if(q.length<3||q.some(isNaN)||t.length<2||t.some(isNaN))return null;
+  const g=q[0]<1700?j2g(q[0],q[1],q[2]):q;
+  return new Date(g[0],g[1]-1,g[2],t[0],t[1]);
+}
+const remMin=r=>({'۳۰ دقیقه قبل':30,'۱ ساعت قبل':60,'۲ ساعت قبل':120})[r.myRemind]||60;
+const ttl=r=>[r.plak&&'پلاک '+r.plak,r.code&&'واحد '+r.code,r.fileCode&&'فایل '+r.fileCode].filter(Boolean).join(' · ')||'بدون کد';
+function visLine(r){
+  const rg=[['v1a','v1b'],['v2a','v2b'],['v3a','v3b']].filter(([a,b])=>r[a]||r[b]).map(([a,b])=>toFa((r[a]||'؟')+' تا '+(r[b]||'؟')));
+  if(r.visit)rg.push(esc(r.visit));
+  let h=rg.length?`<div class="vl">بازدید: ${rg.join(' &nbsp;|&nbsp; ')}</div>`:'';
+  if(r.myDate)h+=`<div class="mine">بازدید من: ${toFa(esc(r.myDate))}${r.myTime?' ساعت '+toFa(r.myTime):''}${visitAt(r)?' · یادآور '+r.myRemind:''}</div>`;
+  if(r.handover){const ro=renewOf(r);h+=`<div class="mine">تحویل: ${toFa(esc(r.handover))}${ro?' · زنگ تمدید: '+toFa(ro.str):''}${r.rdone?' (پیگیری شد)':''}</div>`}
+  return h;
+}
+function jparse(x){const q=nd(x).split(/[\/\-.]/).map(Number);return q.length>=3&&!q.some(isNaN)?q:null}
+function renewOf(r){
+  const q=r.handover&&jparse(r.handover);if(!q)return null;
+  let[y,m,d]=q;if(y>1700)[y,m,d]=g2j(y,m,d);
+  m+=11;y+=Math.floor((m-1)/12);m=((m-1)%12)+1;d=Math.min(d,m<=6?31:m<=11?30:29);
+  const g=j2g(y,m,d);
+  return{at:new Date(g[0],g[1]-1,g[2],9,0),g,str:y+'/'+String(m).padStart(2,'0')+'/'+String(d).padStart(2,'0')};
+}
+function addRenewCal(id){
+  const r=DB.find(x=>x.id===id),ro=r&&renewOf(r);if(!ro)return alert('تاریخ تحویل را در فرم وارد کنید');
+  const p=n=>String(n).padStart(2,'0'),f=d=>d.getFullYear()+p(d.getMonth()+1)+p(d.getDate());
+  const d0=new Date(ro.g[0],ro.g[1]-1,ro.g[2]),d1=new Date(d0.getTime()+864e5+36e5);
+  const cl=x=>String(x||'').replace(/[\r\n,;]+/g,' ');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//amlak//FA','BEGIN:VEVENT','UID:'+r.id+'-renew@amlak','DTSTAMP:'+new Date().toISOString().replace(/[-:]|\.\d+/g,''),'DTSTART;VALUE=DATE:'+f(d0),'DTEND;VALUE=DATE:'+f(new Date(d1.getFullYear(),d1.getMonth(),d1.getDate())),'SUMMARY:'+cl('تماس برای تمدید — '+ttl(r)),'DESCRIPTION:'+cl([r.owner,r.phone].filter(Boolean).join(' - ')),'BEGIN:VALARM','TRIGGER:PT9H','ACTION:DISPLAY','DESCRIPTION:تماس برای تمدید','END:VALARM','BEGIN:VALARM','TRIGGER:-P3D','ACTION:DISPLAY','DESCRIPTION:سه روز تا زمان تماس تمدید','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar;charset=utf-8'}));a.download='renew-'+r.id+'.ics';a.click();
+}
+function doneRenew(id){const r=DB.find(x=>x.id===id);if(r){r.rdone=1;persist();render()}}
+function updRenew(){
+  const now=Date.now(),el=$('renewv');
+  const it=DB.map(r=>({r,ro:renewOf(r)})).filter(x=>x.ro&&!x.r.rdone&&x.ro.at.getTime()<now+30*864e5).sort((a,b)=>a.ro.at-b.ro.at);
+  if(!it.length){el.style.display='none';return}
+  el.style.display='block';
+  el.innerHTML='<b>پیگیری تمدید ('+toFa(it.length)+')</b>'+it.slice(0,4).map(({r,ro})=>`<div class="rrow"><span>${esc(ttl(r))}${r.owner?' — '+esc(r.owner):''} · ${toFa(ro.str)}</span><span class="row">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">تماس</button>`:''}<button class="g" onclick="doneRenew('${r.id}')">پیگیری شد</button></span></div>`).join('')+(it.length>4?'<div class="vl">و '+toFa(it.length-4)+' مورد دیگر</div>':'');
+}
+function addCal(id){
+  const r=DB.find(x=>x.id===id),at=r&&visitAt(r);if(!at)return alert('تاریخ و ساعت رفتن را در فرم وارد کنید');
+  const p=n=>String(n).padStart(2,'0'),f=d=>d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'T'+p(d.getHours())+p(d.getMinutes())+'00';
+  const cl=x=>String(x||'').replace(/[\r\n,;]+/g,' ');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//amlak//FA','BEGIN:VEVENT','UID:'+r.id+'-'+at.getTime()+'@amlak','DTSTAMP:'+new Date().toISOString().replace(/[-:]|\.\d+/g,''),'DTSTART:'+f(at),'DTEND:'+f(new Date(at.getTime()+36e5)),'SUMMARY:'+cl('بازدید ملک — '+ttl(r)),'LOCATION:'+cl(r.address),'DESCRIPTION:'+cl([r.owner,r.phone].filter(Boolean).join(' - ')),'BEGIN:VALARM','TRIGGER:-PT'+remMin(r)+'M','ACTION:DISPLAY','DESCRIPTION:بازدید ملک','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar;charset=utf-8'}));a.download='visit-'+r.id+'.ics';a.click();
+}
+function showToast(m){const t=$('toast');const old=t.style.display==='block'?t.textContent.replace(/\s*\(برای بستن بزن\)$/,'')+' | ':'';t.textContent=old+m+'  (برای بستن بزن)';t.style.display='block';t.onclick=()=>t.style.display='none'}
+function checkDue(){
+  const now=Date.now(),hit=[];
+  DB.forEach(r=>{const at=visitAt(r);if(!at||r.notified)return;const t=at.getTime();if(now>=t-remMin(r)*6e4&&now<t+18e5){r.notified=1;hit.push(r)}});
+  const rh=[];
+  DB.forEach(r=>{const ro=renewOf(r);if(!ro||r.rdone||r.rnotified)return;const t=ro.at.getTime();if(now>=t&&now<t+60*864e5){r.rnotified=1;rh.push(r)}});
+  if(rh.length){persist();rh.forEach(r=>{
+    const m='وقت تماس برای تمدید: '+ttl(r)+(r.owner?' — '+r.owner:'');showToast(m);
+    try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
+    try{window.Notification&&Notification.permission==='granted'&&new Notification('تمدید ملک',{body:m})}catch(e){}
+  })}
+  if(hit.length){persist();hit.forEach(r=>{
+    const m='یادآور بازدید: '+ttl(r)+' — ساعت '+toFa(r.myTime);showToast(m);
+    try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
+    try{window.Notification&&Notification.permission==='granted'&&new Notification('یادآور بازدید',{body:m})}catch(e){}
+  })}
+  updNext();
+}
+function updNext(){
+  updRenew();
+  const now=Date.now(),up=DB.map(r=>({r,at:visitAt(r)})).filter(x=>x.at&&x.at.getTime()>now-18e5).sort((a,b)=>a.at-b.at)[0],el=$('nextv');
+  if(!up){el.style.display='none';return}
+  const mins=Math.round((up.at.getTime()-now)/6e4),h=Math.floor(Math.abs(mins)/60),m=Math.abs(mins)%60;
+  const left=mins<0?'شروع شده':'تا '+toFa(h?h+' ساعت و '+m+' دقیقه':m+' دقیقه')+' دیگر';
+  el.style.display='block';el.textContent='بازدید بعدی من: '+ttl(up.r)+' — '+toFa(up.r.myDate)+' ساعت '+toFa(up.r.myTime)+' ('+left+')';
+}
+setInterval(checkDue,30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkDue()});
+ghLoad();load();render();checkDue();
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
