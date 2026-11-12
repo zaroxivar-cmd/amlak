@@ -133,6 +133,7 @@ main{padding:10px;padding-bottom:90px}
   <div id="nextv"></div>
   <div id="renewv"></div>
   <div id="cnt"></div>
+  <div id="syncs" style="font-size:12px;color:var(--mut);margin-top:2px"></div>
 </header>
 <div id="toast"></div>
 <main id="list"></main>
@@ -155,8 +156,9 @@ main{padding:10px;padding-bottom:90px}
   <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند و در پشتیبان‌گیری معمولی نمی‌آید.</div>
   <div class="f"><label>نام repository (مثال: user/amlak-data)</label><input id="ghRepo" dir="ltr" autocomplete="off" placeholder="user/repo"></div>
   <div class="f"><label>توکن دسترسی</label><input id="ghTok" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_..."></div>
-  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto">ارسال خودکار چند ثانیه بعد از هر تغییر</label></div>
-  <div class="acts"><button onclick="ghPush()">ارسال به GitHub</button><button class="g" onclick="ghPull()">دریافت از GitHub</button></div>
+  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار (با باز شدن سایت، هر یک دقیقه و بعد از هر تغییر)</label></div>
+  <div class="acts"><button onclick="ghSync(false)">همگام‌سازی الان</button></div>
+  <details><summary>پیشرفته: جایگزینی کامل</summary>اگر مشکلی پیش آمد: «ارسال» نسخه این دستگاه را روی GitHub می‌گذارد و «دریافت» نسخه GitHub را جایگزین این دستگاه می‌کند.<div class="acts" style="margin-top:6px"><button class="g" onclick="ghPush()">ارسال به GitHub</button><button class="g" onclick="ghPull()">دریافت از GitHub</button></div></details>
   <div class="hint" id="ghStat" style="margin-top:8px"></div>
   <details><summary>راهنمای ساخت توکن</summary>
     ۱) در GitHub یک repository <b>خصوصی (Private)</b> بساز، مثلاً amlak-data. این را جدا از repository سایت بساز.<br>
@@ -226,16 +228,18 @@ const num=s=>{const v=parseFloat(nd(s).replace(/[,٬،\s]/g,''));return isNaN(v)
 const fmt=n=>n==null||n===''?'':Number(n).toLocaleString('fa-IR');
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const ico=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
-let GH={},ghT,DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
+let GH={},ghT,ghBusy=false,dv=0,DELS={},DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
 
 function load(){
   try{DB=JSON.parse(localStorage.getItem('amlak_v1')||'[]')}catch(e){DB=[]}
   try{CT=JSON.parse(localStorage.getItem('amlak_ct')||'{}')}catch(e){CT={}}
   try{RC=JSON.parse(localStorage.getItem('amlak_rc')||'[]')}catch(e){RC=[]}
+  try{DELS=JSON.parse(localStorage.getItem('amlak_del')||'{}')}catch(e){DELS={}}
   DB.forEach(r=>{if(r.motorPark){r.motorParking=true}delete r.motorPark;if(r.plaque){if(!r.plak)r.plak=r.plaque;delete r.plaque}});
 }
-function persist(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));localStorage.setItem('amlak_ct',JSON.stringify(CT));localStorage.setItem('amlak_rc',JSON.stringify(RC))}catch(e){alert('خطا در ذخیره‌سازی!')}
-  if(GH.auto&&ghOk()){clearTimeout(ghT);ghT=setTimeout(()=>ghPush(true),5000)}}
+function saveLocal(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));localStorage.setItem('amlak_ct',JSON.stringify(CT));localStorage.setItem('amlak_rc',JSON.stringify(RC));localStorage.setItem('amlak_del',JSON.stringify(DELS))}catch(e){alert('خطا در ذخیره‌سازی!')}}
+function persist(){saveLocal();dv++;
+  if(GH.token){GH.dirty=true;ghSave();if(GH.auto&&ghOk()){clearTimeout(ghT);ghT=setTimeout(()=>ghSync(true),3000)}}}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 function openP(id){$(id).classList.add('show');$(id).scrollTop=0}
 function closeP(id){$(id).classList.remove('show')}
@@ -274,7 +278,7 @@ function openForm(id){
 }
 function pickSeg(b,v){const p=b.parentNode;p.dataset.v=v;[...p.children].forEach(x=>x.classList.toggle('on',x===b))}
 function save(){
-  const r=editId?DB.find(x=>x.id===editId):{id:Date.now()+''+Math.random().toString(36).slice(2,6),ts:Date.now()};
+  const r=editId?(DB.find(x=>x.id===editId)||{id:editId,ts:Date.now()}):{id:Date.now()+''+Math.random().toString(36).slice(2,6),ts:Date.now()};
   const oldV=(r.myDate||'')+'|'+(r.myTime||''),oldH=r.handover||'';
   document.querySelectorAll('#formBody [data-k]').forEach(el=>{
     const k=el.dataset.k,f=ALL.find(x=>x[0]===k);
@@ -283,15 +287,16 @@ function save(){
     else if(f[2]==='n')r[k]=num(el.value);
     else r[k]=el.value.trim();
   });
+  r.mod=Date.now();
   if(r.myDate)r.myDate=nd(r.myDate).trim();
   if(r.handover)r.handover=nd(r.handover).trim();
   if(oldH!==(r.handover||'')){delete r.rdone;delete r.rnotified}
   if(oldV!==(r.myDate||'')+'|'+(r.myTime||''))delete r.notified;
-  if(!editId)DB.push(r);
+  if(!DB.includes(r))DB.push(r);
   if(r.myDate&&r.myTime){try{window.Notification&&Notification.permission==='default'&&Notification.requestPermission()}catch(e){}}
   persist();closeP('formPane');render();checkDue();
 }
-function del(id){if(confirm('این فایل حذف شود؟')){DB=DB.filter(x=>x.id!==id);persist();render()}}
+function del(id){if(confirm('این فایل حذف شود؟')){DB=DB.filter(x=>x.id!==id);DELS[id]=Date.now();persist();render()}}
 
 /* filter */
 function openFilter(){
@@ -483,11 +488,11 @@ async function ghPush(auto){
       if(auto===true){ghMsg('نسخه GitHub با این دستگاه فرق دارد؛ ارسال خودکار انجام نشد. دستی ارسال یا دریافت کنید.');return}
       if(!confirm('در GitHub نسخه‌ای هست که از همین دستگاه نیست و جایگزین می‌شود. ادامه؟'))return ghMsg('لغو شد');
     }
-    const body={message:'amlak '+new Date().toISOString(),content:b64(JSON.stringify({v:1,files:DB,contacts:CT}))};
+    const body={message:'amlak '+new Date().toISOString(),content:b64(JSON.stringify(payload()))};
     if(cur)body.sha=cur.sha;
     const r=await fetch(ghUrl(),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghH()),body:JSON.stringify(body)});
     if(!r.ok)throw r;
-    const j=await r.json();GH.sha=j.content.sha;GH.last=Date.now();ghSave();
+    const j=await r.json();GH.sha=j.content.sha;GH.last=Date.now();GH.dirty=false;ghSave();
     ghMsg('ارسال شد — '+toFa(new Date(GH.last).toLocaleString('fa-IR')));
   }catch(e){ghMsg(ghErr(e))}
 }
@@ -501,12 +506,69 @@ async function ghPull(){
     if(!cur.content)return ghMsg('فایل داده برای دریافت از این روش خیلی بزرگ است');
     if(!confirm('اطلاعات همین دستگاه با نسخه GitHub جایگزین می‌شود. ادامه؟'))return ghMsg('لغو شد');
     const d=JSON.parse(unb64(cur.content));
-    localStorage.setItem('amlak_v1',JSON.stringify(d.files||[]));localStorage.setItem('amlak_ct',JSON.stringify(d.contacts||{}));
-    GH.sha=cur.sha;GH.last=Date.now();ghSave();load();render();
+    localStorage.setItem('amlak_v1',JSON.stringify(d.files||[]));localStorage.setItem('amlak_ct',JSON.stringify(d.contacts||{}));localStorage.setItem('amlak_del',JSON.stringify(d.dels||{}));
+    GH.sha=cur.sha;GH.last=Date.now();GH.dirty=false;ghSave();load();render();
     ghMsg('دریافت شد — '+toFa(DB.length)+' فایل');
   }catch(e){ghMsg(e instanceof SyntaxError?'فایل داده در GitHub معتبر نیست':ghErr(e))}
 }
 /*GH-END*/
+/*SYNC-START*/
+const ghBadge=t=>{const el=$('syncs');if(el)el.textContent=t?'همگام‌سازی: '+t:''};
+const recMod=r=>r.mod||r.ts||0;
+function payload(){return{v:2,files:DB,contacts:CT,dels:DELS}}
+function normStr(d){
+  const files=(d.files||[]).slice().sort((a,b)=>a.id<b.id?-1:1);
+  const k=o=>Object.keys(o||{}).sort().map(x=>[x,o[x]]);
+  return JSON.stringify([files,k(d.contacts),k(d.dels)]);
+}
+function mergeIn(d,localDirty){
+  const rd=d.dels||{},dels=Object.assign({},rd,DELS);
+  Object.keys(rd).forEach(k=>{dels[k]=Math.max(rd[k]||0,DELS[k]||0)});
+  const L=new Map(DB.map(r=>[r.id,r])),R=new Map((d.files||[]).map(r=>[r.id,r])),out=[];
+  new Set([...L.keys(),...R.keys()]).forEach(id=>{
+    const a=L.get(id),b=R.get(id);let rec;
+    if(a&&b){const ma=recMod(a),mb=recMod(b);rec=ma>mb?a:mb>ma?b:(JSON.stringify(a)>=JSON.stringify(b)?a:b)}else rec=a||b;
+    if(dels[id]&&dels[id]>=recMod(rec))return;
+    out.push(rec);
+  });
+  DB=out;DELS=dels;
+  CT=localDirty?Object.assign({},d.contacts||{},CT):Object.assign({},CT,d.contacts||{});
+}
+async function ghSync(silent){
+  if(ghBusy)return;
+  if(!silent)ghRead();
+  if(!ghOk()){if(!silent)ghMsg('نام repository (مثل user/repo) و توکن را کامل وارد کنید');return}
+  ghBusy=true;const v0=dv;let again=false;
+  try{
+    if(!silent)ghMsg('در حال همگام‌سازی...');
+    const cur=await ghGet();
+    const changed=!cur||cur.sha!==GH.sha;
+    if(cur&&!changed&&!GH.dirty){ghBadge('همگام است');if(!silent)ghMsg('همگام است');return}
+    let remoteNorm='';
+    if(cur){
+      if(!cur.content){ghMsg('فایل داده برای همگام‌سازی خیلی بزرگ است');return}
+      const d=JSON.parse(unb64(cur.content));
+      if(changed){mergeIn(d,!!GH.dirty);saveLocal();load();render()}
+      remoteNorm=normStr(d);
+    }
+    if(normStr(payload())!==remoteNorm){
+      const body={message:'amlak sync '+new Date().toISOString(),content:b64(JSON.stringify(payload()))};
+      if(cur)body.sha=cur.sha;
+      const r=await fetch(ghUrl(),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghH()),body:JSON.stringify(body)});
+      if(!r.ok)throw r;
+      GH.sha=(await r.json()).content.sha;
+    }else if(cur)GH.sha=cur.sha;
+    if(dv===v0)GH.dirty=false;else again=true;
+    GH.last=Date.now();ghSave();
+    const t=toFa(new Date().toLocaleTimeString('fa-IR'));
+    ghBadge('همگام شد '+t);ghMsg('همگام شد — '+t);
+  }catch(e){
+    if(e&&(e.status===409||e.status===422))again=true;
+    else{ghBadge('خطا');ghMsg(e instanceof SyntaxError?'فایل داده در GitHub معتبر نیست':ghErr(e))}
+  }finally{ghBusy=false;if(again)setTimeout(()=>ghSync(true),800)}
+}
+/*SYNC-END*/
+
 
 /* backup */
 function openBackup(){ghForm();openP('backupPane')}
@@ -564,7 +626,7 @@ function addRenewCal(id){
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//amlak//FA','BEGIN:VEVENT','UID:'+r.id+'-renew@amlak','DTSTAMP:'+new Date().toISOString().replace(/[-:]|\.\d+/g,''),'DTSTART;VALUE=DATE:'+f(d0),'DTEND;VALUE=DATE:'+f(new Date(d1.getFullYear(),d1.getMonth(),d1.getDate())),'SUMMARY:'+cl('تماس برای تمدید — '+ttl(r)),'DESCRIPTION:'+cl([r.owner,r.phone].filter(Boolean).join(' - ')),'BEGIN:VALARM','TRIGGER:PT9H','ACTION:DISPLAY','DESCRIPTION:تماس برای تمدید','END:VALARM','BEGIN:VALARM','TRIGGER:-P3D','ACTION:DISPLAY','DESCRIPTION:سه روز تا زمان تماس تمدید','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar;charset=utf-8'}));a.download='renew-'+r.id+'.ics';a.click();
 }
-function doneRenew(id){const r=DB.find(x=>x.id===id);if(r){r.rdone=1;persist();render()}}
+function doneRenew(id){const r=DB.find(x=>x.id===id);if(r){r.rdone=1;r.mod=Date.now();persist();render()}}
 function updRenew(){
   const now=Date.now(),el=$('renewv');
   const it=DB.map(r=>({r,ro:renewOf(r)})).filter(x=>x.ro&&!x.r.rdone&&x.ro.at.getTime()<now+30*864e5).sort((a,b)=>a.ro.at-b.ro.at);
@@ -608,6 +670,10 @@ function updNext(){
 setInterval(checkDue,30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkDue()});
 ghLoad();load();render();checkDue();
+if(GH.auto)ghSync(true);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&GH.auto)ghSync(true)});
+window.addEventListener('online',()=>{if(GH.auto)ghSync(true)});
+setInterval(()=>{if(!document.hidden&&GH.auto)ghSync(true)},60000);
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 </script>
 </body>
