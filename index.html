@@ -4,114 +4,158 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#1c1a16">
+<meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>فایل‌های املاک</title>
 <style>
 :root{
-  color-scheme:dark;
-  --bg:#1c1a16;--bg2:#24211c;--card:#2a2620;--inp:#312c25;--line:#41392f;
-  --tx:#e4dac7;--mut:#a39a87;--pap:#d8c391;--pap2:#b8a272;
-  --acc:#c4a265;--accTx:#231e14;--ok:#7ea58a;--okTx:#14201a;--bad:#b9645a;
-  --money:#a9c79f;
+  color-scheme: dark;
+  /* Instagram-like Dark Theme */
+  --bg: #000000;
+  --bg2: #121212;
+  --card: #1a1a1a;
+  --inp: #262626;
+  --line: #333333;
+  --tx: #f5f5f5;
+  --mut: #a8a8a8;
+  --pap: #e0c892;
+  --pap2: #c4a265;
+  --acc: #0095f6; /* Instagram Blue */
+  --accTx: #ffffff;
+  --ok: #0095f6;
+  --okTx: #ffffff;
+  --bad: #ed4956;
+  --money: #4ade80;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:Tahoma,Vazirmatn,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5}
-.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
-header{position:sticky;top:0;z-index:5;background:var(--bg2);padding:10px 10px 8px;border-bottom:1px solid var(--line)}
-.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
-.hd h1{margin:0;font-size:17px;font-weight:600;color:var(--pap);display:flex;align-items:center;gap:8px}
-.row{display:flex;gap:6px}
-input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--inp);color:var(--tx);outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--pap2)}
-input::placeholder,textarea::placeholder{color:#7d7566}
-textarea{min-height:70px}
-button{font:inherit;border:0;border-radius:10px;padding:10px 14px;background:var(--acc);color:var(--accTx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-button.g{background:#38322a;color:var(--tx)}button.r{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:var(--okTx)}
-button.ib{background:transparent;color:var(--pap);padding:8px;border-radius:50%}
-button.ib:active{background:#38322a}
-.sbar{display:flex;align-items:center;background:var(--inp);border:1px solid var(--line);border-radius:12px;padding:0 4px 0 0}
-.sbar>.ic{margin:0 10px;color:var(--pap2)}
-.sbar input{border:0;background:transparent;padding:11px 0}
-.sbar button{position:relative;border-radius:9px;padding:8px 10px;margin:3px;background:#3a342b;color:var(--pap);font-size:13px;white-space:nowrap}
-.cntb{background:var(--acc);color:var(--accTx);border-radius:10px;font-size:11px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;padding:0 5px}
-#nextv{display:none;margin-top:8px;background:#3b3220;color:#ecd28f;border-radius:10px;padding:7px 10px;font-size:13px}
-#renewv{display:none;margin-top:8px;background:#2f3a2c;color:#c5dcb3;border-radius:10px;padding:8px 10px;font-size:13px}
-.rrow{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:6px}
-.rrow button{padding:5px 10px;font-size:12px}
-.acts{flex-wrap:wrap}.acts>*{min-width:30%}
-details{margin:10px 0;color:var(--mut);font-size:13px;line-height:2}summary{color:var(--pap);cursor:pointer;margin-bottom:4px}
-#loginPane{z-index:15}
-#bnav{position:fixed;bottom:0;left:0;right:0;z-index:7;display:none;background:var(--bg2);border-top:1px solid var(--line)}
-#bnav button{flex:1;flex-direction:column;gap:2px;background:transparent;color:var(--mut);border-radius:0;padding:9px 0;font-size:12px}
-#bnav button.on{color:var(--pap)}
-.ob{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.av{width:42px;height:42px;border-radius:50%;background:var(--acc);color:var(--accTx);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:19px;flex:none}
-.on{font-size:18px;font-weight:bold;color:var(--pap)}
-.urow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px}
-#toast{display:none;position:fixed;top:8px;left:8px;right:8px;z-index:50;background:var(--acc);color:var(--accTx);border-radius:12px;padding:12px 14px;box-shadow:0 6px 18px #000a;font-weight:bold}
-.hint{font-size:12px;color:var(--mut);margin:-2px 0 8px;line-height:1.7}
-.vl{font-size:13px;color:var(--mut);margin-top:5px}
-.mine{font-size:13px;color:#ecd28f;margin-top:5px}
-#cnt{font-size:12px;color:var(--mut);margin-top:7px}
-.seg{display:flex;gap:4px;margin-top:8px;align-items:center}
-.seg span{font-size:12px;color:var(--mut);white-space:nowrap;min-width:46px}
-.seg button{flex:1;padding:7px 2px;font-size:13px;background:#332e26;color:#cfc5b0}
-.seg button.on{background:var(--acc);color:var(--accTx)}
-main{padding:10px;padding-bottom:100px}
-.card{background:var(--card);border-radius:14px;padding:12px;margin-bottom:10px;border:1px solid var(--line)}
-.top{display:flex;justify-content:space-between;gap:8px;font-weight:bold}
-.sub{color:var(--mut);font-size:13px;margin-top:4px}
-.money{color:var(--money);font-weight:bold;margin-top:6px}
-.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12px;margin-right:6px;font-weight:normal}
-.b1{background:#5a4a22;color:#ecd28f}.b2{background:#5a3530;color:#eeb0a8}
-.det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;}
+.ic{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;flex:none}
+
+/* Header (Instagram style) */
+header{position:sticky;top:0;z-index:10;background:var(--bg2);padding:12px 16px 8px;border-bottom:1px solid var(--line);backdrop-filter:blur(10px);}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.hd h1{margin:0;font-size:22px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px;font-family:cursive, sans-serif;}
+.row{display:flex;gap:16px;align-items:center}
+button.ib{background:transparent;color:var(--tx);padding:4px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* Search Bar (Instagram style) */
+.sbar{display:flex;align-items:center;background:var(--inp);border-radius:10px;padding:8px 12px;gap:10px}
+.sbar>.ic{color:var(--mut);width:18px;height:18px}
+.sbar input{border:0;background:transparent;color:var(--tx);font-size:14px;flex:1;outline:none;padding:0}
+.sbar input::placeholder{color:var(--mut)}
+.sbar button{background:transparent;border:none;color:var(--tx);padding:0;display:flex;align-items:center;position:relative}
+.cntb{background:var(--acc);color:#fff;border-radius:10px;font-size:10px;min-width:16px;height:16px;display:none;align-items:center;justify-content:center;padding:0 4px;position:absolute;top:-6px;right:-8px;font-weight:bold}
+
+/* Status Filter */
+.seg{display:flex;gap:12px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.seg::-webkit-scrollbar{display:none}
+.seg span{display:none}
+.seg button{background:transparent;color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:6px 16px;font-size:13px;white-space:nowrap;cursor:pointer;transition:all .2s}
+.seg button.on{background:var(--tx);color:var(--bg);border-color:var(--tx);font-weight:bold}
+
+/* Main Content */
+main{padding:12px 0;padding-bottom:100px}
+
+/* Cards (Post style) */
+.card{background:var(--bg2);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:8px;border-radius:0}
+.card-top{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px}
+.card-info{flex:1}
+.card-title{font-weight:bold;font-size:15px;margin:0;color:var(--tx)}
+.card-sub{color:var(--mut);font-size:12px;margin-top:2px}
+
+/* Post Body */
+.post-body{padding:0 16px}
+.post-img{background:var(--inp);border-radius:12px;padding:16px;margin:8px 0;display:flex;flex-direction:column;gap:8px}
+.kv{display:flex;justify-content:space-between;font-size:14px;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.kv:last-child{border:none;padding-bottom:0}
+.kv b{color:var(--mut);font-weight:normal}
+.kv span{color:var(--tx);font-weight:500}
+
+/* Money */
+.money{color:var(--money);font-weight:bold;font-size:16px;margin-top:10px;text-align:center;background:rgba(74,222,128,0.1);padding:8px;border-radius:8px}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{background:var(--inp);color:var(--tx);border-radius:20px;padding:4px 12px;font-size:12px}
+
+/* Details Toggle */
+.det{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .card.open .det{display:block}
-.kv{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #342f27;font-size:14px}
-.kv b{color:var(--mut);font-weight:normal;white-space:nowrap}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
-.chip{background:#343a2e;color:#b9d1a5;border-radius:20px;padding:3px 10px;font-size:13px}
-.acts{display:flex;gap:6px;margin-top:10px}.acts>*{flex:1}
-#fab{position:fixed;bottom:76px;left:16px;width:58px;height:58px;border-radius:50%;padding:0;box-shadow:0 4px 12px #0009;z-index:6}
-#fab .ic{width:28px;height:28px;stroke-width:2}
-.pane{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:12px;padding-bottom:90px;visibility:hidden;opacity:0;transform:translateY(22px);transition:opacity .2s,transform .2s,visibility .2s}
-.pane.show{visibility:visible;opacity:1;transform:none}
-.pane h2{margin:4px 0 12px;font-size:17px;color:var(--pap);font-weight:600}
-.f{margin-bottom:10px}.f label{display:block;font-size:13px;color:var(--mut);margin-bottom:3px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.tg label{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px;display:flex;gap:8px;align-items:center;font-size:14px}
-.tg input{width:auto;accent-color:var(--acc)}
-.segf{display:flex;gap:4px;background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:3px}
-.segf button{flex:1;background:transparent;color:var(--mut);padding:8px 2px}
-.segf button.on{background:var(--acc);color:var(--accTx)}
-.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:10px;display:flex;gap:8px;border-top:1px solid var(--line)}
-.bar button{flex:1}
-.sec{font-weight:bold;margin:14px 0 6px;color:var(--pap)}
-.empty{text-align:center;color:#857c6b;margin:30px 0}
-/* dialer */
-.dsp{text-align:center;padding:6px 0 2px}
-#dname{font-size:20px;min-height:30px;color:var(--pap);font-weight:600;display:inline-flex;align-items:center;gap:6px}
-#dname.no{color:var(--mut);font-weight:normal;font-size:14px}
-#dnum{font-size:30px;text-align:center;direction:ltr;letter-spacing:3px;background:transparent;border:0;padding:6px;font-weight:300}
-#dedit{display:none;margin:6px 0}
-#dedit.show{display:flex}
-#dbanner{background:#40361f;color:#ecd28f;padding:9px 12px;border-radius:10px;margin-bottom:8px;display:none;font-size:14px}
-#sug{display:flex;gap:6px;overflow-x:auto;min-height:6px;padding:4px 0}
-#sug button{background:#38322a;color:var(--tx);white-space:nowrap;font-size:13px;flex:none}
-.pad{display:grid;grid-template-columns:repeat(3,74px);justify-content:center;gap:12px 22px;margin:10px 0 14px;direction:ltr}
-.pad button{width:74px;height:74px;border-radius:50%;font-size:27px;font-weight:300;background:#332e26;color:var(--tx);padding:0}
-.pad button:active{background:#45402f}
-.pad .call{background:var(--ok);color:var(--okTx)}
-.pad .call .ic{width:30px;height:30px}
-.pad .bks{background:transparent;color:var(--pap)}
-.tabs{display:flex;gap:4px;background:var(--inp);border-radius:10px;padding:3px;margin:6px 0}
-.tabs button{flex:1;background:transparent;color:var(--mut);padding:8px}
-.tabs button.on{background:#463e30;color:var(--pap)}
-.cl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.cl small{color:var(--mut);direction:ltr}
+
+/* Action Buttons (Like/Comment style) */
+.acts{display:flex;gap:16px;padding:12px 16px 0;border-top:1px solid var(--line);margin-top:12px}
+.acts button{background:transparent;border:none;color:var(--tx);padding:0;display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;font-weight:500}
+.acts button:active{opacity:0.6}
+.acts button.ok{color:var(--acc)}
+.acts button.r{color:var(--bad)}
+
+/* FAB (Create) */
+#fab{position:fixed;bottom:80px;left:20px;width:56px;height:56px;border-radius:50%;padding:0;background:var(--acc);color:#fff;box-shadow:0 4px 12px rgba(0,149,246,0.4);z-index:9;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+#fab .ic{width:28px;height:28px;stroke-width:2.5}
+
+/* Bottom Navigation Bar */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--line);padding:8px 0;display:flex;justify-content:space-around;align-items:center;z-index:10}
+.bnav button{background:transparent;border:none;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;width:60px}
+.bnav button .ic{width:24px;height:24px;stroke-width:1.8}
+.bnav button.active{color:var(--tx)}
+
+/* Bottom Sheet Panes (Modals) */
+.pane{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;padding:20px;padding-bottom:100px;visibility:hidden;opacity:0;transform:translateY(100%);transition:all .3s cubic-bezier(0.16,1,0.3,1);border-radius:16px 16px 0 0;margin-top:40px}
+.pane.show{visibility:visible;opacity:1;transform:translateY(0)}
+.pane h2{margin:0 0 20px;font-size:20px;font-weight:600;color:var(--tx);text-align:center;display:flex;justify-content:space-between;align-items:center}
+.pane h2 button{background:transparent;border:none;color:var(--mut);font-size:14px;cursor:pointer}
+
+/* Form Elements */
+.f{margin-bottom:16px}
+.f label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--inp);color:var(--tx);outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--mut)}
+textarea{min-height:80px;resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tg label{background:var(--inp);border:1px solid transparent;border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer}
+.tg input{width:auto;accent-color:var(--acc);margin:0}
+.segf{display:flex;gap:4px;background:var(--inp);border-radius:10px;padding:4px}
+.segf button{flex:1;background:transparent;color:var(--mut);padding:8px;border:none;border-radius:8px;cursor:pointer;font-size:13px}
+.segf button.on{background:var(--tx);color:var(--bg);font-weight:bold}
+
+/* Sticky Bar for Modals */
+.bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);padding:12px 20px;display:flex;gap:12px;border-top:1px solid var(--line);z-index:51}
+.bar button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:bold;font-size:15px;cursor:pointer}
+.bar button.ok{background:var(--acc);color:#fff}
+.bar button.g{background:var(--inp);color:var(--tx)}
+
+/* Dialer specific */
+.dsp{text-align:center;padding:20px 0}
+#dname{font-size:24px;color:var(--tx);font-weight:600;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+#dnum{font-size:32px;text-align:center;direction:ltr;letter-spacing:2px;background:transparent;border:none;color:var(--tx);font-weight:300;width:100%}
+.pad{display:grid;grid-template-columns:repeat(3,72px);justify-content:center;gap:16px 24px;margin:20px 0;direction:ltr}
+.pad button{width:72px;height:72px;border-radius:50%;font-size:26px;font-weight:400;background:var(--inp);color:var(--tx);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pad button:active{background:var(--line)}
+.pad .call{background:var(--acc);color:#fff}
+.pad .call .ic{stroke-width:2.5}
+.pad .bks{background:transparent}
+
+/* Lists in Dialer */
+.tabs{display:flex;gap:8px;margin:20px 0 12px}
+.tabs button{flex:1;background:transparent;color:var(--mut);border:none;padding:8px;border-bottom:2px solid transparent;cursor:pointer;font-weight:bold}
+.tabs button.on{color:var(--tx);border-bottom-color:var(--tx)}
+.cl{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.cl small{color:var(--mut);direction:ltr;font-family:monospace}
+
+/* Toast */
+#toast{display:none;position:fixed;top:20px;left:20px;right:20px;z-index:100;background:var(--acc);color:#fff;border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-weight:bold;text-align:center;animation:slideDown .3s ease-out}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* Misc */
+.hint{font-size:12px;color:var(--mut);margin:-4px 0 12px;line-height:1.6}
+.vl{font-size:13px;color:var(--mut);margin-top:6px}
+.mine{font-size:13px;color:var(--acc);margin-top:6px;font-weight:500}
+.empty{text-align:center;color:var(--mut);margin:60px 20px;font-size:15px}
+.sec{font-weight:bold;margin:24px 0 12px;color:var(--tx);font-size:16px;border-bottom:1px solid var(--line);padding-bottom:8px}
 </style>
 </head>
 <body>
@@ -124,104 +168,102 @@ main{padding:10px;padding-bottom:100px}
 <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 6h11v12H9l-5-6z"/><path d="M13 10l4 4M17 10l-4 4"/></symbol>
 <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L16.5 4.5a2 2 0 0 1 3 3L9 18z"/></symbol>
 <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4.5 14.5-4.5 16 0"/></symbol>
-<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5M6 10v9h12v-9"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5h6v2M7 7v12h10V7"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4z"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
 </defs></svg>
 
 <header>
   <div class="hd">
-    <h1><svg class="ic"><use href="#i-home"/></svg>فایل‌های املاک</h1>
-    <span class="row"><button class="ib" onclick="openDial()" aria-label="شماره‌گیر"><svg class="ic"><use href="#i-phone"/></svg></button><button class="ib" id="bkBtn" onclick="openBackup()" aria-label="پشتیبان"><svg class="ic"><use href="#i-save"/></svg></button></span>
+    <h1>فایل‌های املاک</h1>
+    <span class="row">
+      <button class="ib" onclick="openDial()" aria-label="شماره‌گیر"><svg class="ic"><use href="#i-phone"/></svg></button>
+      <button class="ib" onclick="openBackup()" aria-label="پشتیبان"><svg class="ic"><use href="#i-save"/></svg></button>
+    </span>
   </div>
   <div class="sbar">
     <svg class="ic"><use href="#i-search"/></svg>
     <input id="q" placeholder="جستجو در همه‌چیز..." oninput="render()">
-    <button onclick="openFilter()"><svg class="ic" style="width:19px;height:19px"><use href="#i-filter"/></svg>تفکیکی<span class="cntb" id="fbadge"></span></button>
+    <button onclick="openFilter()"><svg class="ic" style="width:20px;height:20px"><use href="#i-filter"/></svg><span class="cntb" id="fbadge"></span></button>
   </div>
   <div class="seg" id="segStat"><span>وضعیت:</span></div>
-  <div id="nextv"></div>
-  <div id="renewv"></div>
-  <div id="cnt"></div>
-  <div id="syncs" style="font-size:12px;color:var(--mut);margin-top:2px"></div>
+  <div id="nextv" style="margin-top:12px; background:var(--inp); border-radius:10px; padding:10px; font-size:13px; display:none;"></div>
+  <div id="renewv" style="margin-top:12px; background:var(--inp); border-radius:10px; padding:10px; font-size:13px; display:none;"></div>
+  <div id="cnt" style="font-size:12px;color:var(--mut);margin-top:12px;text-align:center"></div>
+  <div id="syncs" style="font-size:12px;color:var(--mut);margin-top:4px;text-align:center"></div>
 </header>
 <div id="toast"></div>
-<div id="prof" style="padding:10px 10px 0"></div>
+
 <main id="list"></main>
+
 <button id="fab" onclick="openForm()" aria-label="فایل جدید"><svg class="ic"><use href="#i-plus"/></svg></button>
 
-<div class="pane" id="loginPane">
-  <h2 id="lgT">ورود</h2>
-  <div class="hint" id="lgNew" style="display:none">هنوز کاربری ساخته نشده. اگر مدیر هستی و قبلاً حساب ساخته‌ای، اول «اتصال به GitHub» را بزن. در غیر این صورت حساب مدیر را همین‌جا بساز.</div>
-  <div class="f" id="lgNameBox" style="display:none"><label>نام و نام خانوادگی</label><input id="lgName"></div>
-  <div class="f"><label>نام کاربری (کد ملی)</label><input id="lgUn" dir="ltr" inputmode="numeric" autocomplete="username"></div>
-  <div class="f"><label>رمز عبور</label><input id="lgPw" type="password" dir="ltr" autocomplete="current-password"></div>
-  <div class="hint" id="lgErr" style="color:#e0988f"></div>
-  <div class="acts"><button class="ok" id="lgBtn" onclick="doLogin()">ورود</button></div>
-  <div class="hint" style="margin-top:14px">روی دستگاه جدید: اول «اتصال به GitHub» را بزن و نام repository و توکنی را که مدیر داده وارد کن، بعد «همگام‌سازی الان».</div>
-  <div class="acts"><button class="g" onclick="openBackup()">اتصال به GitHub</button><button class="g" onclick="ghSync(false).then(()=>render())">به‌روزرسانی</button></div>
+<!-- Bottom Navigation -->
+<div class="bnav">
+  <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg class="ic"><use href="#i-home"/></svg>
+    <span>خانه</span>
+  </button>
+  <button onclick="openDial()">
+    <svg class="ic"><use href="#i-phone"/></svg>
+    <span>تماس</span>
+  </button>
+  <button onclick="openBackup()">
+    <svg class="ic"><use href="#i-save"/></svg>
+    <span>پشتیبان</span>
+  </button>
+  <button onclick="openForm()">
+    <svg class="ic"><use href="#i-plus"/></svg>
+    <span>جدید</span>
+  </button>
 </div>
-<div class="pane" id="acctPane"><h2>حساب من</h2>
-  <div class="f"><label>نام و نام خانوادگی</label><input id="acName"></div>
-  <div class="f"><label>نام کاربری (فقط مدیر می‌تواند تغییر دهد)</label><input id="acUn" disabled dir="ltr"></div>
-  <div class="f"><label>رمز عبور جدید (خالی = بدون تغییر)</label><input id="acPw" type="password" dir="ltr"></div>
-  <div class="acts"><button class="ok" onclick="saveAcct()">ذخیره</button><button class="r" onclick="logout()">خروج</button></div>
-  <div id="admBox" style="display:none">
-    <div class="sec">مدیریت کاربران</div>
-    <div class="hint">رمزها رمزنگاری‌شده ذخیره می‌شوند و قابل مشاهده نیستند. برای فراموشی رمز، با «ویرایش» رمز جدید بگذار.</div>
-    <div id="uList"></div>
-    <div class="sec">افزودن کاربر</div>
-    <div class="f"><input id="nuName" placeholder="نام و نام خانوادگی"></div>
-    <div class="f"><input id="nuUn" dir="ltr" inputmode="numeric" placeholder="نام کاربری (کد ملی)"></div>
-    <div class="f"><input id="nuPw" dir="ltr" placeholder="رمز عبور"></div>
-    <button class="ok" onclick="addUser()">افزودن</button>
-  </div>
-  <div class="bar"><button class="g" onclick="closeP('acctPane')">بستن</button></div>
-</div>
-<div class="pane" id="visPane"><h2>بازدید من (فقط برای خودت)</h2><div class="hint" id="vT"></div>
-  <div class="f"><label>تاریخ (شمسی)</label><input id="f_vDate" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶"><div class="row" style="margin-top:6px"><button type="button" class="g" onclick="setJ(0,'vDate')">امروز</button><button type="button" class="g" onclick="setJ(1,'vDate')">فردا</button></div></div>
-  <div class="g2"><div class="f"><label>ساعت</label><input id="vTime" type="time"></div><div class="f"><label>یادآوری</label><select id="vRem"><option>۳۰ دقیقه قبل</option><option selected>۱ ساعت قبل</option><option>۲ ساعت قبل</option></select></div></div>
-  <div class="bar"><button class="ok" onclick="saveVisit()">ذخیره</button><button class="g" onclick="clearVisit()">حذف</button><button class="g" onclick="closeP('visPane')">بستن</button></div>
-</div>
-<nav id="bnav"><button data-t="mine" onclick="setVT('mine')"><svg class="ic"><use href="#i-user"/></svg>من</button><button data-t="exp" onclick="setVT('exp')"><svg class="ic"><use href="#i-globe"/></svg>اکسپلور</button><button onclick="openDial()"><svg class="ic"><use href="#i-phone"/></svg>تماس</button></nav>
+
+<!-- Modals -->
 <div class="pane" id="formPane">
-  <h2 id="formTitle">ثبت فایل جدید</h2><div id="formBody"></div>
+  <h2><span id="formTitle">ثبت فایل جدید</span> <button onclick="closeP('formPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
+  <div id="formBody"></div>
   <div class="bar"><button class="ok" onclick="save()">ذخیره</button><button class="g" onclick="closeP('formPane')">انصراف</button></div>
 </div>
+
 <div class="pane" id="filterPane">
-  <h2>جستجوی تفکیکی</h2><div id="filterBody"></div>
-  <div class="bar"><button onclick="closeP('filterPane');render()">نمایش نتایج (<span id="fc">0</span>)</button><button class="g" onclick="resetFilter()">پاک‌کردن</button></div>
+  <h2>جستجوی تفکیکی <button onclick="closeP('filterPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
+  <div id="filterBody"></div>
+  <div class="bar"><button class="ok" onclick="closeP('filterPane');render()">نمایش نتایج (<span id="fc">0</span>)</button><button class="g" onclick="resetFilter()">پاک‌کردن</button></div>
 </div>
+
 <div class="pane" id="backupPane">
-  <h2>پشتیبان‌گیری</h2>
-  <p style="line-height:1.9;color:var(--mut)">اطلاعات (فایل‌ها و مخاطبین) روی همین مرورگر گوشی ذخیره می‌شود. گاهی پشتیبان بگیرید، مخصوصاً قبل از پاک‌کردن اطلاعات مرورگر.</p>
-  <div class="acts"><button onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
-  <div class="f" style="margin-top:14px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
+  <h2>پشتیبان‌گیری <button onclick="closeP('backupPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
+  <p style="line-height:1.9;color:var(--mut);text-align:center">اطلاعات (فایل‌ها و مخاطبین) روی همین مرورگر گوشی ذخیره می‌شود. گاهی پشتیبان بگیرید.</p>
+  <div style="display:flex;gap:8px;margin-top:16px"><button class="ok" style="flex:1" onclick="exportData()"><svg class="ic"><use href="#i-save"/></svg>گرفتن پشتیبان</button></div>
+  <div class="f" style="margin-top:20px"><label>بازیابی از فایل پشتیبان (ادغام می‌شود)</label><input type="file" accept=".json" onchange="importData(this)"></div>
+  
   <div class="sec">همگام‌سازی با GitHub</div>
-  <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند و در پشتیبان‌گیری معمولی نمی‌آید.</div>
+  <div class="hint">اطلاعات در یک repository خصوصی خودت ذخیره می‌شود. توکن فقط روی همین گوشی می‌ماند.</div>
   <div class="f"><label>نام repository (مثال: user/amlak-data)</label><input id="ghRepo" dir="ltr" autocomplete="off" placeholder="user/repo"></div>
   <div class="f"><label>توکن دسترسی</label><input id="ghTok" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_..."></div>
-  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار (با باز شدن سایت، هر یک دقیقه و بعد از هر تغییر)</label></div>
-  <div class="acts"><button onclick="ghSync(false)">همگام‌سازی الان</button></div>
-  <details><summary>پیشرفته: جایگزینی کامل</summary>اگر مشکلی پیش آمد: «ارسال» نسخه این دستگاه را روی GitHub می‌گذارد و «دریافت» نسخه GitHub را جایگزین این دستگاه می‌کند.<div class="acts" style="margin-top:6px"><button class="g" onclick="ghPush()">ارسال به GitHub</button><button class="g" onclick="ghPull()">دریافت از GitHub</button></div></details>
-  <div class="hint" id="ghStat" style="margin-top:8px"></div>
-  <details><summary>راهنمای ساخت توکن</summary>
-    ۱) در GitHub یک repository <b>خصوصی (Private)</b> بساز، مثلاً amlak-data. این را جدا از repository سایت بساز.<br>
-    ۲) Settings ← Developer settings ← Personal access tokens ← Fine-grained tokens ← Generate new token.<br>
-    ۳) در Repository access گزینه Only select repositories را بزن و فقط همان repository را انتخاب کن.<br>
-    ۴) در Permissions ← Repository permissions، گزینه Contents را روی Read and write بگذار.<br>
-    ۵) توکن را کپی کن و بالا بچسبان. روی گوشی دیگر هم همین کار را بکن و «دریافت از GitHub» را بزن.
+  <div class="tg" style="grid-template-columns:1fr"><label><input type="checkbox" id="ghAuto" onchange="ghRead();if(this.checked)ghSync(true)">همگام‌سازی خودکار</label></div>
+  <div style="display:flex;gap:8px;margin-top:12px"><button class="ok" style="flex:1" onclick="ghSync(false)">همگام‌سازی الان</button></div>
+  
+  <details style="margin-top:20px; color:var(--mut); font-size:13px;"><summary style="cursor:pointer;color:var(--tx);">پیشرفته: جایگزینی کامل</summary>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="g" style="flex:1" onclick="ghPush()">ارسال به GitHub</button>
+      <button class="g" style="flex:1" onclick="ghPull()">دریافت از GitHub</button>
+    </div>
   </details>
+  <div class="hint" id="ghStat" style="margin-top:12px;text-align:center"></div>
   <div class="bar"><button class="g" onclick="closeP('backupPane')">بستن</button></div>
 </div>
+
 <div class="pane" id="dialPane">
-  <div id="dbanner">تماس تمام شد. اگر لازم است نام این شماره را ثبت یا ویرایش کنید.</div>
+  <h2>شماره‌گیر <button onclick="closeP('dialPane')"><svg class="ic"><use href="#i-close"/></svg></button></h2>
+  <div id="dbanner" style="background:var(--inp);color:var(--tx);padding:12px;border-radius:10px;margin-bottom:12px;display:none;font-size:13px;text-align:center">تماس تمام شد. اگر لازم است نام این شماره را ثبت یا ویرایش کنید.</div>
   <div class="dsp">
     <div id="dname"></div>
     <input id="dnum" inputmode="none" placeholder="شماره را وارد کنید" oninput="updDial()">
   </div>
-  <div class="row" id="dedit"><input id="dedit_i" placeholder="نام این شماره"><button class="ok" onclick="saveName()">ذخیره</button></div>
-  <div id="sug"></div>
+  <div class="row" id="dedit" style="display:none;margin-bottom:12px"><input id="dedit_i" placeholder="نام این شماره"><button class="ok" style="padding:10px 16px" onclick="saveName()">ذخیره</button></div>
+  <div id="sug" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px"></div>
   <div class="pad" id="pad"></div>
   <div class="tabs"><button id="tR" onclick="setTab('r')">اخیر</button><button id="tN" onclick="setTab('n')">اسامی</button></div>
   <div id="clist"></div>
@@ -273,24 +315,21 @@ const num=s=>{const v=parseFloat(nd(s).replace(/[,٬،\s]/g,''));return isNaN(v)
 const fmt=n=>n==null||n===''?'':Number(n).toLocaleString('fa-IR');
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const ico=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
-let GH={},ghT,ghBusy=false,dv=0,DELS={},USERS=[],VIS={},ME=null,VT='mine',DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
+let GH={},ghT,ghBusy=false,dv=0,DELS={},DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
 
 function load(){
   try{DB=JSON.parse(localStorage.getItem('amlak_v1')||'[]')}catch(e){DB=[]}
   try{CT=JSON.parse(localStorage.getItem('amlak_ct')||'{}')}catch(e){CT={}}
   try{RC=JSON.parse(localStorage.getItem('amlak_rc')||'[]')}catch(e){RC=[]}
   try{DELS=JSON.parse(localStorage.getItem('amlak_del')||'{}')}catch(e){DELS={}}
-  try{USERS=JSON.parse(localStorage.getItem('amlak_users')||'[]')}catch(e){USERS=[]}
-  try{VIS=JSON.parse(localStorage.getItem('amlak_vis')||'{}')}catch(e){VIS={}}
-  try{ME=JSON.parse(localStorage.getItem('amlak_sess')||'null')}catch(e){ME=null}
   DB.forEach(r=>{if(r.motorPark){r.motorParking=true}delete r.motorPark;if(r.plaque){if(!r.plak)r.plak=r.plaque;delete r.plaque}});
 }
-function saveLocal(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));localStorage.setItem('amlak_ct',JSON.stringify(CT));localStorage.setItem('amlak_rc',JSON.stringify(RC));localStorage.setItem('amlak_del',JSON.stringify(DELS));localStorage.setItem('amlak_users',JSON.stringify(USERS));localStorage.setItem('amlak_vis',JSON.stringify(VIS))}catch(e){alert('خطا در ذخیره‌سازی!')}}
+function saveLocal(){try{localStorage.setItem('amlak_v1',JSON.stringify(DB));localStorage.setItem('amlak_ct',JSON.stringify(CT));localStorage.setItem('amlak_rc',JSON.stringify(RC));localStorage.setItem('amlak_del',JSON.stringify(DELS))}catch(e){alert('خطا در ذخیره‌سازی!')}}
 function persist(){saveLocal();dv++;
   if(GH.token){GH.dirty=true;ghSave();if(GH.auto&&ghOk()){clearTimeout(ghT);ghT=setTimeout(()=>ghSync(true),3000)}}}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-function openP(id){$(id).classList.add('show');$(id).scrollTop=0}
-function closeP(id){$(id).classList.remove('show')}
+function openP(id){$(id).classList.add('show');$(id).scrollTop=0; document.body.style.overflow='hidden';}
+function closeP(id){$(id).classList.remove('show'); document.body.style.overflow='';}
 
 /* status segment */
 [['','همه'],['آزاد','آزاد'],['در حال معامله','در حال معامله'],['معامله شده','معامله شده']].forEach(([v,l])=>{
@@ -306,7 +345,7 @@ function openForm(id){
   SECS.forEach(([title,fs])=>{
     h+=`<div class="sec">${title}</div>`;
     if(title==='تحویل و تمدید')h+='<div class="hint">۱۱ ماه بعد از این تاریخ، برای تماس و تمدید سال بعد یادآوری می‌شود.</div>';
-    if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی؛ یادآور برای همین است.</div>';
+    if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی.</div>';
     if(fs[0][2]==='b'){h+='<div class="tg">'+fs.map(([k,l])=>`<label><input type="checkbox" data-k="${k}" ${r[k]?'checked':''}>${l}</label>`).join('')+'</div>';return}
     h+='<div class="g2">';
     fs.forEach(([k,l,t,o])=>{
@@ -314,7 +353,7 @@ function openForm(id){
       if(k==='rentFor'){const cur=r.rentFor||'همه';
         el=`<div class="segf" data-k="rentFor" data-v="${cur}">${o.map(x=>`<button type="button" class="${x===cur?'on':''}" onclick="pickSeg(this,'${x}')">${x}</button>`).join('')}</div>`}
       else if(t==='tm')el=`<input type="time" data-k="${k}" value="${esc(r[k]||'')}">`;
-      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" onclick="setJ(1,'${k}')">فردا</button></div>`;
+      else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" style="padding:6px 12px;font-size:12px" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" style="padding:6px 12px;font-size:12px" onclick="setJ(1,'${k}')">فردا</button></div>`;
       else if(t==='s')el=`<select data-k="${k}"><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
       else if(t==='a')el=`<textarea data-k="${k}">${esc(r[k]||'')}</textarea>`;
       else el=`<input data-k="${k}" ${t==='n'?'inputmode="decimal"':''} value="${esc(r[k]??'')}">`;
@@ -326,9 +365,8 @@ function openForm(id){
 }
 function pickSeg(b,v){const p=b.parentNode;p.dataset.v=v;[...p.children].forEach(x=>x.classList.toggle('on',x===b))}
 function save(){
-  if(editId){const x=DB.find(y=>y.id===editId);if(x&&!canEdit(x))return alert('فقط صاحب فایل یا مدیر می‌تواند ویرایش کند')}
   const r=editId?(DB.find(x=>x.id===editId)||{id:editId,ts:Date.now()}):{id:Date.now()+''+Math.random().toString(36).slice(2,6),ts:Date.now()};
-  const oldV='',oldH=r.handover||'';
+  const oldV=(r.myDate||'')+'|'+(r.myTime||''),oldH=r.handover||'';
   document.querySelectorAll('#formBody [data-k]').forEach(el=>{
     const k=el.dataset.k,f=ALL.find(x=>x[0]===k);
     if(el.classList.contains('segf'))r[k]=el.dataset.v;
@@ -337,17 +375,15 @@ function save(){
     else r[k]=el.value.trim();
   });
   r.mod=Date.now();
-  {const k=ME.id+'|'+r.id,o=VIS[k]||{},d=nd(r.myDate||'').trim();
-   if(d||r.myTime){VIS[k]={date:d,time:r.myTime||'',remind:r.myRemind||'',n:(o.date===d&&o.time===r.myTime)?o.n:0,mod:Date.now()}}else if(o.date)VIS[k]={mod:Date.now()}}
-  delete r.myDate;delete r.myTime;delete r.myRemind;
+  if(r.myDate)r.myDate=nd(r.myDate).trim();
   if(r.handover)r.handover=nd(r.handover).trim();
   if(oldH!==(r.handover||'')){delete r.rdone;delete r.rnotified}
   if(oldV!==(r.myDate||'')+'|'+(r.myTime||''))delete r.notified;
-  if(!DB.includes(r)){r.uid=ME.id;DB.push(r)}
+  if(!DB.includes(r))DB.push(r);
   if(r.myDate&&r.myTime){try{window.Notification&&Notification.permission==='default'&&Notification.requestPermission()}catch(e){}}
   persist();closeP('formPane');render();checkDue();
 }
-function del(id){const x=DB.find(y=>y.id===id);if(x&&!canEdit(x))return alert('فقط صاحب فایل یا مدیر می‌تواند حذف کند');if(confirm('این فایل حذف شود؟')){DB=DB.filter(x=>x.id!==id);DELS[id]=Date.now();persist();render()}}
+function del(id){if(confirm('این فایل حذف شود؟')){DB=DB.filter(x=>x.id!==id);DELS[id]=Date.now();persist();render()}}
 
 /* filter */
 function openFilter(){
@@ -365,7 +401,7 @@ function openFilter(){
       else h+=`<div class="f"><label>${l}</label><input data-f="${k}" data-m="has" value="${esc(v.has||'')}"></div>`;
     });
     h+='</div>';
-    if(bools.length)h+='<div class="tg">'+bools.map(([k,l])=>{const v=(FLT[k]||{}).b||'';return `<label style="display:block"><div style="margin-bottom:5px">${l}</div><select data-f="${k}" data-m="b"><option value="">فرقی ندارد</option><option value="1" ${v==='1'?'selected':''}>دارد</option><option value="0" ${v==='0'?'selected':''}>ندارد</option></select></label>`}).join('')+'</div>';
+    if(bools.length)h+='<div class="tg">'+bools.map(([k,l])=>{const v=(FLT[k]||{}).b||'';return `<label style="display:block; text-align:center;"><div style="margin-bottom:5px;font-weight:bold">${l}</div><select data-f="${k}" data-m="b" style="text-align:center"><option value="">فرقی ندارد</option><option value="1" ${v==='1'?'selected':''}>دارد</option><option value="0" ${v==='0'?'selected':''}>ندارد</option></select></label>`}).join('')+'</div>';
   });
   $('filterBody').innerHTML=h;
   $('filterBody').oninput=$('filterBody').onchange=readFilter;
@@ -384,7 +420,6 @@ function resetFilter(){FLT={};STAT='';$('q').value='';openFilter();render()}
 function matches(){
   const q=nd($('q').value).trim().toLowerCase();
   return DB.filter(r=>{
-    if(VT==='mine'&&!(isAdmin()||r.uid===(ME&&ME.id)))return false;
     if(STAT&&(r.status||'آزاد')!==STAT)return false;
     if(q){const hay=nd(ALL.filter(f=>f[2]!=='b').map(f=>r[f[0]]??'').join(' ')).toLowerCase();
       if(!q.split(/\s+/).every(w=>hay.includes(w)))return false}
@@ -425,7 +460,7 @@ function contacts(){
 function openDial(n,after){
   $('dnum').value=n?nd(n).replace(/[^\d+*#]/g,''):'';
   $('dbanner').style.display=after?'block':'none';
-  $('dedit').classList.toggle('show',!!after&&!nameOf(n));
+  $('dedit').style.display=(!!after&&!nameOf(n))?'flex':'none';
   const pad=$('pad');
   if(!pad.children.length){
     pad.innerHTML=['1','2','3','4','5','6','7','8','9','*','0','#'].map(d=>`<button onclick="kp('${d}')">${d}</button>`).join('')+
@@ -445,24 +480,25 @@ function bk(){const e=$('dnum');e.value=e.value.slice(0,-1);updDial()}
 function updDial(){
   const v=$('dnum').value=nd($('dnum').value).replace(/[^\d+*#]/g,'');
   const nm=nameOf(v),k=pkey(v),el=$('dname');
-  if(nm){el.className='';el.innerHTML=esc(nm)+`<button class="ib" onclick="toggleEdit()" aria-label="ویرایش نام">${ico('pen')}</button>`}
-  else if(k){el.className='no';el.innerHTML=`نام ثبت نشده <button class="ib" onclick="toggleEdit()" aria-label="افزودن نام">${ico('pen')}</button>`}
-  else{el.className='no';el.innerHTML='&nbsp;'}
+  if(nm){el.style.color='var(--tx)';el.innerHTML=esc(nm)+`<button class="ib" onclick="toggleEdit()" aria-label="ویرایش نام">${ico('pen')}</button>`}
+  else if(k){el.style.color='var(--mut)';el.innerHTML=`نام ثبت نشده <button class="ib" onclick="toggleEdit()" aria-label="افزودن نام">${ico('pen')}</button>`}
+  else{el.style.color='var(--mut)';el.innerHTML='&nbsp;'}
   $('dedit_i').value=nm;
-  if(!k)$('dedit').classList.remove('show');
+  if(!k)$('dedit').style.display='none';
   // suggestions
   const s=k.length>=2?contacts().filter(c=>pkey(c.phone).startsWith(k)&&pkey(c.phone)!==k).slice(0,6):[];
-  $('sug').innerHTML=s.map(c=>`<button onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
+  $('sug').innerHTML=s.map(c=>`<button style="background:var(--inp);color:var(--tx);border:none;border-radius:20px;padding:6px 12px;font-size:13px;white-space:nowrap" onclick="openDial('${esc(c.phone)}')">${esc(c.name)} · ${esc(c.phone)}</button>`).join('');
 }
-function toggleEdit(){const e=$('dedit');e.classList.toggle('show');if(e.classList.contains('show'))$('dedit_i').focus()}
+function toggleEdit(){const e=$('dedit');e.style.display=e.style.display==='none'?'flex':'none';if(e.style.display==='flex')$('dedit_i').focus()}
 function saveName(){
   const k=pkey($('dnum').value);if(!k)return alert('اول شماره را وارد کنید');
   const n=$('dedit_i').value.trim();
   if(n)CT[k]=n;else delete CT[k];
-  persist();$('dedit').classList.remove('show');updDial();setTab(TAB);
+  persist();$('dedit').style.display='none';updDial();setTab(TAB);
 }
 function setTab(t){
-  TAB=t;$('tR').classList.toggle('on',t==='r');$('tN').classList.toggle('on',t==='n');
+  TAB=t;$('tR').style.color=t==='r'?'var(--tx)':'var(--mut)';$('tR').style.borderBottomColor=t==='r'?'var(--tx)':'transparent';
+  $('tN').style.color=t==='n'?'var(--tx)':'var(--mut)';$('tN').style.borderBottomColor=t==='n'?'var(--tx)':'transparent';
   let items;
   if(t==='r')items=RC.map(p=>({name:nameOf(p),phone:p}));
   else items=contacts();
@@ -480,35 +516,60 @@ document.addEventListener('visibilitychange',()=>{
   const p=localStorage.getItem('amlak_pend');if(!p)return;
   localStorage.removeItem('amlak_pend');
   const i=p.indexOf('|');
-  if(Date.now()-p.slice(0,i)<6*3600e3){openDial(p.slice(i+1),true);$('dedit').classList.add('show')}
+  if(Date.now()-p.slice(0,i)<6*3600e3){openDial(p.slice(i+1),true);$('dedit').style.display='flex'}
 });
 
-/* list */
+/* list (Instagram Style) */
 function render(){
-  if(!gate())return;
-  $('prof').innerHTML=VT==='mine'?profCard():'';
   updNext();
   document.querySelectorAll('#segStat button').forEach(b=>b.classList.toggle('on',b.dataset.v===STAT));
   const res=matches(),nf=Object.keys(FLT).length,fb=$('fbadge');
   fb.style.display=nf?'inline-flex':'none';fb.textContent=nf.toLocaleString('fa-IR');
   $('cnt').textContent=`${res.length.toLocaleString('fa-IR')} فایل از ${DB.length.toLocaleString('fa-IR')}`;
   if(!res.length){$('list').innerHTML='<div class="empty">'+(DB.length?'موردی پیدا نشد':'هنوز فایلی ثبت نشده. با دکمه + شروع کنید.')+'</div>';return}
+  
   $('list').innerHTML=res.map(r=>{
     const kv=ALL.filter(f=>f[2]!=='b'&&!VIS.includes(f[0])&&r[f[0]]!=null&&r[f[0]]!=='').map(([k,l,t])=>`<div class="kv"><b>${l}</b><span>${t==='n'?(k==='year'?Number(r[k]).toLocaleString('fa-IR',{useGrouping:false}):fmt(r[k])):esc(r[k])}</span></div>`).join('');
     const ch=ALL.filter(f=>f[2]==='b'&&r[f[0]]).map(f=>`<span class="chip">${f[1]}</span>`).join('');
     const title=[r.plak&&'پلاک '+esc(r.plak),r.code&&'واحد '+r.code,r.fileCode&&'فایل '+r.fileCode].filter(Boolean).join(' · ')||'بدون کد';
-    const st=r.status&&r.status!=='آزاد'?`<span class="badge ${r.status==='معامله شده'?'b2':'b1'}">${r.status}</span>`:'';
+    const st=r.status&&r.status!=='آزاد'?`<span style="background:${r.status==='معامله شده'?'var(--bad)':'var(--acc)'};color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;margin-right:8px;">${r.status}</span>`:'';
+    const initial = (r.owner || 'م').trim().charAt(0);
+    
     return `<div class="card">
-      ${ownerBar(r)}
-      <div onclick="this.parentNode.classList.toggle('open')">
-        <div class="top"><span>${esc(title)}${st}</span><span>${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</span></div>
-        <div class="sub">${[r.area&&fmt(r.area)+' متر',r.beds!=null&&fmt(r.beds)+' خواب',r.unitFloor&&'طبقه '+esc(r.unitFloor),r.owner&&esc(r.owner)].filter(Boolean).join(' • ')}</div>
-        ${visLine(r)}
-        <div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>
+      <div class="card-top" onclick="this.parentNode.classList.toggle('open')">
+        <div class="avatar">${initial}</div>
+        <div class="card-info">
+          <h3 class="card-title">${r.owner || 'مالک ثبت نشده'} ${st}</h3>
+          <div class="card-sub">${title} • ${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</div>
+        </div>
       </div>
-      <div class="det">${kv}<div class="chips">${ch}</div>
-        ${VT==='exp'?statusBar(r):''}<div class="acts">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')}تماس</button>`:''}${visitAt(r)?`<button class="g" onclick="addCal('${r.id}')">${ico('bell')}یادآور بازدید</button>`:''}${renewOf(r)?`<button class="g" onclick="addRenewCal('${r.id}')">${ico('bell')}یادآور تمدید</button>`:''}${canEdit(r)?`<button onclick="openForm('${r.id}')">ویرایش</button><button class="r" onclick="del('${r.id}')">حذف</button>`:`<button class="g" onclick="openVisit('${r.id}')">${ico('bell')}بازدید من</button>`}</div>
-      </div></div>`;
+      
+      <div class="post-body">
+        <div class="post-img">
+           <div style="display:flex;justify-content:space-between;color:var(--mut);font-size:13px">
+             <span>${[r.area&&fmt(r.area)+' متر',r.beds!=null&&fmt(r.beds)+' خواب',r.unitFloor&&'طبقه '+esc(r.unitFloor)].filter(Boolean).join(' • ')}</span>
+             <span>${r.year?esc(r.year):''}</span>
+           </div>
+           <div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>
+        </div>
+        ${visLine(r)}
+      </div>
+      
+      <div class="acts">
+        ${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')} تماس</button>`:''}
+        <button onclick="openForm('${r.id}')">${ico('edit')} ویرایش</button>
+        <button class="r" onclick="del('${r.id}')">${ico('trash')}</button>
+      </div>
+      
+      <div class="det" style="padding:0 16px 16px">
+        <div style="font-size:14px;margin-bottom:12px">${kv}</div>
+        <div class="chips">${ch}</div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+           ${visitAt(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px" onclick="addCal('${r.id}')">${ico('bell')} یادآور بازدید</button>`:''}
+           ${renewOf(r)?`<button class="g" style="flex:1;padding:8px;font-size:12px" onclick="addRenewCal('${r.id}')">${ico('bell')} یادآور تمدید</button>`:''}
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -561,7 +622,7 @@ async function ghPull(){
     if(!cur.content)return ghMsg('فایل داده برای دریافت از این روش خیلی بزرگ است');
     if(!confirm('اطلاعات همین دستگاه با نسخه GitHub جایگزین می‌شود. ادامه؟'))return ghMsg('لغو شد');
     const d=JSON.parse(unb64(cur.content));
-    localStorage.setItem('amlak_v1',JSON.stringify(d.files||[]));localStorage.setItem('amlak_ct',JSON.stringify(d.contacts||{}));localStorage.setItem('amlak_del',JSON.stringify(d.dels||{}));localStorage.setItem('amlak_users',JSON.stringify(d.users||[]));localStorage.setItem('amlak_vis',JSON.stringify(d.vis||{}));
+    localStorage.setItem('amlak_v1',JSON.stringify(d.files||[]));localStorage.setItem('amlak_ct',JSON.stringify(d.contacts||{}));localStorage.setItem('amlak_del',JSON.stringify(d.dels||{}));
     GH.sha=cur.sha;GH.last=Date.now();GH.dirty=false;ghSave();load();render();
     ghMsg('دریافت شد — '+toFa(DB.length)+' فایل');
   }catch(e){ghMsg(e instanceof SyntaxError?'فایل داده در GitHub معتبر نیست':ghErr(e))}
@@ -570,11 +631,11 @@ async function ghPull(){
 /*SYNC-START*/
 const ghBadge=t=>{const el=$('syncs');if(el)el.textContent=t?'همگام‌سازی: '+t:''};
 const recMod=r=>r.mod||r.ts||0;
-function payload(){return{v:3,files:DB,contacts:CT,dels:DELS,users:USERS,vis:VIS}}
+function payload(){return{v:2,files:DB,contacts:CT,dels:DELS}}
 function normStr(d){
   const files=(d.files||[]).slice().sort((a,b)=>a.id<b.id?-1:1);
   const k=o=>Object.keys(o||{}).sort().map(x=>[x,o[x]]);
-  return JSON.stringify([files,k(d.contacts),k(d.dels),(d.users||[]).slice().sort((a,b)=>a.id<b.id?-1:1),k(d.vis)]);
+  return JSON.stringify([files,k(d.contacts),k(d.dels)]);
 }
 function mergeIn(d,localDirty){
   const rd=d.dels||{},dels=Object.assign({},rd,DELS);
@@ -588,8 +649,6 @@ function mergeIn(d,localDirty){
   });
   DB=out;DELS=dels;
   CT=localDirty?Object.assign({},d.contacts||{},CT):Object.assign({},CT,d.contacts||{});
-  const um=new Map(USERS.map(u=>[u.id,u]));(d.users||[]).forEach(u=>{const x=um.get(u.id);if(!x||(u.mod||0)>(x.mod||0))um.set(u.id,u)});USERS=[...um.values()];
-  Object.keys(d.vis||{}).forEach(k=>{const x=VIS[k],y=d.vis[k];if(!x||(y.mod||0)>(x.mod||0))VIS[k]=y});
 }
 async function ghSync(silent){
   if(ghBusy)return;
@@ -626,76 +685,6 @@ async function ghSync(silent){
 }
 /*SYNC-END*/
 
-
-
-/* users, roles, private visits */
-const vk=r=>(ME?ME.id:'')+'|'+r.id;
-const V=r=>{const v=VIS[vk(r)]||{};return Object.assign({},r,{myDate:v.date,myTime:v.time,myRemind:v.remind})};
-const myv=id=>VIS[(ME?ME.id:'')+'|'+id]||{};
-const U=()=>ME&&USERS.find(u=>u.id===ME.id&&u.hash===ME.hash);
-const isAdmin=()=>{const u=U();return !!u&&u.role==='admin'};
-const canEdit=r=>isAdmin()||(!!U()&&r.uid===ME.id);
-async function H(pw,salt){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+pw));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-const newSalt=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
-function setSess(u){ME={id:u.id,hash:u.hash};localStorage.setItem('amlak_sess',JSON.stringify(ME))}
-function gate(){
-  if(U()){closeP('loginPane');$('bnav').style.display='flex';$('bkBtn').style.display=isAdmin()?'':'none';$('fab').style.display=VT==='mine'?'':'none';
-    document.querySelectorAll('#bnav button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===VT));return true}
-  ME=null;$('bnav').style.display='none';$('fab').style.display='none';
-  const f=!USERS.length;$('lgNew').style.display=f?'block':'none';$('lgNameBox').style.display=f?'block':'none';
-  $('lgT').textContent=f?'ساخت حساب مدیر':'ورود';$('lgBtn').textContent=f?'ساخت مدیر و ورود':'ورود';
-  if(!$('loginPane').classList.contains('show'))openP('loginPane');return false;
-}
-async function doLogin(){
-  const un=nd($('lgUn').value).trim().toLowerCase(),pw=$('lgPw').value,err=$('lgErr');err.textContent='';
-  if(!un||!pw){err.textContent='نام کاربری و رمز را وارد کنید';return}
-  if(!USERS.length){
-    const name=$('lgName').value.trim();if(!name){err.textContent='نام و نام خانوادگی را وارد کنید';return}
-    const salt=newSalt(),id='u'+Date.now().toString(36),u={id,un,name,salt,hash:await H(pw,salt),role:'admin',mod:Date.now()};
-    USERS=[u];DB.forEach(r=>{if(!r.uid){r.uid=id;r.mod=Date.now()}});setSess(u);persist();$('lgPw').value='';render();ghSync(true);return}
-  const u=USERS.find(x=>x.un===un);
-  if(!u||await H(pw,u.salt)!==u.hash){err.textContent='نام کاربری یا رمز اشتباه است';return}
-  setSess(u);$('lgPw').value='';render();
-}
-function logout(){ME=null;localStorage.removeItem('amlak_sess');closeP('acctPane');render()}
-function setVT(t){VT=t;render()}
-function openAcct(){
-  const u=U();if(!u)return;$('acName').value=u.name;$('acUn').value=u.un;$('acPw').value='';
-  $('admBox').style.display=isAdmin()?'block':'none';
-  $('uList').innerHTML=USERS.map(x=>`<div class="urow"><span><b>${esc(x.name)}</b> <small dir="ltr">${esc(x.un)}</small>${x.role==='admin'?' <small>(مدیر)</small>':''}</span><button class="g" onclick="editUser('${x.id}')">ویرایش</button></div>`).join('');
-  openP('acctPane');
-}
-async function saveAcct(){
-  const u=U();if(!u)return;const n=$('acName').value.trim(),p=$('acPw').value;
-  if(!n)return alert('نام را وارد کنید');
-  u.name=n;if(p){u.salt=newSalt();u.hash=await H(p,u.salt)}u.mod=Date.now();setSess(u);persist();closeP('acctPane');render();
-}
-async function addUser(){
-  if(!isAdmin())return;const name=$('nuName').value.trim(),un=nd($('nuUn').value).trim().toLowerCase(),pw=$('nuPw').value;
-  if(!name||!un||!pw)return alert('نام، نام کاربری و رمز را کامل وارد کنید');
-  if(USERS.some(x=>x.un===un))return alert('این نام کاربری قبلاً ثبت شده');
-  const salt=newSalt();USERS.push({id:'u'+Date.now().toString(36),un,name,salt,hash:await H(pw,salt),role:'user',mod:Date.now()});
-  persist();['nuName','nuUn','nuPw'].forEach(i=>$(i).value='');openAcct();render();
-}
-async function editUser(id){
-  if(!isAdmin())return;const u=USERS.find(x=>x.id===id);if(!u)return;
-  const n=prompt('نام و نام خانوادگی:',u.name);if(n===null)return;
-  const un=prompt('نام کاربری (کد ملی):',u.un);if(un===null)return;
-  const pw=prompt('رمز جدید (خالی = بدون تغییر):','');if(pw===null)return;
-  const nun=nd(un).trim().toLowerCase();
-  if(USERS.some(x=>x.id!==id&&x.un===nun))return alert('این نام کاربری قبلاً ثبت شده');
-  u.name=n.trim()||u.name;u.un=nun||u.un;if(pw){u.salt=newSalt();u.hash=await H(pw,u.salt)}u.mod=Date.now();
-  if(ME&&ME.id===id)setSess(u);persist();openAcct();render();
-}
-function setStatus(id,v){const r=DB.find(x=>x.id===id);if(!r)return;r.status=v;r.mod=Date.now();persist();render()}
-const statusBar=r=>`<div class="seg" style="margin:8px 0 0"><span>وضعیت:</span>${['آزاد','در حال معامله','معامله شده'].map(v=>`<button class="${(r.status||'آزاد')===v?'on':''}" onclick="setStatus('${r.id}','${v}')">${v}</button>`).join('')}</div>`;
-function ownerBar(r){const u=USERS.find(x=>x.id===r.uid),n=u?u.name:'بدون صاحب';return `<div class="ob"><span class="av">${esc(n.trim()[0]||'?')}</span><span class="on">${esc(n)}</span></div>`}
-let visId=null;
-function openVisit(id){const r=DB.find(x=>x.id===id),v=myv(id);if(!r)return;visId=id;$('vT').textContent=ttl(r);$('f_vDate').value=v.date||'';$('vTime').value=v.time||'';$('vRem').value=v.remind||'۱ ساعت قبل';openP('visPane')}
-function saveVisit(){const d=nd($('f_vDate').value).trim(),t=$('vTime').value;if(!d||!t)return alert('تاریخ و ساعت را وارد کنید');VIS[ME.id+'|'+visId]={date:d,time:t,remind:$('vRem').value,n:0,mod:Date.now()};persist();closeP('visPane');render();checkDue()}
-function clearVisit(){VIS[ME.id+'|'+visId]={mod:Date.now()};persist();closeP('visPane');render()}
-function profCard(){const u=U();if(!u)return '';return `<div class="card"><div class="ob"><span class="av">${esc(u.name.trim()[0]||'?')}</span><span class="on">${esc(u.name)}</span></div><div class="acts"><button class="g" onclick="openAcct()">نام و رمز${isAdmin()?' / کاربران':''}</button><button onclick="openForm()">ثبت فایل جدید</button></div></div>`}
-
 /* backup */
 function openBackup(){ghForm();openP('backupPane')}
 function exportData(){
@@ -720,20 +709,20 @@ function g2j(gy,gm,gd){const g=[0,31,59,90,120,151,181,212,243,273,304,334];let 
 function j2g(jy,jm,jd){let gy=jy<=979?621:1600;jy-=jy<=979?0:979;let days=365*jy+Math.floor(jy/33)*8+Math.floor(((jy%33)+3)/4)+78+jd+(jm<7?(jm-1)*31:((jm-7)*30)+186);gy+=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365}let gd=days+1;const sal=[0,31,((gy%4==0&&gy%100!=0)||gy%400==0)?29:28,31,30,31,30,31,31,30,31,30,31];let gm;for(gm=0;gm<13&&gd>sal[gm];gm++)gd-=sal[gm];return[gy,gm,gd]}
 function setJ(add,k='myDate'){const d=new Date(Date.now()+add*864e5);const j=g2j(d.getFullYear(),d.getMonth()+1,d.getDate());$('f_'+k).value=j[0]+'/'+String(j[1]).padStart(2,'0')+'/'+String(j[2]).padStart(2,'0')}
 function visitAt(r){
-  r=V(r);if(!r.myDate||!r.myTime)return null;
+  if(!r.myDate||!r.myTime)return null;
   const q=nd(r.myDate).split(/[\/\-.]/).map(Number),t=String(r.myTime).split(':').map(Number);
   if(q.length<3||q.some(isNaN)||t.length<2||t.some(isNaN))return null;
   const g=q[0]<1700?j2g(q[0],q[1],q[2]):q;
   return new Date(g[0],g[1]-1,g[2],t[0],t[1]);
 }
-const remMin=r=>({'۳۰ دقیقه قبل':30,'۱ ساعت قبل':60,'۲ ساعت قبل':120})[V(r).myRemind]||60;
+const remMin=r=>({'۳۰ دقیقه قبل':30,'۱ ساعت قبل':60,'۲ ساعت قبل':120})[r.myRemind]||60;
 const ttl=r=>[r.plak&&'پلاک '+r.plak,r.code&&'واحد '+r.code,r.fileCode&&'فایل '+r.fileCode].filter(Boolean).join(' · ')||'بدون کد';
-function visLine(r){r=V(r);
+function visLine(r){
   const rg=[['v1a','v1b'],['v2a','v2b'],['v3a','v3b']].filter(([a,b])=>r[a]||r[b]).map(([a,b])=>toFa((r[a]||'؟')+' تا '+(r[b]||'؟')));
   if(r.visit)rg.push(esc(r.visit));
   let h=rg.length?`<div class="vl">بازدید: ${rg.join(' &nbsp;|&nbsp; ')}</div>`:'';
   if(r.myDate)h+=`<div class="mine">بازدید من: ${toFa(esc(r.myDate))}${r.myTime?' ساعت '+toFa(r.myTime):''}${visitAt(r)?' · یادآور '+r.myRemind:''}</div>`;
-  if(r.handover&&canEdit(r)){const ro=renewOf(r);h+=`<div class="mine">تحویل: ${toFa(esc(r.handover))}${ro?' · زنگ تمدید: '+toFa(ro.str):''}${r.rdone?' (پیگیری شد)':''}</div>`}
+  if(r.handover){const ro=renewOf(r);h+=`<div class="mine">تحویل: ${toFa(esc(r.handover))}${ro?' · زنگ تمدید: '+toFa(ro.str):''}${r.rdone?' (پیگیری شد)':''}</div>`}
   return h;
 }
 function jparse(x){const q=nd(x).split(/[\/\-.]/).map(Number);return q.length>=3&&!q.some(isNaN)?q:null}
@@ -755,7 +744,7 @@ function addRenewCal(id){
 function doneRenew(id){const r=DB.find(x=>x.id===id);if(r){r.rdone=1;r.mod=Date.now();persist();render()}}
 function updRenew(){
   const now=Date.now(),el=$('renewv');
-  const it=DB.map(r=>({r,ro:renewOf(r)})).filter(x=>x.ro&&canEdit(x.r)&&!x.r.rdone&&x.ro.at.getTime()<now+30*864e5).sort((a,b)=>a.ro.at-b.ro.at);
+  const it=DB.map(r=>({r,ro:renewOf(r)})).filter(x=>x.ro&&!x.r.rdone&&x.ro.at.getTime()<now+30*864e5).sort((a,b)=>a.ro.at-b.ro.at);
   if(!it.length){el.style.display='none';return}
   el.style.display='block';
   el.innerHTML='<b>پیگیری تمدید ('+toFa(it.length)+')</b>'+it.slice(0,4).map(({r,ro})=>`<div class="rrow"><span>${esc(ttl(r))}${r.owner?' — '+esc(r.owner):''} · ${toFa(ro.str)}</span><span class="row">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">تماس</button>`:''}<button class="g" onclick="doneRenew('${r.id}')">پیگیری شد</button></span></div>`).join('')+(it.length>4?'<div class="vl">و '+toFa(it.length-4)+' مورد دیگر</div>':'');
@@ -770,16 +759,16 @@ function addCal(id){
 function showToast(m){const t=$('toast');const old=t.style.display==='block'?t.textContent.replace(/\s*\(برای بستن بزن\)$/,'')+' | ':'';t.textContent=old+m+'  (برای بستن بزن)';t.style.display='block';t.onclick=()=>t.style.display='none'}
 function checkDue(){
   const now=Date.now(),hit=[];
-  DB.forEach(r=>{const at=visitAt(r);if(!at||!ME||(VIS[vk(r)]||{}).n)return;const t=at.getTime();if(now>=t-remMin(r)*6e4&&now<t+18e5){const o=VIS[vk(r)]||(VIS[vk(r)]={});o.n=1;o.mod=Date.now();hit.push(r)}});
+  DB.forEach(r=>{const at=visitAt(r);if(!at||r.notified)return;const t=at.getTime();if(now>=t-remMin(r)*6e4&&now<t+18e5){r.notified=1;hit.push(r)}});
   const rh=[];
-  DB.forEach(r=>{const ro=renewOf(r);if(!ro||r.rdone||r.rnotified||!canEdit(r))return;const t=ro.at.getTime();if(now>=t&&now<t+60*864e5){r.rnotified=1;rh.push(r)}});
+  DB.forEach(r=>{const ro=renewOf(r);if(!ro||r.rdone||r.rnotified)return;const t=ro.at.getTime();if(now>=t&&now<t+60*864e5){r.rnotified=1;rh.push(r)}});
   if(rh.length){persist();rh.forEach(r=>{
     const m='وقت تماس برای تمدید: '+ttl(r)+(r.owner?' — '+r.owner:'');showToast(m);
     try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
     try{window.Notification&&Notification.permission==='granted'&&new Notification('تمدید ملک',{body:m})}catch(e){}
   })}
   if(hit.length){persist();hit.forEach(r=>{
-    const m='یادآور بازدید: '+ttl(r)+' — ساعت '+toFa(V(r).myTime);showToast(m);
+    const m='یادآور بازدید: '+ttl(r)+' — ساعت '+toFa(r.myTime);showToast(m);
     try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
     try{window.Notification&&Notification.permission==='granted'&&new Notification('یادآور بازدید',{body:m})}catch(e){}
   })}
@@ -791,7 +780,7 @@ function updNext(){
   if(!up){el.style.display='none';return}
   const mins=Math.round((up.at.getTime()-now)/6e4),h=Math.floor(Math.abs(mins)/60),m=Math.abs(mins)%60;
   const left=mins<0?'شروع شده':'تا '+toFa(h?h+' ساعت و '+m+' دقیقه':m+' دقیقه')+' دیگر';
-  el.style.display='block';el.textContent='بازدید بعدی من: '+ttl(up.r)+' — '+toFa(V(up.r).myDate)+' ساعت '+toFa(V(up.r).myTime)+' ('+left+')';
+  el.style.display='block';el.textContent='بازدید بعدی من: '+ttl(up.r)+' — '+toFa(up.r.myDate)+' ساعت '+toFa(up.r.myTime)+' ('+left+')';
 }
 setInterval(checkDue,30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkDue()});
