@@ -639,6 +639,9 @@ const U=()=>ME&&USERS.find(u=>u.id===ME.id&&u.hash===ME.hash);
 const isAdmin=()=>{const u=U();return !!u&&u.role==='admin'};
 const canEdit=r=>isAdmin()||(!!U()&&r.uid===ME.id);
 async function H(pw,salt){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+pw));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+const toFaD=x=>String(x).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),toArD=x=>String(x).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const pwVars=p=>{const l=nd(p);return[...new Set([p,l,toFaD(l),toArD(l),p.trim(),l.trim(),toFaD(l.trim())])]};
+async function pwOk(p,u){for(const v of pwVars(p)){if(await H(v,u.salt)===u.hash)return true}return false}
 const newSalt=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
 function setSess(u){ME={id:u.id,hash:u.hash};localStorage.setItem('amlak_sess',JSON.stringify(ME))}
 function gate(){
@@ -662,7 +665,8 @@ async function doLogin(){
     const salt=newSalt(),id='u'+Date.now().toString(36),u={id,un,name,salt,hash:await H(pw,salt),role:'admin',mod:Date.now()};
     USERS=[u];DB.forEach(r=>{if(!r.uid){r.uid=id;r.mod=Date.now()}});setSess(u);persist();$('lgPw').value='';render();ghSync(true);return}
   const u=USERS.find(x=>x.un===un);
-  if(!u||await H(pw,u.salt)!==u.hash){err.textContent='نام کاربری یا رمز اشتباه است';return}
+  if(!u){err.textContent='این نام کاربری پیدا نشد';return}
+  if(!(await pwOk(pw,u))){err.textContent='رمز اشتباه است';return}
   setSess(u);$('lgPw').value='';render();
 }
 function logout(){ME=null;localStorage.removeItem('amlak_sess');closeP('acctPane');render()}
