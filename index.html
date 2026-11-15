@@ -51,6 +51,8 @@ details{margin:10px 0;color:var(--mut);font-size:13px;line-height:2}summary{colo
 .av{width:42px;height:42px;border-radius:50%;background:var(--acc);color:var(--accTx);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:19px;flex:none}
 .on{font-size:18px;font-weight:bold;color:var(--pap)}
 .urow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.seg.deal button{font-size:15px;padding:9px 2px;font-weight:600}
+.b3{background:#27405a;color:#a9cdf2}
 #toast{display:none;position:fixed;top:8px;left:8px;right:8px;z-index:50;background:var(--acc);color:var(--accTx);border-radius:12px;padding:12px 14px;box-shadow:0 6px 18px #000a;font-weight:bold}
 .hint{font-size:12px;color:var(--mut);margin:-2px 0 8px;line-height:1.7}
 .vl{font-size:13px;color:var(--mut);margin-top:5px}
@@ -139,6 +141,7 @@ main{padding:10px;padding-bottom:100px}
     <input id="q" placeholder="جستجو در همه‌چیز..." oninput="render()">
     <button onclick="openFilter()"><svg class="ic" style="width:19px;height:19px"><use href="#i-filter"/></svg>تفکیکی<span class="cntb" id="fbadge"></span></button>
   </div>
+  <div class="seg deal" id="segDeal"></div>
   <div class="seg" id="segStat"><span>وضعیت:</span></div>
   <div id="nextv"></div>
   <div id="renewv"></div>
@@ -241,6 +244,13 @@ const SECS=[
  ['beds','تعداد خواب','n'],['masters','تعداد مستر','n'],['parking','تعداد پارکینگ','n'],
  ['cabinet','جنس کابینت','t'],['facade','نمای ساختمان','t'],
  ['dir','جهت ساختمان','s',['شمالی','جنوبی']]]],
+['مشخصات فروش',[
+ ['frontage','متراژ بر ساختمان','n'],
+ ['delivered','وضعیت تحویل','s',['تحویل شده','تحویل نشده']],
+ ['deliveryDate','تاریخ تحویل','jd'],
+ ['deed','سند','s',['تک برگ','اوقافی','آستانه','قول‌نامه‌ای','در دست اقدام']],
+ ['deedDate','تاریخ تحویل سند','jd'],
+ ['price','مبلغ فروش (تومان)','n']]],
 ['امکانات',[
  ['laundry','لاندری روم','b'],['kitchenette','مطبخ','b'],['roof','روف گاردن','b'],['lobby','لابی','b'],
  ['irToilet','سرویس ایرانی','b'],['frToilet','سرویس فرنگی','b'],
@@ -265,7 +275,8 @@ const SECS=[
 ];
 const ALL=SECS.flatMap(s=>s[1]);
 const VISF=['handover','v1a','v1b','v2a','v2b','v3a','v3b','myDate','myTime','myRemind'];
-const SKIP=['status',...VISF];
+const SALEK=['frontage','delivered','deliveryDate','deed','deedDate','price'];
+const SKIP=['status','deliveryDate','deedDate',...VISF];
 const SINGLE=['floors','perFloor','area','beds','masters','parking','year'];
 const $=id=>document.getElementById(id);
 const nd=s=>String(s==null?'':s).replace(/[۰-۹]/g,d=>d.charCodeAt(0)-1776).replace(/[٠-٩]/g,d=>d.charCodeAt(0)-1632);
@@ -273,7 +284,7 @@ const num=s=>{const v=parseFloat(nd(s).replace(/[,٬،\s]/g,''));return isNaN(v)
 const fmt=n=>n==null||n===''?'':Number(n).toLocaleString('fa-IR');
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const ico=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
-let GH={},ghT,ghBusy=false,dv=0,DELS={},USERS=[],VIS={},ME=null,SYNC_OK=false,VT='mine',DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
+let GH={},ghT,ghBusy=false,dv=0,DELS={},USERS=[],VIS={},ME=null,SYNC_OK=false,VT='mine',DEAL='rent',fDeal='rent',DB=[],CT={},RC=[],FLT={},editId=null,STAT='',TAB='r';
 
 function load(){
   try{DB=JSON.parse(localStorage.getItem('amlak_v1')||'[]')}catch(e){DB=[]}
@@ -302,25 +313,28 @@ function closeP(id){$(id).classList.remove('show')}
 function openForm(id){
   editId=id||null;const r=id?DB.find(x=>x.id===id):{};
   $('formTitle').textContent=id?'ویرایش فایل':'ثبت فایل جدید';
-  let h='';
+  fDeal=r.deal||(id?'rent':DEAL);
+  let h=`<div class="segf" id="dealSeg" style="margin-bottom:6px">${[['rent','اجاره'],['sale','فروش']].map(([v,l])=>`<button type="button" data-d="${v}" class="${fDeal===v?'on':''}" onclick="pickDeal('${v}')">${l}</button>`).join('')}</div>`;
   SECS.forEach(([title,fs])=>{
+    if(title==='مشخصات فروش')h+=`<div id="saleBox" style="display:${fDeal==='sale'?'':'none'}">`;
     h+=`<div class="sec">${title}</div>`;
     if(title==='تحویل و تمدید')h+='<div class="hint">۱۱ ماه بعد از این تاریخ، برای تماس و تمدید سال بعد یادآوری می‌شود.</div>';
     if(title==='بازدید و یادآور')h+='<div class="hint">بازه‌ها: ساعت‌هایی که مالک حضور دارد. «ساعت رفتن من»: زمانی که خودت می‌روی؛ یادآور برای همین است.</div>';
     if(fs[0][2]==='b'){h+='<div class="tg">'+fs.map(([k,l])=>`<label><input type="checkbox" data-k="${k}" ${r[k]?'checked':''}>${l}</label>`).join('')+'</div>';return}
     h+='<div class="g2">';
     fs.forEach(([k,l,t,o])=>{
-      const full=(t==='a'||k==='rentFor'||k==='visit'||k==='myRemind'||k==='handover')?' style="grid-column:1/3"':'';let el;
+      let st=(t==='a'||k==='rentFor'||k==='visit'||k==='myRemind'||k==='handover'||k==='deliveryDate'||k==='deedDate')?'grid-column:1/3;':'';if((k==='deliveryDate'&&r.delivered!=='تحویل نشده')||(k==='deedDate'&&r.deed!=='در دست اقدام'))st+='display:none;';const full=st?' style="'+st+'"':'';let el;
       if(k==='rentFor'){const cur=r.rentFor||'همه';
         el=`<div class="segf" data-k="rentFor" data-v="${cur}">${o.map(x=>`<button type="button" class="${x===cur?'on':''}" onclick="pickSeg(this,'${x}')">${x}</button>`).join('')}</div>`}
       else if(t==='tm')el=`<input type="time" data-k="${k}" value="${esc(r[k]||'')}">`;
       else if(t==='jd')el=`<input data-k="${k}" id="f_${k}" inputmode="numeric" placeholder="۱۴۰۵/۰۸/۱۶" value="${esc(r[k]||'')}"><div class="row" style="margin-top:6px"><button type="button" class="g" onclick="setJ(0,'${k}')">امروز</button><button type="button" class="g" onclick="setJ(1,'${k}')">فردا</button></div>`;
-      else if(t==='s')el=`<select data-k="${k}"><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
+      else if(t==='s')el=`<select data-k="${k}"${(k==='delivered'||k==='deed')?' onchange="togSale()"':''}><option value="">—</option>${o.map(x=>`<option ${r[k]===x?'selected':''}>${x}</option>`).join('')}</select>`;
       else if(t==='a')el=`<textarea data-k="${k}">${esc(r[k]||'')}</textarea>`;
       else el=`<input data-k="${k}" ${t==='n'?'inputmode="decimal"':''} value="${esc(r[k]??'')}">`;
-      h+=`<div class="f"${full}><label>${l}</label>${el}</div>`;
+      h+=`<div class="f" id="w_${k}"${full}><label>${l}</label>${el}</div>`;
     });
     h+='</div>';
+    if(title==='مشخصات فروش')h+='</div>';
   });
   $('formBody').innerHTML=h;openP('formPane');
 }
@@ -336,6 +350,9 @@ function save(){
     else if(f[2]==='n')r[k]=num(el.value);
     else r[k]=el.value.trim();
   });
+  r.deal=fDeal;
+  if(fDeal!=='sale')SALEK.forEach(k=>delete r[k]);
+  else{if(r.delivered!=='تحویل نشده')delete r.deliveryDate;if(r.deed!=='در دست اقدام')delete r.deedDate;['deliveryDate','deedDate'].forEach(k=>{if(r[k])r[k]=nd(r[k]).trim()})}
   r.mod=Date.now();
   {const k=ME.id+'|'+r.id,o=VIS[k]||{},d=nd(r.myDate||'').trim();
    if(d||r.myTime){VIS[k]={date:d,time:r.myTime||'',remind:r.myRemind||'',n:(o.date===d&&o.time===r.myTime)?o.n:0,mod:Date.now()}}else if(o.date)VIS[k]={mod:Date.now()}}
@@ -351,8 +368,9 @@ function del(id){const x=DB.find(y=>y.id===id);if(x&&!canEdit(x))return alert('�
 
 /* filter */
 function openFilter(){
-  let h='';
+  let h=`<div class="hint">این فیلترها برای فایل‌های ${DEAL==='sale'?'فروش':'اجاره'} (زبانه‌ای که بالای صفحه انتخاب کرده‌ای) اعمال می‌شود.</div>`;
   SECS.forEach(([title,fs])=>{
+    if(title==='مشخصات فروش'&&DEAL!=='sale')return;
     h+=`<div class="sec">${title}</div>`;
     const bools=fs.filter(f=>f[2]==='b'),oth=fs.filter(f=>f[2]!=='b'&&!SKIP.includes(f[0]));
     h+='<div class="g2">';
@@ -385,6 +403,7 @@ function matches(){
   const q=nd($('q').value).trim().toLowerCase();
   return DB.filter(r=>{
     if(VT==='mine'&&!(isAdmin()||r.uid===(ME&&ME.id)))return false;
+    if((r.deal||'rent')!==DEAL)return false;
     if(STAT&&(r.status||'آزاد')!==STAT)return false;
     if(q){const hay=nd(ALL.filter(f=>f[2]!=='b').map(f=>r[f[0]]??'').join(' ')).toLowerCase();
       if(!q.split(/\s+/).every(w=>hay.includes(w)))return false}
@@ -489,6 +508,7 @@ function render(){
   $('prof').innerHTML=VT==='mine'?profCard():'';
   updNext();
   document.querySelectorAll('#segStat button').forEach(b=>b.classList.toggle('on',b.dataset.v===STAT));
+  document.querySelectorAll('#segDeal button').forEach(b=>b.classList.toggle('on',b.dataset.v===DEAL));
   const res=matches(),nf=Object.keys(FLT).length,fb=$('fbadge');
   fb.style.display=nf?'inline-flex':'none';fb.textContent=nf.toLocaleString('fa-IR');
   $('cnt').textContent=`${res.length.toLocaleString('fa-IR')} فایل از ${DB.length.toLocaleString('fa-IR')}`;
@@ -501,10 +521,10 @@ function render(){
     return `<div class="card">
       ${ownerBar(r)}
       <div onclick="this.parentNode.classList.toggle('open')">
-        <div class="top"><span>${esc(title)}${st}</span><span>${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</span></div>
+        <div class="top"><span>${esc(title)}${r.deal==='sale'?'<span class="badge b3">فروش</span>':''}${st}</span><span>${[r.type,r.rentFor&&'اجاره: '+r.rentFor].filter(Boolean).join(' / ')}</span></div>
         <div class="sub">${[r.area&&fmt(r.area)+' متر',r.beds!=null&&fmt(r.beds)+' خواب',r.unitFloor&&'طبقه '+esc(r.unitFloor),r.owner&&esc(r.owner)].filter(Boolean).join(' • ')}</div>
         ${visLine(r)}
-        <div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>
+        ${r.deal==='sale'?`<div class="money">مبلغ فروش: ${fmt(r.price)||'—'}${r.deed?' &nbsp;|&nbsp; سند: '+esc(r.deed):''}</div>`:`<div class="money">رهن: ${fmt(r.deposit)||'—'} &nbsp;|&nbsp; اجاره: ${fmt(r.rent)||'—'}</div>`}
       </div>
       <div class="det">${kv}<div class="chips">${ch}</div>
         ${VT==='exp'?statusBar(r):''}<div class="acts">${r.phone?`<button class="ok" onclick="callFromCard('${esc(r.phone)}')">${ico('phone')}تماس</button>`:''}${visitAt(r)?`<button class="g" onclick="addCal('${r.id}')">${ico('bell')}یادآور بازدید</button>`:''}${renewOf(r)?`<button class="g" onclick="addRenewCal('${r.id}')">${ico('bell')}یادآور تمدید</button>`:''}${canEdit(r)?`<button onclick="openForm('${r.id}')">ویرایش</button><button class="r" onclick="del('${r.id}')">حذف</button>`:`<button class="g" onclick="openVisit('${r.id}')">${ico('bell')}بازدید من</button>`}</div>
@@ -670,7 +690,13 @@ async function doLogin(){
   setSess(u);$('lgPw').value='';render();
 }
 function logout(){ME=null;localStorage.removeItem('amlak_sess');closeP('acctPane');render()}
-function setVT(t){VT=t;render()}
+function saveUI(){try{localStorage.setItem('amlak_ui',JSON.stringify({vt:VT,deal:DEAL}))}catch(e){}}
+function setVT(t){VT=t;saveUI();render()}
+function setDeal(d){DEAL=d;SALEK.forEach(k=>delete FLT[k]);saveUI();render()}
+[['rent','اجاره'],['sale','فروش']].forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.dataset.v=v;b.onclick=()=>setDeal(v);$('segDeal').appendChild(b)});
+function pickDeal(v){fDeal=v;document.querySelectorAll('#dealSeg button').forEach(b=>b.classList.toggle('on',b.dataset.d===v));const bx=$('saleBox');if(bx)bx.style.display=v==='sale'?'':'none'}
+function togSale(){const g=k=>{const e=document.querySelector('#formBody [data-k="'+k+'"]');return e?e.value:''};
+  const a=$('w_deliveryDate'),b=$('w_deedDate');if(a)a.style.display=g('delivered')==='تحویل نشده'?'':'none';if(b)b.style.display=g('deed')==='در دست اقدام'?'':'none'}
 function openAcct(){
   const u=U();if(!u)return;$('acName').value=u.name;$('acUn').value=u.un;$('acPw').value='';
   $('admBox').style.display=isAdmin()?'block':'none';
@@ -807,6 +833,7 @@ function updNext(){
 }
 setInterval(checkDue,30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkDue()});
+try{const u=JSON.parse(localStorage.getItem('amlak_ui')||'{}');if(u.vt==='exp')VT='exp';if(u.deal==='sale')DEAL='sale'}catch(e){}
 ghLoad();load();render();checkDue();
 if(GH.auto)ghSync(true);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&GH.auto)ghSync(true)});
